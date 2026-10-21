@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BREE Leaderboard — Ranked methods</title>
+  <meta name="description" content="BREE leaderboard for comparable bimanual robot manipulation results across standardized nodes.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site-v2.css?v=20260924-public-tones2">
+  <link rel="stylesheet" href="assets/css/i18n.css?v=20260924-i18n2">
+  <script src="assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="assets/js/i18n.js?v=20260928-default-en"></script>
+  <style>
+    .leaderboard-pending{overflow:hidden}
+    .leaderboard-pending__cover{
+      position:fixed;
+      inset:var(--nav-h) 0 0;
+      z-index:90;
+      display:grid;
+      place-content:center;
+      gap:20px;
+      padding:32px;
+      text-align:center;
+      background:rgba(244,247,248,.88);
+      -webkit-backdrop-filter:blur(12px);
+      backdrop-filter:blur(12px);
+    }
+    .leaderboard-pending__cover .overline{margin:0}
+    .leaderboard-pending__cover h1{
+      margin:0;
+      color:var(--ink);
+      font:600 clamp(44px,7vw,96px)/1.1 var(--sans);
+      letter-spacing:-.05em;
+    }
+  </style>
+</head>
+<body class="leaderboard-page leaderboard-pending">
+  <header class="site-nav">
+    <a class="brand" href="index.html">BREE</a>
+    <span class="nav-meta">BIMANUAL ROBOTIC EMBODIMENT · 2026</span>
+    <nav aria-label="Primary navigation">
+      <a href="index.html">Homepage</a>
+      <a href="assets.html">BREE Assets</a>
+      <a href="dataset.html">BREE Dataset</a>
+      <a href="guideline.html">Guideline / Documentation</a>
+      <a class="active" href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <section class="leaderboard-pending__cover" aria-labelledby="coming-soon-title">
+    <p class="overline">Leaderboard</p>
+    <h1 id="coming-soon-title" data-i18n-ignore>Coming soon</h1>
+  </section>
+
+  <main class="subpage bree-leaderboard" inert aria-hidden="true">
+    <div class="shell">
+      <section class="bree-leaderboard__hero" aria-labelledby="leaderboard-title">
+        <div>
+          <p class="bree-leaderboard__eyebrow">BREE BENCHMARK · PUBLIC RESULTS</p>
+          <h1 id="leaderboard-title">Leaderboard</h1>
+          <p class="bree-leaderboard__lede">Compare bimanual policies by <strong>mean success</strong> across <strong>standardized BREE nodes</strong>. Every entry is reported with the evaluation track, training data and <strong>cross-node variation</strong> used to produce the score.</p>
+        </div>
+        <div class="bree-leaderboard__summary" aria-label="Leaderboard summary">
+          <div><strong>02</strong><span>verified methods</span></div>
+          <div><strong>02</strong><span>participating sites</span></div>
+          <div><strong>08</strong><span>benchmark tasks</span></div>
+          <div><strong>V0.1</strong><span>current protocol</span></div>
+        </div>
+      </section>
+
+      <section class="bree-leaderboard__rankings" aria-labelledby="rankings-title">
+        <div class="bree-leaderboard__section-head">
+          <div>
+            <p class="bree-leaderboard__eyebrow">BREE RESULTS</p>
+            <h2 id="rankings-title">Top methods</h2>
+          </div>
+          <label class="bree-leaderboard__sort">
+            <span>Sort by</span>
+            <select aria-label="Sort leaderboard">
+              <option>Mean success</option>
+              <option>Cross-node variation</option>
+              <option>Number of sites</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="bree-leaderboard__tracks" role="tablist" aria-label="BREE evaluation tracks">
+          <button class="is-active" type="button" role="tab" aria-selected="true">Pooled data</button>
+          <button type="button" role="tab" aria-selected="false">Single node</button>
+          <button type="button" role="tab" aria-selected="false">Cross-site transfer</button>
+        </div>
+
+        <div class="bree-leaderboard__table-wrap">
+          <table class="bree-leaderboard__table">
+            <caption class="sr-only">BREE pooled-data leaderboard</caption>
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Method</th>
+                <th scope="col" class="is-score">Mean success ↑</th>
+                <th scope="col">Sites</th>
+                <th scope="col">Training data</th>
+                <th scope="col">Cross-node σ ↓</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="is-leader">
+                <td class="bree-leaderboard__rank"><span>01</span></td>
+                <td class="bree-leaderboard__method"><strong>ACT</strong><small>mixed-site baseline</small></td>
+                <td class="bree-leaderboard__score"><strong>71.0</strong><i style="width:71%"></i></td>
+                <td>2</td>
+                <td>BREE-Pooled-148</td>
+                <td class="bree-leaderboard__variation">2.4</td>
+                <td><span class="bree-leaderboard__status">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td class="bree-leaderboard__rank"><span>02</span></td>
+                <td class="bree-leaderboard__method"><strong>SmolVLA</strong><small>single-site baseline</small></td>
+                <td class="bree-leaderboard__score"><strong>64.0</strong><i style="width:64%"></i></td>
+                <td>1</td>
+                <td>BREE-Node01-100</td>
+                <td class="bree-leaderboard__variation">6.8</td>
+                <td><span class="bree-leaderboard__status">VERIFIED</span></td>
+              </tr>
+              <tr class="is-submission">
+                <td class="bree-leaderboard__rank"><span>+</span></td>
+                <td class="bree-leaderboard__method"><strong>Your method</strong><small>claim the next rank</small></td>
+                <td class="bree-leaderboard__score"><strong>—</strong></td>
+                <td>—</td>
+                <td>Declare on submission</td>
+                <td class="bree-leaderboard__variation">—</td>
+                <td><a class="bree-leaderboard__submit" href="setup/evaluation.html">Submit result ↗</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="bree-leaderboard__note">Pooled-data track · <strong>higher mean success</strong> ranks first; <strong>lower cross-node variation</strong> breaks ties. Entries are illustrative while the BREE protocol and official results are being finalized.</p>
+      </section>
+
+      <section class="bree-leaderboard__submit-cta" aria-labelledby="submit-title">
+        <div>
+          <p class="bree-leaderboard__eyebrow">OPEN SUBMISSIONS</p>
+          <h2 id="submit-title">Add a method to the board.</h2>
+          <p>Run the <strong class="bree-leaderboard__protocol">shared BREE evaluation protocol</strong> and submit your result for comparison across <strong>physical nodes</strong>.</p>
+        </div>
+        <a href="setup/evaluation.html">Start a submission ↗</a>
+      </section>
+    </div>
+  </main>
+
+  <footer inert aria-hidden="true">
+    <div class="footer-mark">BREE</div>
+    <p>Report the result, the node and the variation together.</p>
+    <nav>
+      <a href="index.html">Homepage</a>
+      <a href="assets.html">BREE Assets</a>
+      <a href="dataset.html">BREE Dataset</a>
+      <a href="guideline.html">Documentation</a>
+    </nav>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BREE — Build once. Reproduce anywhere.</title>
+  <meta name="description" content="BREE is a low-cost, reproducible bimanual robot manipulation benchmark and extensible dataset framework built on SO-101.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site-v2.css?v=20261021-overview-video">
+  <link rel="stylesheet" href="assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="assets/js/i18n.js?v=20260928-default-en"></script>
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+  </script>
+</head>
+<body class="home-page has-page-toc">
+  <header class="site-nav">
+    <a class="brand" href="index.html">BREE</a>
+    <span class="nav-meta">BIMANUAL ROBOTIC EMBODIMENT · 2026</span>
+    <nav aria-label="Primary navigation">
+      <a class="active" href="index.html">Homepage</a>
+      <a href="assets.html">BREE-Assets</a>
+      <a href="dataset.html">BREE Dataset</a>
+      <a href="guideline.html">Guideline / Documentation</a>
+      <a href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <aside class="page-toc" aria-label="On this page"><div class="page-toc__head"><span>ON THIS PAGE</span><i></i></div><nav><a class="active" href="#overview" data-toc-link>Overview</a><a href="#why-bree" data-toc-link>Why BREE</a><a href="#outcomes" data-toc-link>Core feature</a><a href="#bom" data-toc-link>BOM</a><a href="#paper" data-toc-link>Citation</a></nav></aside>
+
+  <main>
+    <section class="home-hero" aria-label="BREE platform animation">
+      <div class="home-hero__sticky">
+        <div class="hero-copy-panel" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="overline">Low-cost · bimanual · reproducible</p>
+          <h1>Build once.<br><em>Reproduce anywhere.</em></h1>
+          <p class="dek">BREE is a fully reproducible SO-101 platform, benchmark and data framework for bimanual robotic manipulation. Physical standardization turns independent cells into compatible training data.</p>
+          <div class="hero-links">
+            <a class="solid" href="assets.html">Explore BREE <span>↗</span></a>
+            <a href="#paper">Read the paper <span>↓</span></a>
+          </div>
+        </div>
+        <div class="model-stage" aria-label="Real BREE rack model exported from rack.SLDASM">
+          <canvas id="bree-canvas"></canvas>
+          <div class="model-stage__measure">
+            <strong>PHYSICAL NODE / 01</strong>
+            <p>Rack geometry loaded from <b>rack.SLDASM</b><br><span id="model-status">component-colored assembly · loading mesh</span></p>
+          </div>
+        </div>
+        <div class="hero-backdrop" aria-hidden="true">
+          <div class="hero-task-wall">
+            <div class="hero-task-row">
+              <div class="hero-task-track">
+                <img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false">
+                <img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false">
+              </div>
+            </div>
+            <div class="hero-task-row">
+              <div class="hero-task-track">
+                <img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false">
+                <img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false">
+              </div>
+            </div>
+            <div class="hero-task-row">
+              <div class="hero-task-track">
+                <img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false">
+                <img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false">
+              </div>
+            </div>
+            <div class="hero-task-row">
+              <div class="hero-task-track">
+                <img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false">
+                <img src="assets/img/task-wall/stackblocks.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cup.jpg" alt="" draggable="false"><img src="assets/img/task-wall/switchs.jpg" alt="" draggable="false"><img src="assets/img/task-wall/cylinder.jpg" alt="" draggable="false"><img src="assets/img/task-wall/trajectory.jpg" alt="" draggable="false"><img src="assets/img/task-wall/drawer.jpg" alt="" draggable="false"><img src="assets/img/task-wall/plate.jpg" alt="" draggable="false"><img src="assets/img/task-wall/pickplace.jpg" alt="" draggable="false">
+              </div>
+            </div>
+          </div>
+          <div class="hero-backdrop__wash"></div>
+          <div class="hero-poster-copy">
+            <div class="hero-poster-copy__mark">BREE</div>
+            <h2>A reproducible bimanual benchmark.</h2>
+            <p>LOW-COST&nbsp;&nbsp;·&nbsp;&nbsp;FULLY REPRODUCIBLE&nbsp;&nbsp;·&nbsp;&nbsp;STANDARDIZED</p>
+          </div>
+        </div>
+        <div class="hero-stage-copy"><span class="count">01</span><span class="stage-text">The physical cell is part of the benchmark.</span></div>
+      </div>
+    </section>
+
+    <section class="intro" id="overview">
+      <div class="shell">
+        <div class="intro-video" id="video">
+          <p class="intro-video__title">OVERVIEW</p>
+          <figure class="video-slot">
+            <video controls playsinline preload="metadata" poster="assets/video/BREE-封面.jpg" aria-label="Overview of the BREE standardized platform and cross-instance benchmark">
+              <source src="assets/video/BREE-web.mp4" type="video/mp4">
+            </video>
+          </figure>
+        </div>
+        <div class="intro-grid" id="why-bree">
+          <div><p class="overline">Core advantages</p><h2>Why BREE</h2></div>
+          <div class="intro-copy">
+            <p>BREE democratizes bimanual research with its <strong>600-dollar entry price</strong>, ensures scientific rigor through <strong>complete physical standardization</strong>, and accelerates data collection by turning distributed robot setups into a <strong>unified data ecosystem</strong>.</p>
+          </div>
+        </div>
+        <div class="core-advantage-grid" aria-label="Core advantages">
+          <article><span>01</span><h3>Low Cost</h3><p>BREE delivers professional dual-arm manipulation capabilities for <strong>less than 600 dollars</strong>.</p></article>
+          <article><span>02</span><h3>Reproducible</h3><p>BREE eliminates hardware variance by standardizing <strong>every physical detail</strong> of the robot and its environment.</p></article>
+          <article><span>03</span><h3>Scalable</h3><p>BREE enables effortless data aggregation across multiple instances by ensuring <strong>perfect cross-platform compatibility</strong>.</p></article>
+        </div>
+        <div class="home-outcomes" id="outcomes" aria-labelledby="outcomes-title">
+          <div class="home-outcomes__head">
+            <h2 id="outcomes-title">Core feature</h2>
+          </div>
+          <div class="home-outcomes__grid">
+            <article class="home-outcome-card">
+              <div class="home-outcome-card__meta"><span>01</span><span>TRANSFER</span></div>
+              <h3>Cross-platform transfer</h3>
+              <p>Policies work out of the box on any BREE setup without retraining.</p>
+            </article>
+            <article class="home-outcome-card">
+              <div class="home-outcome-card__meta"><span>02</span><span>SCALE</span></div>
+              <h3>Multi-instance scaling</h3>
+              <p>Data from multiple robots merges into one training set for better performance.</p>
+            </article>
+          </div>
+        </div>
+        <div class="bom-table-wrap" id="bom">
+          <h2 class="bom-table-title">BOM</h2>
+          <table class="bom-table">
+            <thead><tr><th>Component</th><th>Specification</th><th>Qty.</th><th>Cost (USD)</th></tr></thead>
+            <tbody>
+              <tr><td>SO-101 arms</td><td>Leader–follower pairs, STS3215 servos</td><td>2</td><td>450.00</td></tr>
+              <tr><td>Global camera</td><td>DCXW100, 2.1 mm, 100°</td><td>1</td><td>9.00</td></tr>
+              <tr><td>Wrist cameras</td><td>DCXW100, 2.8 mm, 90°</td><td>2</td><td>18.00</td></tr>
+              <tr><td>Structural frame</td><td>4040 aluminum profiles, connectors, work panels</td><td>1 set</td><td>96.14</td></tr>
+              <tr><td>Lighting system</td><td>LED strips, power supply, controller</td><td>1 set</td><td>28.80</td></tr>
+              <tr><td>3D-printed parts</td><td>Task objects, fixtures, physical calibrators</td><td>1 set</td><td>–</td></tr>
+              <tr><td>Other accessories</td><td>Screws, nuts and miscellaneous hardware</td><td>1 set</td><td>–</td></tr>
+              <tr class="total"><td><strong>Total</strong></td><td></td><td></td><td><strong>598.94</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-info" id="paper">
+      <div class="shell paper-info-grid">
+        <div>
+          <h2>Citation</h2>
+          <div class="paper-links"><a href="#" aria-disabled="true">Paper · coming soon</a><a href="#" aria-disabled="true">arXiv · coming soon</a><a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener">Code base ↗</a><a href="dataset.html">Dataset card ↗</a></div>
+        </div>
+        <div>
+          <p class="overline">Authors</p>
+          <div class="author-block"><div><strong>The BREE Team</strong><small>Author list and affiliations will be added with the paper release.</small></div><div><strong>SO-101 Research Group</strong><small>Built on LeRobot and open hardware.</small></div></div>
+          <p class="overline" style="margin-top:48px">Suggested citation</p>
+          <div class="citation">The BREE Team. “BREE: A Reproducible and Scalable Real-World Benchmark for Low-Cost Bimanual Robot Learning.” 2026.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><div class="footer-mark">BREE</div><p>A reproducible network for low-cost bimanual robot learning.</p><nav><a href="assets.html">BREE-Assets</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Documentation</a><a href="leaderboard.html">Leaderboard</a></nav></footer>
+  <script src="assets/js/page-toc.js?v=20260922-perf1" defer></script><script type="module" src="assets/js/home-model.js?v=20260922-explode3"></script>
+</body>
+</html>

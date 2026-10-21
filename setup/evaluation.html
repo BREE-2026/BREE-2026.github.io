@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide · Running Evaluations · BREE</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align2">
+  <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="docs docs-evaluation-page">
+
+<div class="docs-topbar">
+  <div class="docs-topbar-inner">
+    <a class="brand" href="../index.html">BREE</a>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
+    <span class="docs-crumb">
+      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></b>
+    </span>
+    <div class="nav-actions">
+      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav">
+      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
+      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="evaluation.html" class="active"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </nav>
+  </aside>
+
+  <main class="docs-main">
+    <div class="time-badge">⏱
+      <span data-lang="en">Reading time · 5 min</span><span data-lang="zh">阅读时间 · 5 分钟</span>
+    </div>
+    <h1>
+      <span data-lang="en">Running Evaluations</span>
+      <span data-lang="zh">运行评估</span>
+    </h1>
+    <p class="lead">
+      <span data-lang="en">Evaluation runs a trained policy on the calibrated rig through <span class="mono">lerobot-record</span> — fixed episode count, fixed time budget, fixed scene references. Because every BREE site is calibrated to the same reference, results are directly comparable.</span>
+      <span data-lang="zh">评测通过 <span class="mono">lerobot-record</span> 在已标定机架上运行训练好的策略——固定回合数、固定时间预算、固定场景参考。由于所有 BREE 站点都标定到同一参考，结果可直接互相比较。</span>
+    </p>
+
+    <div class="admonition admonition-warning">
+      <div class="admonition-title">
+        <span data-lang="en">⚠ Before you evaluate</span>
+        <span data-lang="zh">⚠ 评测之前</span>
+      </div>
+      <p>
+        <span data-lang="en">Re-run the AprilTag checks after any camera or arm movement. Evaluation only begins when all three cameras report <span class="mono">within_tolerance = true</span> and the live scene matches the task reference image.</span>
+        <span data-lang="zh">相机或机械臂有任何移动后，必须重新执行 AprilTag 检查。只有三台相机全部报告 <span class="mono">within_tolerance = true</span> 且实时场景与任务参考图一致时，才能开始评测。</span>
+      </p>
+    </div>
+
+    <h2><span data-lang="en">1 · Sanity-check teleoperation</span><span data-lang="zh">1 · 遥操作自检</span></h2>
+    <p>
+      <span data-lang="en">Confirm the bimanual leader–follower loop and all three camera streams before touching policies:</span>
+      <span data-lang="zh">在运行策略之前，先确认双主从臂链路与三路相机画面正常：</span>
+    </p>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>lerobot-teleoperate \
+  --robot.type=bi_so_follower --robot.id=follower_arm \
+  --robot.left_arm_config.port=/dev/ttyACM0 \
+  --robot.right_arm_config.port=/dev/ttyACM1 \
+  --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --teleop.type=bi_so_leader --teleop.id=leader_arm \
+  --teleop.left_arm_config.port=/dev/ttyACM2 \
+  --teleop.right_arm_config.port=/dev/ttyACM3 \
+  --fps=30 --display_data=true</code></pre>
+    </div>
+
+    <h2><span data-lang="en">2 · Policy evaluation</span><span data-lang="zh">2 · 策略评测</span></h2>
+    <p>
+      <span data-lang="en">Example — evaluating a SmolVLA checkpoint on a stacking task. The same command records the evaluation episodes as a LeRobotDataset:</span>
+      <span data-lang="zh">示例——在某堆叠任务上评测 SmolVLA 检查点。同一条命令会把评测回合录制为 LeRobotDataset：</span>
+    </p>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>HF_HUB_DISABLE_XET=1 lerobot-record \
+  --robot.type=bi_so_follower --robot.id=follower_arm \
+  --robot.left_arm_config.port=/dev/ttyACM0 \
+  --robot.right_arm_config.port=/dev/ttyACM1 \
+  --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --teleop.type=bi_so_leader --teleop.id=leader_arm \
+  --teleop.left_arm_config.port=/dev/ttyACM2 \
+  --teleop.right_arm_config.port=/dev/ttyACM3 \
+  --policy.path=outputs/train/&lt;run&gt;/checkpoints/&lt;step&gt;/pretrained_model \
+  --policy.device=cuda --display_data=true \
+  --dataset.repo_id=&lt;your-org&gt;/eval_&lt;run&gt; \
+  --dataset.single_task="stack two blocks" \
+  --dataset.rename_map='{
+    "observation.images.left_global": "observation.images.camera1",
+    "observation.images.left_wrist": "observation.images.camera2",
+    "observation.images.right_wrist": "observation.images.camera3"
+  }' \
+  --dataset.num_episodes=10 \
+  --dataset.episode_time_s=40 \
+  --dataset.reset_time_s=40 \
+  --dataset.push_to_hub=false</code></pre>
+    </div>
+
+    <h2><span data-lang="en">3 · Key flags</span><span data-lang="zh">3 · 关键参数</span></h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><span data-lang="en">Flag</span><span data-lang="zh">参数</span></th>
+            <th><span data-lang="en">Meaning</span><span data-lang="zh">含义</span></th>
+            <th><span data-lang="en">Standard value</span><span data-lang="zh">标准值</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="mono">--policy.path</span></td><td><span data-lang="en">Path to the trained checkpoint's <span class="mono">pretrained_model</span></span><span data-lang="zh">训练检查点 <span class="mono">pretrained_model</span> 的路径</span></td><td>—</td></tr>
+          <tr><td><span class="mono">--dataset.single_task</span></td><td><span data-lang="en">Language instruction given to the policy</span><span data-lang="zh">提供给策略的语言指令</span></td><td><span data-lang="en">per task, see</span><span data-lang="zh">按任务而定，见</span> <a href="tasks.html">Task Reference</a></td></tr>
+          <tr><td><span class="mono">--dataset.num_episodes</span></td><td><span data-lang="en">Evaluation episodes per run</span><span data-lang="zh">每次评测的回合数</span></td><td class="num">10</td></tr>
+          <tr><td><span class="mono">--dataset.episode_time_s</span></td><td><span data-lang="en">Time budget per episode</span><span data-lang="zh">每回合时间预算</span></td><td class="num">40 s</td></tr>
+          <tr><td><span class="mono">--dataset.reset_time_s</span><span data-lang="zh">每回合重置时间</span></td><td><span data-lang="en">Time to reset the scene between episodes</span><span data-lang="zh">回合之间重置场景的时间</span></td><td class="num">40 s</td></tr>
+          <tr><td><span class="mono">--dataset.rename_map</span></td><td><span data-lang="en">Maps recorded streams to the training camera names</span><span data-lang="zh">将录制的相机流映射为训练时的相机名</span></td><td><span class="mono">camera1/2/3</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2><span data-lang="en">4 · Success criteria &amp; reporting</span><span data-lang="zh">4 · 成功判据与结果上报</span></h2>
+    <ul>
+      <li><span data-lang="en">An episode is a success only if it satisfies the task's measurable criterion (see <a href="tasks.html">Task Reference</a>).</span>
+      <span data-lang="zh">只有满足任务的可度量判据（见<a href="tasks.html">任务参考</a>）才算该回合成功。</span></li>
+      <li><span data-lang="en">Log success / failure per episode; report success rate over all episodes, with the checkpoint ID and date.</span>
+      <span data-lang="zh">逐回合记录成功 / 失败；汇报全部回合的成功率，并附检查点 ID 与日期。</span></li>
+      <li><span data-lang="en">Leaderboard submission details will be announced with the paper release.</span>
+      <span data-lang="zh">排行榜提交细节将随论文发布公布。</span></li>
+    </ul>
+
+    <div class="docs-pager">
+      <a href="calibration.html">
+        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
+        <div class="title"><span data-lang="en">4 · System Calibration</span><span data-lang="zh">4 · 系统标定</span></div>
+      </a>
+      <a class="next" href="tasks.html">
+        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
+        <div class="title"><span data-lang="en">6 · Task Reference</span><span data-lang="zh">6 · 任务参考</span></div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
+</body>
+</html>

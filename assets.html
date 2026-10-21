@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BREE-Assets</title>
+  <meta name="description" content="The Open-Source Toolkit for Reproducible Bimanual Manipulation.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site-v2.css?v=20260924-calibration-warm">
+  <link rel="stylesheet" href="assets/css/i18n.css?v=20260924-i18n2">
+  <script src="assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="assets-page has-page-toc">
+  <header class="site-nav">
+    <a class="brand" href="index.html">BREE</a>
+    <span class="nav-meta">BIMANUAL ROBOTIC EMBODIMENT · 2026</span>
+    <nav aria-label="Primary navigation">
+      <a href="index.html">Homepage</a>
+      <a class="active" href="assets.html">BREE-Assets</a>
+      <a href="dataset.html">BREE Dataset</a>
+      <a href="guideline.html">Guideline / Documentation</a>
+      <a href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <aside class="page-toc" aria-label="On this page"><div class="page-toc__head"><span>ON THIS PAGE</span><i></i></div><nav><a class="active" href="#asset-intro" data-toc-link>Overview</a><a href="#structural-hardware" data-toc-link>Structural Hardware</a><a href="#precision-calibration" data-toc-link>Precision Calibration</a><a href="#standardized-task-suite" data-toc-link>Standardized Task Suite</a></nav></aside>
+
+  <main class="subpage">
+    <div class="shell">
+      <div class="subpage-head assets-intro" id="asset-intro">
+        <div>
+          <p class="overline">BREE-Assets / physical specification</p>
+          <h1>BREE-Assets</h1>
+          <p class="assets-subtitle">The Open-Source Toolkit for Reproducible Bimanual Manipulation</p>
+        </div>
+        <p class="lede">BREE-Assets provides <strong>all the files and protocols</strong> you need to construct, calibrate, and standardize your bimanual robotic platform. By following our blueprints, you <strong>eliminate physical hardware variance</strong> across different sites and ensure your <strong>data and policies remain perfectly compatible</strong>.</p>
+      </div>
+
+      <section class="asset-guides" aria-label="BREE-Assets toolkit components">
+        <article class="asset-guide" id="structural-hardware">
+          <div class="asset-guide__body"><h2>Structural Hardware</h2><p>A standardized frame built from <strong>4040 aluminum profiles</strong> defines the <strong>precise geometric layout</strong> of the robot arms, cameras, lighting, and workspace.</p></div>
+          <div class="asset-guide__media"><img src="assets/img/bree-rig-main.png" alt="Standardized BREE bimanual robotic frame"></div>
+        </article>
+
+        <article class="asset-guide" id="precision-calibration">
+          <div class="asset-guide__body"><h2>Precision Calibration</h2><p>Custom physical calibrators and calibration procedures enforce <strong>consistent joint zero points, sensor poses, and imaging parameters</strong> across every BREE instance, ensuring data comes from a consistent source.</p></div>
+          <div class="asset-guide__media asset-guide__media--calibration"><img src="assets/img/calibration/robot/robot_calibration_01.jpg" alt="Physical robot calibration fixture"><img src="assets/img/calibration/camera/camera_head.png" alt="Camera calibration reference"></div>
+        </article>
+
+        <article class="asset-guide asset-guide--tasks" id="standardized-task-suite">
+          <div class="asset-guide__body"><h2>Standardized Task Suite</h2><p><strong>Eight classes of 3D-printed task objects</strong> ensure that tasks remain identical across platforms.</p></div>
+          <div class="task-suite task-suite--grid" aria-label="Eight standardized 3D-printed task objects">
+            <figure class="task-suite__tile"><figcaption>pick-and-place</figcaption><img src="assets/img/tasks/pickplace.png" alt="3D-printed pick-and-place task object"></figure>
+            <figure class="task-suite__tile"><figcaption>stacking</figcaption><img src="assets/img/tasks/stackblocks.png" alt="3D-printed stacking task object"></figure>
+            <figure class="task-suite__tile"><figcaption>switch</figcaption><img src="assets/img/tasks/switchs.png" alt="3D-printed switch task object"></figure>
+            <figure class="task-suite__tile"><figcaption>drawer</figcaption><img src="assets/img/tasks/drawer.png" alt="3D-printed drawer task object"></figure>
+            <figure class="task-suite__tile"><figcaption>trajectory</figcaption><img src="assets/img/tasks/trajectory.png" alt="3D-printed trajectory task object"></figure>
+            <figure class="task-suite__tile"><figcaption>plate</figcaption><img src="assets/img/tasks/plate.png" alt="3D-printed plate task object"></figure>
+            <figure class="task-suite__tile"><figcaption>cup</figcaption><img src="assets/img/tasks/cup.png" alt="3D-printed cup task object"></figure>
+            <figure class="task-suite__tile"><figcaption>cylinder</figcaption><img src="assets/img/tasks/cylinder.png" alt="3D-printed cylinder task object"></figure>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer><div class="footer-mark">BREE</div><p>Physical standardization is what makes distributed data comparable.</p><nav><a href="index.html">Homepage</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Documentation</a><a href="leaderboard.html">Leaderboard</a></nav></footer>
+  <script src="assets/js/page-toc.js?v=20260922-perf1" defer></script>
+</body>
+</html>

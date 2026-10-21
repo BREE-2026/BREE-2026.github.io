@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1efe8">
+  <title>BREE — Instrument to Evidence</title>
+  <meta name="description" content="A cinematic editorial homepage concept for the BREE reproducible bimanual benchmark.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="d-instrument-to-evidence.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="BREE home">BREE</a>
+    <div class="edition">REAL-WORLD BENCHMARK · 2026</div>
+    <nav aria-label="Primary navigation">
+      <a href="#method">Method</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="../setup/index.html">Build a node ↗</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="sequence" aria-label="From standardized hardware to comparable evidence">
+      <div class="sequence-sticky">
+        <div class="sequence-index" aria-hidden="true">
+          <span>01</span><i></i><span>05</span>
+        </div>
+
+        <div class="hero-copy">
+          <p class="overline">Bimanual · calibrated · reproducible</p>
+          <h1>Build once.<br><em>Reproduce anywhere.</em></h1>
+          <p class="dek">A low-cost SO-101 benchmark and extensible dataset framework that turns independently built robot cells into one comparable, distributed data network.</p>
+          <div class="hero-links">
+            <a class="primary-link" href="../setup/index.html">Build the benchmark <span>↗</span></a>
+            <a href="#leaderboard">View results <span>↓</span></a>
+          </div>
+        </div>
+
+        <div class="rig-stage" aria-label="Exploded view of the standardized BREE workcell">
+          <div class="rig-shadow"></div>
+          <div class="cad-crop cad-base" role="img" aria-label="BREE aluminum-frame dual-arm workcell CAD assembly"></div>
+          <div class="cad-crop cad-layer layer-frame" aria-hidden="true"></div>
+          <div class="cad-crop cad-layer layer-light" aria-hidden="true"></div>
+          <div class="cad-crop cad-layer layer-left" aria-hidden="true"></div>
+          <div class="cad-crop cad-layer layer-right" aria-hidden="true"></div>
+          <div class="rig-label label-frame"><b>01</b><span>Standardized<br>aluminum cell</span></div>
+          <div class="rig-label label-light"><b>02</b><span>Controlled<br>illumination</span></div>
+          <div class="rig-label label-arms"><b>03</b><span>Low-cost<br>bimanual SO-101</span></div>
+        </div>
+
+        <div class="alignment-stage" aria-hidden="true">
+          <img src="../assets/img/calib/global_overlay.jpg" alt="">
+          <div class="alignment-cross x"></div>
+          <div class="alignment-cross y"></div>
+          <div class="alignment-readout">
+            <span>GLOBAL CAMERA · NODE 01</span>
+            <strong>WITHIN TOLERANCE</strong>
+            <dl><div><dt>center</dt><dd>≤ 3 px</dd></div><div><dt>rotation</dt><dd>≤ 0.3°</dd></div></dl>
+          </div>
+          <p>CAD geometry resolves into a registered real-world observation.</p>
+        </div>
+
+        <div class="task-mosaic" aria-hidden="true">
+          <figure class="mosaic-lead"><img src="../assets/img/tasks/task01_p1.jpg" alt=""><figcaption>T01 · STACK</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task02_p1.jpg" alt=""><figcaption>T02 · TRANSFER</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task03_p1.jpg" alt=""><figcaption>T03 · INSERT</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task04_p1.jpg" alt=""><figcaption>T04 · COORDINATE</figcaption></figure>
+        </div>
+
+        <div class="sequence-caption" aria-live="polite">
+          <span class="cap-index">01</span>
+          <span class="cap-copy">A complete workcell, specified as an experimental instrument.</span>
+        </div>
+        <div class="scroll-cue"><i></i><span>SCROLL TO ENTER THE BENCHMARK</span></div>
+      </div>
+    </section>
+
+    <section class="film-section" id="tasks">
+      <div class="film-heading">
+        <p class="overline light">From one protocol to many tasks</p>
+        <h2>Real motion is<br>the dataset.</h2>
+        <p>Every task is captured under the same physical specification, camera geometry and acceptance gates. The resulting episodes can be pooled across sites without erasing where they came from.</p>
+      </div>
+      <div class="film-columns" aria-label="BREE task samples">
+        <div class="film-column film-up">
+          <figure><img src="../assets/img/tasks/task01_p1.jpg" alt="Block stacking task"><figcaption><span>T01</span> Coordinated stacking</figcaption></figure>
+          <figure><img src="../assets/img/calib/left_wrist_ref.jpg" alt="Left wrist camera calibration"><figcaption><span>CAM-L</span> Wrist observation</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task03_p1.jpg" alt="Bimanual manipulation task"><figcaption><span>T03</span> Shape-conditioned motion</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task01_grid.jpg" alt="Task observation grid"><figcaption><span>3 VIEW</span> Synchronized episode</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task01_p1.jpg" alt="Block stacking task"><figcaption><span>T01</span> Coordinated stacking</figcaption></figure>
+        </div>
+        <div class="film-column film-down">
+          <figure><img src="../assets/img/tasks/task02_p1.jpg" alt="Standardized object task"><figcaption><span>T02</span> Object transfer</figcaption></figure>
+          <figure><img src="../assets/img/calib/global_ref.jpg" alt="Global calibrated camera"><figcaption><span>GLOBAL</span> Registered workspace</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task04_p1.jpg" alt="Dual-arm coordination task"><figcaption><span>T04</span> Symmetric actuation</figcaption></figure>
+          <figure><img src="../assets/img/calib/right_wrist_ref.jpg" alt="Right wrist camera calibration"><figcaption><span>CAM-R</span> Wrist observation</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task02_p1.jpg" alt="Standardized object task"><figcaption><span>T02</span> Object transfer</figcaption></figure>
+        </div>
+        <div class="film-column film-up slow">
+          <figure><img src="../assets/img/tasks/task04_p1.jpg" alt="Dual-arm coordination task"><figcaption><span>T04</span> Symmetric actuation</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task01_grid.jpg" alt="Task observation grid"><figcaption><span>12-DoF</span> Bimanual trajectory</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task01_p1.jpg" alt="Block stacking task"><figcaption><span>T01</span> Coordinated stacking</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task03_p1.jpg" alt="Bimanual manipulation task"><figcaption><span>T03</span> Shape-conditioned motion</figcaption></figure>
+          <figure><img src="../assets/img/tasks/task04_p1.jpg" alt="Dual-arm coordination task"><figcaption><span>T04</span> Symmetric actuation</figcaption></figure>
+        </div>
+      </div>
+      <p class="prototype-note">Current repository stills are used in this motion prototype. Production task videos drop into the same frames.</p>
+    </section>
+
+    <section class="argument" id="method">
+      <div class="argument-heading">
+        <p class="overline">The benchmark claim</p>
+        <h2>Reproducibility is an experimental result, not a setup claim.</h2>
+      </div>
+      <div class="argument-copy">
+        <p>Small changes in camera pose, illumination, robot calibration and task objects alter the observation and action distributions. BREE therefore treats the physical environment as part of the benchmark specification.</p>
+        <p>Each independently assembled node passes the same measurable gates before it can contribute demonstrations or report an evaluation result.</p>
+      </div>
+      <div class="protocol-rail">
+        <article><span>01</span><h3>Rebuild</h3><p>Off-the-shelf profiles, low-cost arms and printable objects.</p></article>
+        <article><span>02</span><h3>Calibrate</h3><p>Fixture midpoint alignment and camera reference checks.</p></article>
+        <article><span>03</span><h3>Contribute</h3><p>Versioned LeRobot episodes with traceable node metadata.</p></article>
+        <article><span>04</span><h3>Compare</h3><p>One frozen protocol across tasks, policies and sites.</p></article>
+      </div>
+    </section>
+
+    <section class="leaderboard" id="leaderboard">
+      <div class="leaderboard-head">
+        <div><p class="overline">Public benchmark</p><h2>One protocol.<br>Comparable results.</h2></div>
+        <p>Entries preserve the training-data composition, evaluation node and protocol version needed to interpret a score. Cross-node variation is reported beside mean task success.</p>
+      </div>
+      <div class="track-tabs" role="tablist" aria-label="Leaderboard tracks">
+        <button class="active" type="button" data-track="pooled">Pooled data</button>
+        <button type="button" data-track="single">Single node</button>
+        <button type="button" data-track="transfer">Cross-site transfer</button>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Rank</th><th>Method</th><th>Training data</th><th>Sites</th><th>Mean success ↑</th><th>Cross-node σ ↓</th><th>Protocol</th></tr></thead>
+          <tbody>
+            <tr><td><span class="place">01</span></td><td><strong>ACT</strong><small>mixed-site baseline</small></td><td>BREE-Pooled-148</td><td>2</td><td class="score">71.0</td><td>2.4</td><td><span class="verified">VERIFIED</span></td></tr>
+            <tr><td><span class="place">02</span></td><td><strong>SmolVLA</strong><small>single-site baseline</small></td><td>BREE-Node01-100</td><td>1</td><td class="score">64.0</td><td>6.8</td><td><span class="verified">VERIFIED</span></td></tr>
+            <tr><td><span class="place">—</span></td><td><strong>Your method</strong><small>submission slot</small></td><td>Declare on submission</td><td>—</td><td class="score">—</td><td>—</td><td><a class="submit" href="../setup/evaluation.html">SUBMIT ↗</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">Illustrative data until the benchmark protocol and official results are frozen.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-mark">BREE</div>
+    <p>A scalable, reproducible real-world data and evaluation network for low-cost bimanual robot learning.</p>
+    <nav><a href="#">Paper</a><a href="#">Code</a><a href="#">Dataset</a><a href="../setup/index.html">Documentation</a></nav>
+  </footer>
+
+  <div class="concept-label">CONCEPT D · INSTRUMENT → EVIDENCE</div>
+  <script src="d-instrument-to-evidence.js"></script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BREE · A Dual-Arm, Rigorously-Calibrated Real-World Benchmark for VLA Policies</title>
+  <meta name="description" content="BREE is a bimanual, low-cost, rigorously-calibrated real-world benchmark for evaluating vision-language-action policies, built on SO-101 dual arms and LeRobot.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="top">
+
+<!-- ======================= NAV ======================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">BREE</a>
+    <nav class="nav-links">
+      <a href="#abstract"><span data-lang="en">Abstract</span><span data-lang="zh">摘要</span></a>
+      <a href="#platform"><span data-lang="en">Platform</span><span data-lang="zh">平台</span></a>
+      <a href="#calibration"><span data-lang="en">Calibration</span><span data-lang="zh">标定</span></a>
+      <a href="#tasks"><span data-lang="en">Tasks</span><span data-lang="zh">任务</span></a>
+      <a href="#pipeline"><span data-lang="en">Pipeline</span><span data-lang="zh">流水线</span></a>
+      <a href="#leaderboard"><span data-lang="en">Results</span><span data-lang="zh">结果</span></a>
+      <a href="#citation"><span data-lang="en">Citation</span><span data-lang="zh">引用</span></a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary btn-sm" href="setup/index.html">🛠
+        <span data-lang="en">Setup Guide</span><span data-lang="zh">搭建指南</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= HERO ======================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="venue-chip"><span class="dot"></span>
+      <span data-lang="en">Paper coming soon · Benchmark in preparation</span>
+      <span data-lang="zh">论文即将发布 · 基准测试筹备中</span>
+    </div>
+    <h1>BREE</h1>
+    <p class="hero-sub">
+      <span data-lang="en">A <b>Dual-Arm</b>, <b>Rigorously-Calibrated</b>, Low-Cost Real-World Benchmark for Vision-Language-Action Policies</span>
+      <span data-lang="zh">面向视觉-语言-动作（VLA）策略的<b>双臂</b>、<b>严谨标定</b>、低成本可复现真机基准测试平台</span>
+    </p>
+    <p class="hero-authors">
+      <span data-lang="en">The BREE Team<sup>*</sup> · Author list &amp; affiliations to be announced</span>
+      <span data-lang="zh">BREE 团队<sup>*</sup> · 作者与机构信息待更新</span>
+      <span class="affil">
+        <span data-lang="en">Built on LeRobot · SO-101 open hardware</span>
+        <span data-lang="zh">基于 LeRobot · SO-101 开源硬件构建</span>
+      </span>
+    </p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="setup/index.html">🛠
+        <span data-lang="en">Setup Guide</span><span data-lang="zh">搭建指南</span> →</a>
+      <a class="btn btn-outline" href="#" aria-disabled="true" title="Coming soon">
+        <span data-lang="en">Paper</span><span data-lang="zh">论文</span>
+        <span data-lang="en">(soon)</span><span data-lang="zh">（即将上线）</span></a>
+      <a class="btn btn-outline" href="#" aria-disabled="true" title="Coming soon">arXiv</a>
+      <a class="btn btn-outline" href="#" aria-disabled="true" title="Coming soon">
+        <span data-lang="en">Code</span><span data-lang="zh">代码</span></a>
+      <a class="btn btn-outline" href="#" aria-disabled="true" title="Coming soon">
+        <span data-lang="en">Dataset</span><span data-lang="zh">数据集</span></a>
+    </div>
+    <figure class="hero-figure">
+      <img src="assets/img/calib/global_overlay.jpg" alt="BREE dual-arm workspace viewed from the global camera"
+           onerror="this.parentElement.style.display='none'">
+      <figcaption>
+        <span data-lang="en">The BREE bimanual workspace seen by the global camera — a saved alignment reference frame that every rebuild must reproduce.</span>
+        <span data-lang="zh">全局相机视角下的 BREE 双臂工作区——每次重建都必须复现的已保存对齐参考画面。</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= ABSTRACT ======================= -->
+<section class="section" id="abstract">
+  <div class="section-inner">
+    <div class="kicker reveal">Abstract</div>
+    <h2 class="reveal">
+      <span data-lang="en">Reproducibility, by construction</span>
+      <span data-lang="zh">可复现性，从构建方式上保证</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">
+        Real-world evaluation of vision-language-action (VLA) policies is hard to reproduce: camera mounts drift, arm
+        calibration varies silently between labs, and most low-cost platforms are single-arm. <b>BREE</b> is a
+        <b>bimanual</b> real-world benchmark built entirely from off-the-shelf components — four SO-101 arms
+        (two leaders, two followers), one global and two wrist cameras — that any lab can rebuild and obtain
+        consistent results with. Where typical setups stop at eyeballing visual alignment, BREE enforces
+        reproducibility with quantitative gates: fixture-based midpoint calibration for every arm, an AprilTag
+        <i>reference save / re-check</i> workflow for every camera, and automated pass/fail verdicts that must pass
+        before any evaluation run. Data collection, SmolVLA / ACT training, and standardized evaluation all run on
+        the LeRobot stack.
+      </span>
+      <span data-lang="zh">
+        视觉-语言-动作（VLA）策略的真机评测很难复现：相机会漂移、机械臂标定在实验室之间悄悄不一致，且多数低成本平台只有单臂。
+        <b>BREE</b> 是一个全部使用现成组件搭建的<b>双臂</b>真机基准平台——四条 SO-101 机械臂（双主臂 + 双从臂）、一台全局相机与两台腕部相机——任何实验室都能重建并获得一致的结果。
+        与仅凭肉眼对齐的常见做法不同，BREE 用量化门槛来保证可复现性：每条臂都经过限位夹具中点标定；每台相机都执行 AprilTag「参考写入 / 复检」工作流；
+        任何评测运行之前都必须通过自动化的 pass/fail 判定。数据采集、SmolVLA / ACT 训练与标准化评测全部基于 LeRobot 生态。
+      </span>
+    </p>
+    <div class="stats-grid reveal">
+      <div class="stat-card"><div class="num">4 × SO-101</div><div class="lbl"><span data-lang="en">arms · bimanual leader–follower teleoperation</span><span data-lang="zh">机械臂 · 双主双从遥操作</span></div></div>
+      <div class="stat-card"><div class="num">3 cams</div><div class="lbl"><span data-lang="en">1 global + 2 wrist, all AprilTag-verified</span><span data-lang="zh">1 全局 + 2 腕部，全部经 AprilTag 校验</span></div></div>
+      <div class="stat-card"><div class="num">≤ 3 px</div><div class="lbl"><span data-lang="en">camera re-alignment center-error gate</span><span data-lang="zh">相机复装中心误差门槛</span></div></div>
+      <div class="stat-card"><div class="num">≤ 0.3°</div><div class="lbl"><span data-lang="en">camera rotation-error gate (global)</span><span data-lang="zh">相机旋转误差门槛（全局）</span></div></div>
+      <div class="stat-card"><div class="num">12-DoF</div><div class="lbl"><span data-lang="en">bimanual action space per timestep</span><span data-lang="zh">每步双臂动作空间</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PLATFORM ======================= -->
+<section class="section alt" id="platform">
+  <div class="section-inner">
+    <div class="kicker reveal">Platform</div>
+    <h2 class="reveal">
+      <span data-lang="en">A dual-arm platform anyone can rebuild</span>
+      <span data-lang="zh">任何人都能重建的双臂平台</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">Every component is off-the-shelf and open. Fixed USB port assignment (ACM0–ACM3) and fixed camera indices make the four arms and three cameras plug-and-play identical across rebuilds.</span>
+      <span data-lang="zh">所有组件均为现成商品与开源硬件。固定的 USB 端口分配（ACM0–ACM3）与固定相机编号，使四条臂与三台相机在每次重建中即插即用、完全一致。</span>
+    </p>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <div class="icon">🦾</div>
+        <h3><span data-lang="en">Bimanual follower rig</span><span data-lang="zh">双从臂机架</span></h3>
+        <p><span data-lang="en">Two SO-101 follower arms (left on <span class="mono">/dev/ttyACM0</span>, right on <span class="mono">/dev/ttyACM1</span>) acting on the workspace.</span>
+        <span data-lang="zh">两条 SO-101 从臂（左臂 <span class="mono">/dev/ttyACM0</span>、右臂 <span class="mono">/dev/ttyACM1</span>）执行操作任务。</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">🕹</div>
+        <h3><span data-lang="en">Bimanual leader rig</span><span data-lang="zh">双主臂机架</span></h3>
+        <p><span data-lang="en">Two SO-101 leader arms (left <span class="mono">ACM2</span>, right <span class="mono">ACM3</span>) for low-latency two-handed demonstrations via <span class="mono">bi_so_leader</span>.</span>
+        <span data-lang="zh">两条 SO-101 主臂（左 <span class="mono">ACM2</span>、右 <span class="mono">ACM3</span>），通过 <span class="mono">bi_so_leader</span> 低延迟双手示教。</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">📷</div>
+        <h3><span data-lang="en">Triple camera rig</span><span data-lang="zh">三相机系统</span></h3>
+        <p><span data-lang="en">One global overhead camera plus left/right wrist cameras, each verified against a saved AprilTag reference before every session.</span>
+        <span data-lang="zh">一台全局俯视相机加左右腕部相机，每次实验前都会与已保存的 AprilTag 参考进行校验。</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3><span data-lang="en">Printed fiducials &amp; fixtures</span><span data-lang="zh">打印基准标记与夹具</span></h3>
+        <p><span data-lang="en">AprilTag 36h11 printables (80&nbsp;mm global, 50&nbsp;mm wrists) and a physical midpoint fixture standardize placement and calibration.</span>
+        <span data-lang="zh">AprilTag 36h11 打印件（全局 80&nbsp;mm、腕部 50&nbsp;mm）与物理限位中点夹具，统一摆放与标定流程。</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">🐳</div>
+        <h3><span data-lang="en">Reproducible software</span><span data-lang="zh">可复现软件环境</span></h3>
+        <p><span data-lang="en">A pinned LeRobot fork, user &amp; internal Docker images, and one-command scripts for calibration, checks and evaluation.</span>
+        <span data-lang="zh">固定版本的 LeRobot 分支、用户/内部 Docker 镜像，以及标定、检查与评测的一键脚本。</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">🤗</div>
+        <h3><span data-lang="en">LeRobot-native data</span><span data-lang="zh">LeRobot 原生数据</span></h3>
+        <p><span data-lang="en">Demonstrations are recorded straight into the LeRobotDataset format — ready for visualization, training and hub sharing.</span>
+        <span data-lang="zh">示教数据直接录制为 LeRobotDataset 格式，可直接用于可视化、训练与 Hub 共享。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CALIBRATION ======================= -->
+<section class="section" id="calibration">
+  <div class="section-inner">
+    <div class="kicker reveal">Why BREE is rigorous</div>
+    <h2 class="reveal">
+      <span data-lang="en">Calibration with quantitative gates</span>
+      <span data-lang="zh">带量化门槛的标定体系</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">Three layers of calibration — mechanical, visual and fiducial — each with a measurable acceptance criterion and an automated verdict. No step relies on "it looks about right".</span>
+      <span data-lang="zh">三层标定——机械、视觉、基准标记——每一层都有可度量的验收标准和自动判定，不依赖任何"看起来差不多"的环节。</span>
+    </p>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">Fixture-based midpoint arm calibration</span><span data-lang="zh">限位夹具中点标定（机械臂）</span></h3>
+          <p>
+            <span data-lang="en">Each of the four arms is seated in a physical midpoint fixture; a one-command script calibrates all motors, writes the result to the motors, and automatically backs up any previous calibration file (<span class="mono">.json.bak</span>).</span>
+            <span data-lang="zh">四条臂逐一放入物理限位夹具，一键脚本完成全部电机标定、写回电机，并自动备份原有标定文件（<span class="mono">.json.bak</span>）。</span>
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">Global camera alignment by image overlay</span><span data-lang="zh">全局相机参考图叠加对齐</span></h3>
+          <p>
+            <span data-lang="en">A saved reference frame is blended 50/50 with the live feed in a browser view; the camera is adjusted until fixed structures (mount beam, base outlines, table edge) show no ghosting.</span>
+            <span data-lang="zh">将已保存的参考画面与实时画面在网页中以 50/50 叠加显示，调整相机直到固定结构（横梁、底座轮廓、桌沿）不再出现双影。</span>
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">AprilTag reference save &amp; re-check</span><span data-lang="zh">AprilTag 参考写入与复检</span></h3>
+          <p>
+            <span data-lang="en">Every camera saves an AprilTag pose reference (tag&nbsp;0 · 80&nbsp;mm for the global camera; tags&nbsp;1/2 · 50&nbsp;mm for the wrists). Re-check recomputes the live detection and compares it against the reference, producing a quantitative report and a <span class="mono">within_tolerance</span> verdict.</span>
+            <span data-lang="zh">每台相机保存一个 AprilTag 位姿参考（全局相机用 0 号 · 80&nbsp;mm；左右腕部用 1/2 号 · 50&nbsp;mm）。复检时重新检测当前位姿并与参考比对，输出量化报告与 <span class="mono">within_tolerance</span> 自动判定。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="split reveal">
+      <div>
+        <h3><span data-lang="en">Acceptance thresholds</span><span data-lang="zh">验收阈值</span></h3>
+        <p>
+          <span data-lang="en">A re-mounted camera passes only if all metrics are within tolerance — verified automatically, not by eye:</span>
+          <span data-lang="zh">重新安装的相机必须所有指标都在容差内才算通过——由程序自动判定，而非肉眼：</span>
+        </p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th><span data-lang="en">Camera</span><span data-lang="zh">相机</span></th>
+                <th><span data-lang="en">Tag</span><span data-lang="zh">标签</span></th>
+                <th><span data-lang="en">Center error</span><span data-lang="zh">中心误差</span></th>
+                <th><span data-lang="en">Scale change</span><span data-lang="zh">尺度变化</span></th>
+                <th><span data-lang="en">Rotation error</span><span data-lang="zh">旋转误差</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span data-lang="en">Global (overhead)</span><span data-lang="zh">全局（俯视）</span></td><td>36h11 · id 0 · 80 mm</td><td class="num good">≤ 3 px</td><td class="num good">≤ 1%</td><td class="num good">≤ 0.3°</td></tr>
+              <tr><td><span data-lang="en">Left wrist</span><span data-lang="zh">左腕</span></td><td>36h11 · id 1 · 50 mm</td><td class="num good">≤ 5 px</td><td class="num good">≤ 2%</td><td class="num good">≤ 0.5°</td></tr>
+              <tr><td><span data-lang="en">Right wrist</span><span data-lang="zh">右腕</span></td><td>36h11 · id 2 · 50 mm</td><td class="num good">≤ 5 px</td><td class="num good">≤ 2%</td><td class="num good">≤ 0.5°</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:14px;color:var(--text-faint);">
+          <span data-lang="en">The check also reports corner RMS error (px) and writes <span class="mono">alignment.jpg</span> — red box = saved reference, green box = current detection — plus a machine-readable JSON.</span>
+          <span data-lang="zh">检查还会输出角点 RMS 误差（px），并生成 <span class="mono">alignment.jpg</span>（红框=保存的参考，绿框=当前检测）与机器可读的 JSON 报告。</span>
+        </p>
+      </div>
+      <figure class="figure">
+        <img src="assets/img/calib/global_ref.jpg" alt="AprilTag annotated global camera reference">
+        <figcaption>
+          <span data-lang="en">Saved global-camera AprilTag reference with detection annotation.</span>
+          <span data-lang="zh">带检测标注的全局相机 AprilTag 参考画面。</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="figure-row reveal">
+      <figure class="figure">
+        <img src="assets/img/apriltag/tag0.png" alt="AprilTag 36h11 id 0, 80 mm">
+        <figcaption><span data-lang="en">Tag 0 — 80 mm, global camera.</span><span data-lang="zh">0 号标签 — 80 mm，全局相机。</span></figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/img/calib/left_wrist_ref.jpg" alt="Left wrist AprilTag reference">
+        <figcaption><span data-lang="en">Left-wrist reference (tag 1 · 50 mm).</span><span data-lang="zh">左腕参考（1 号标签 · 50 mm）。</span></figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/img/calib/right_wrist_ref.jpg" alt="Right wrist AprilTag reference">
+        <figcaption><span data-lang="en">Right-wrist reference (tag 2 · 50 mm).</span><span data-lang="zh">右腕参考（2 号标签 · 50 mm）。</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TASKS ======================= -->
+<section class="section alt" id="tasks">
+  <div class="section-inner">
+    <div class="kicker reveal">Tasks</div>
+    <h2 class="reveal">
+      <span data-lang="en">Standardized manipulation tasks</span>
+      <span data-lang="zh">标准化的操作任务</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">Every task ships with saved scene references — including a nine-grid layout guide — so initial object placement is identical at every site. Task details and the full variant list will be synced with the paper release.</span>
+      <span data-lang="zh">每个任务都附带已保存的场景参考图（含九宫格摆放引导），保证各站点初始摆放完全一致。任务细节与完整变体列表将随论文发布同步更新。</span>
+    </p>
+    <div class="cards-grid reveal">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="assets/img/tasks/task01_grid.jpg" alt="Task 01 nine-grid reference" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
+        <div style="padding:16px 18px 18px;">
+          <h3>
+            <span data-lang="en">Task 01 · Block Stacking</span>
+            <span data-lang="zh">任务 01 · 积木堆叠</span>
+            <span class="pill pill-green" style="margin-left:8px;">
+              <span data-lang="en">9-grid reference</span><span data-lang="zh">九宫格参考</span></span>
+          </h3>
+          <p><span data-lang="en">Bimanual block stacking with a nine-grid scene reference that pins down every start position.</span>
+          <span data-lang="zh">双臂积木堆叠任务，九宫格场景参考锁定所有初始摆放位置。</span></p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="assets/img/tasks/task02_p1.jpg" alt="Task 02 reference" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
+        <div style="padding:16px 18px 18px;">
+          <h3>
+            <span data-lang="en">Task 02</span><span data-lang="zh">任务 02</span>
+            <span class="pill pill-amber" style="margin-left:8px;">
+              <span data-lang="en">to be synced</span><span data-lang="zh">待同步</span></span>
+          </h3>
+          <p><span data-lang="en">Reference scene saved; task definition and success criteria to be announced.</span>
+          <span data-lang="zh">场景参考已保存；任务定义与成功判据待发布。</span></p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="assets/img/tasks/task03_p1.jpg" alt="Task 03 reference" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
+        <div style="padding:16px 18px 18px;">
+          <h3>
+            <span data-lang="en">Task 03</span><span data-lang="zh">任务 03</span>
+            <span class="pill pill-amber" style="margin-left:8px;">
+              <span data-lang="en">to be synced</span><span data-lang="zh">待同步</span></span>
+          </h3>
+          <p><span data-lang="en">Reference scene saved; task definition and success criteria to be announced.</span>
+          <span data-lang="zh">场景参考已保存；任务定义与成功判据待发布。</span></p>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="assets/img/tasks/task04_p1.jpg" alt="Task 04 reference" style="width:100%;aspect-ratio:4/3;object-fit:cover;">
+        <div style="padding:16px 18px 18px;">
+          <h3>
+            <span data-lang="en">Task 04</span><span data-lang="zh">任务 04</span>
+            <span class="pill pill-amber" style="margin-left:8px;">
+              <span data-lang="en">to be synced</span><span data-lang="zh">待同步</span></span>
+          </h3>
+          <p><span data-lang="en">Reference scene saved; task definition and success criteria to be announced.</span>
+          <span data-lang="zh">场景参考已保存；任务定义与成功判据待发布。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PIPELINE ======================= -->
+<section class="section" id="pipeline">
+  <div class="section-inner">
+    <div class="kicker reveal">Data → Training → Evaluation</div>
+    <h2 class="reveal">
+      <span data-lang="en">An end-to-end LeRobot pipeline</span>
+      <span data-lang="zh">端到端 LeRobot 流水线</span>
+    </h2>
+    <div class="steps reveal">
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">1 · Bimanual teleoperation &amp; recording</span><span data-lang="zh">1 · 双臂遥操作与录制</span></h3>
+          <p>
+            <span data-lang="en">Demonstrations are captured with <span class="mono">bi_so_leader → bi_so_follower</span> teleoperation, recording 12-DoF bimanual states/actions and three synchronized camera streams into a LeRobotDataset.</span>
+            <span data-lang="zh">通过 <span class="mono">bi_so_leader → bi_so_follower</span> 遥操作采集示教数据，录制 12 自由度双臂状态/动作与三路同步相机流，直接写入 LeRobotDataset。</span>
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">2 · Policy training (SmolVLA / ACT)</span><span data-lang="zh">2 · 策略训练（SmolVLA / ACT）</span></h3>
+          <p>
+            <span data-lang="en">One-command training from the SmolVLA base checkpoint (or ACT from scratch) with a fixed 3-camera / 12-DoF input specification, so every group trains on identical inputs.</span>
+            <span data-lang="zh">从 SmolVLA 基座检查点（或从零训练 ACT）一键启动训练，固定"3 相机 / 12 自由度"输入规格，确保各组输入完全一致。</span>
+          </p>
+          <div class="codeblock">
+            <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>HF_HUB_DISABLE_XET=1 lerobot-train \
+  --policy.path=lerobot/smolvla_base \
+  --policy.vlm_model_name=HuggingFaceTB/SmolVLM2-500M-Video-Instruct \
+  --policy.input_features='{...12-DoF state + 3 cameras...}' \
+  --policy.chunk_size=50 --policy.n_action_steps=10 \
+  --dataset.repo_id=&lt;your-org&gt;/&lt;task-dataset&gt; \
+  --steps=50000 --batch_size=8 --policy.device=cuda</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3><span data-lang="en">3 · Standardized real-world evaluation</span><span data-lang="zh">3 · 标准化真机评测</span></h3>
+          <p>
+            <span data-lang="en">Evaluation replays the calibrated rig via <span class="mono">lerobot-record</span> with the trained policy attached — fixed episodes, reset windows and scene references — and logs per-episode outcomes.</span>
+            <span data-lang="zh">评测通过 <span class="mono">lerobot-record</span> 挂载训练好的策略在已标定机架上执行——固定的回合数、重置时间与场景参考——并逐回合记录结果。</span>
+          </p>
+          <div class="codeblock">
+            <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>lerobot-record \
+  --robot.type=bi_so_follower --robot.id=follower_arm \
+  --robot.left_arm_config.port=/dev/ttyACM0 \
+  --robot.right_arm_config.port=/dev/ttyACM1 \
+  --teleop.type=bi_so_leader \
+  --policy.path=outputs/train/&lt;run&gt;/checkpoints/&lt;step&gt;/pretrained_model \
+  --dataset.single_task="stack two blocks" \
+  --dataset.num_episodes=10 --dataset.episode_time_s=40</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="reveal" style="margin-top:18px;">
+      <a class="btn btn-ghost btn-sm" href="setup/evaluation.html">
+        <span data-lang="en">Full commands in the Setup Guide → Running evaluations</span>
+        <span data-lang="zh">完整命令见搭建指南 → 运行评估</span></a>
+    </p>
+  </div>
+</section>
+
+<!-- ======================= LEADERBOARD ======================= -->
+<section class="section alt" id="leaderboard">
+  <div class="section-inner">
+    <div class="kicker reveal">Benchmark Results</div>
+    <h2 class="reveal">
+      <span data-lang="en">Leaderboard</span><span data-lang="zh">排行榜</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">Evaluation results will be published here and kept in sync with our internal runs. Tables are intentionally empty until verified numbers are available — no placeholders, no cherry-picking.</span>
+      <span data-lang="zh">评测结果将在此发布，并与我们的内部实验保持同步。在拿到经核验的数据之前表格刻意留空——不放占位数字，不做挑选性展示。</span>
+    </p>
+
+    <div class="tabs reveal" data-tabs>
+      <div class="tab-bar" role="tablist">
+        <button class="tab-btn active" data-tab="tab-id" type="button">BREE-ID</button>
+        <button class="tab-btn" data-tab="tab-ood" type="button">BREE-OOD</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-id">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th><span data-lang="en">Method</span><span data-lang="zh">方法</span></th>
+                <th><span data-lang="en">Success rate ↑</span><span data-lang="zh">成功率 ↑</span></th>
+                <th><span data-lang="en">Episodes</span><span data-lang="zh">回合数</span></th>
+                <th><span data-lang="en">Checkpoint</span><span data-lang="zh">检查点</span></th>
+                <th><span data-lang="en">Date</span><span data-lang="zh">日期</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="empty-row">
+                <td colspan="6">
+                  <div class="placeholder-note">
+                    <span data-lang="en">⏳ Awaiting evaluation data — ID results will be synced here.</span>
+                    <span data-lang="zh">⏳ 等待评测数据——ID 结果将同步至此。</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-ood">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th><span data-lang="en">Method</span><span data-lang="zh">方法</span></th>
+                <th><span data-lang="en">Success rate ↑</span><span data-lang="zh">成功率 ↑</span></th>
+                <th><span data-lang="en">Episodes</span><span data-lang="zh">回合数</span></th>
+                <th><span data-lang="en">Checkpoint</span><span data-lang="zh">检查点</span></th>
+                <th><span data-lang="en">Date</span><span data-lang="zh">日期</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="empty-row">
+                <td colspan="6">
+                  <div class="placeholder-note">
+                    <span data-lang="en">⏳ Awaiting evaluation data — OOD results will be synced here.</span>
+                    <span data-lang="zh">⏳ 等待评测数据——OOD 结果将同步至此。</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="admonition admonition-note reveal" style="margin-top:20px;">
+      <div class="admonition-title">
+        <span data-lang="en">Submission protocol</span><span data-lang="zh">提交协议</span>
+      </div>
+      <p>
+        <span data-lang="en">The submission protocol (evaluation videos or checkpoints evaluated by the authors) will be announced together with the paper release.</span>
+        <span data-lang="zh">提交协议（提交评测视频，或提交检查点由作者统一评测）将随论文发布一同公布。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CTA ======================= -->
+<section class="section cta-band">
+  <div class="section-inner">
+    <h2 class="reveal">
+      <span data-lang="en">Rebuild BREE in your lab</span>
+      <span data-lang="zh">在你的实验室重建 BREE</span>
+    </h2>
+    <p class="lead reveal">
+      <span data-lang="en">A step-by-step guide — bill of materials, assembly, software, calibration with quantitative gates, and evaluation — written for non-experts.</span>
+      <span data-lang="zh">面向非专家的逐步指南——物料清单、装配、软件、带量化门槛的标定，以及评测流程。</span>
+    </p>
+    <div class="hero-buttons reveal">
+      <a class="btn btn-primary" href="setup/index.html">🛠
+        <span data-lang="en">Open the Setup Guide</span><span data-lang="zh">打开搭建指南</span> →</a>
+      <a class="btn btn-outline" href="setup/troubleshooting.html">
+        <span data-lang="en">Troubleshooting &amp; checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CITATION ======================= -->
+<section class="section" id="citation">
+  <div class="section-inner">
+    <div class="kicker reveal">Citation</div>
+    <h2 class="reveal">
+      <span data-lang="en">Cite BREE</span><span data-lang="zh">引用 BREE</span>
+    </h2>
+    <div class="bibtex reveal">
+      <div class="codeblock">
+        <div class="codeblock-head"><span>BibTeX</span><button class="copy-btn" type="button">Copy</button></div>
+        <pre><code>@misc{bree2026,
+  title         = {BREE: A Dual-Arm, Rigorously-Calibrated, Low-Cost Real-World
+                   Benchmark for Vision-Language-Action Policies},
+  author        = {BREE Team},
+  year          = {2026},
+  note          = {In preparation. Author list and links to be updated.}
+}</code></pre>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-top:34px;">
+      <span data-lang="en">Acknowledgements</span><span data-lang="zh">致谢</span>
+    </h3>
+    <p class="reveal" style="color:var(--text-soft);">
+      <span data-lang="en">BREE is built on top of <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener">Hugging Face LeRobot</a> and the <a href="https://www.therobotstudio.com/" target="_blank" rel="noopener">SO-101</a> open hardware platform. We thank the open-source robotics community.</span>
+      <span data-lang="zh">BREE 基于 <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener">Hugging Face LeRobot</a> 与 <a href="https://www.therobotstudio.com/" target="_blank" rel="noopener">SO-101</a> 开源硬件平台构建。感谢开源机器人社区。</span>
+    </p>
+    <h3 class="reveal"><span data-lang="en">Contact</span><span data-lang="zh">联系方式</span></h3>
+    <p class="reveal" style="color:var(--text-soft);">
+      <span data-lang="en">Contact information will be announced together with the paper. For questions about the setup, please open an issue in the code repository.</span>
+      <span data-lang="zh">联系方式将随论文一同公布。关于搭建的问题请在代码仓库中提 issue。</span>
+    </p>
+  </div>
+</section>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© 2026 BREE Team · <span data-lang="en">Built on LeRobot &amp; SO-101 open hardware</span><span data-lang="zh">基于 LeRobot 与 SO-101 开源硬件构建</span></div>
+    <div>
+      <a href="setup/index.html"><span data-lang="en">Setup Guide</span><span data-lang="zh">搭建指南</span></a>
+      &nbsp;·&nbsp;
+      <a href="#top"><span data-lang="en">Back to top</span><span data-lang="zh">回到顶部</span></a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

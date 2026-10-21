@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide · Software Installation · BREE</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="docs">
+
+<div class="docs-topbar">
+  <div class="docs-topbar-inner">
+    <a class="brand" href="../index.html">BREE</a>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
+    <span class="docs-crumb">
+      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></b>
+    </span>
+    <div class="nav-actions">
+      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav">
+      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+      <a href="software.html" class="active"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
+      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </nav>
+  </aside>
+
+  <main class="docs-main">
+    <div class="time-badge">⏱
+      <span data-lang="en">Reading time · 4 min</span><span data-lang="zh">阅读时间 · 4 分钟</span>
+    </div>
+    <h1>
+      <span data-lang="en">Software Installation</span>
+      <span data-lang="zh">软件安装</span>
+    </h1>
+    <p class="lead">
+      <span data-lang="en">BREE ships as a pinned LeRobot fork with all calibration and evaluation scripts included. Two install paths are supported — Docker (recommended) or a local environment.</span>
+      <span data-lang="zh">BREE 以固定版本的 LeRobot 分支发布，内置全部标定与评测脚本。支持两种安装方式——Docker（推荐）或本地环境。</span>
+    </p>
+
+    <h2><span data-lang="en">Option A · Docker (recommended)</span><span data-lang="zh">方式 A · Docker（推荐）</span></h2>
+    <p>
+      <span data-lang="en">The user image ships the full BREE toolchain with pinned dependencies. Build it from the repository root:</span>
+      <span data-lang="zh">用户镜像包含完整 BREE 工具链与固定版本的依赖。在仓库根目录构建：</span>
+    </p>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>git clone &lt;repository-url&gt; bree
+cd bree
+docker build -f docker/Dockerfile.user -t bree:latest .</code></pre>
+    </div>
+    <p>
+      <span data-lang="en">Run it with the arms and cameras passed through:</span>
+      <span data-lang="zh">运行时将机械臂与相机透传进容器：</span>
+    </p>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>docker run -it --privileged \
+  --device /dev/ttyACM0 --device /dev/ttyACM1 \
+  --device /dev/ttyACM2 --device /dev/ttyACM3 \
+  --device /dev/video0  --device /dev/video2  --device /dev/video4 \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
+  bree:latest bash</code></pre>
+    </div>
+
+    <h2><span data-lang="en">Option B · Local environment</span><span data-lang="zh">方式 B · 本地环境</span></h2>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>git clone &lt;repository-url&gt; bree
+cd bree
+conda create -n bree python=3.10 -y
+conda activate bree
+pip install -e .</code></pre>
+    </div>
+    <div class="admonition admonition-note">
+      <div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div>
+      <p>
+        <span data-lang="en">Hardware extras (e.g. <span class="mono">pip install -e ".[so101]"</span>) follow the standard LeRobot installation documentation. The exact repository URL will be published on the <a href="../index.html">project page</a>.</span>
+        <span data-lang="zh">硬件附加依赖（如 <span class="mono">pip install -e ".[so101]"</span>）请遵循 LeRobot 官方安装文档。仓库确切链接将在<a href="../index.html">项目主页</a>公布。</span>
+      </p>
+    </div>
+
+    <h2><span data-lang="en">Grant device permissions</span><span data-lang="zh">赋予设备权限</span></h2>
+    <p>
+      <span data-lang="en">Serial devices need relaxed permissions. This must be re-run after <b>every</b> power cycle or re-plug:</span>
+      <span data-lang="zh">串口设备需要放开权限。<b>每次</b>断电或重插后都必须重新执行：</span>
+    </p>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>sudo chmod 666 /dev/ttyACM0 /dev/ttyACM1 /dev/ttyACM2 /dev/ttyACM3</code></pre>
+    </div>
+
+    <h2><span data-lang="en">Find your device indices</span><span data-lang="zh">确认设备编号</span></h2>
+    <h3><span data-lang="en">Arms</span><span data-lang="zh">机械臂</span></h3>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>lerobot-find-port</code></pre>
+    </div>
+    <p>
+      <span data-lang="en">With the BREE reference machine the mapping is fixed (left follower = ACM0 … right leader = ACM3, plugged in order 0→3). If your machine assigns different ports, adapt the commands in this guide accordingly.</span>
+      <span data-lang="zh">在 BREE 参考主机上映射是固定的（左从臂 = ACM0 …… 右主臂 = ACM3，按 0→3 顺序插入）。如果你的主机分配了不同端口，请相应调整本指南中的命令。</span>
+    </p>
+    <h3><span data-lang="en">Cameras</span><span data-lang="zh">相机</span></h3>
+    <div class="codeblock">
+      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre><code>lerobot-find-cameras opencv</code></pre>
+    </div>
+    <p>
+      <span data-lang="en">Identify each camera by what it currently sees, and note its index. Reference machine: global = <span class="mono">/dev/video0</span>, left wrist = <span class="mono">/dev/video2</span>, right wrist = <span class="mono">/dev/video4</span>.</span>
+      <span data-lang="zh">根据每台相机当前拍到的画面辨认并记录编号。参考主机：全局 = <span class="mono">/dev/video0</span>、左腕 = <span class="mono">/dev/video2</span>、右腕 = <span class="mono">/dev/video4</span>。</span>
+    </p>
+
+    <div class="docs-pager">
+      <a href="assembly.html">
+        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
+        <div class="title"><span data-lang="en">2 · Hardware Assembly</span><span data-lang="zh">2 · 硬件装配</span></div>
+      </a>
+      <a class="next" href="calibration.html">
+        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
+        <div class="title"><span data-lang="en">4 · System Calibration</span><span data-lang="zh">4 · 系统标定</span></div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
+</body>
+</html>

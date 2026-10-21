@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide · Hardware Assembly · BREE</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="docs">
+
+<div class="docs-topbar">
+  <div class="docs-topbar-inner">
+    <a class="brand" href="../index.html">BREE</a>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
+    <span class="docs-crumb">
+      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></b>
+    </span>
+    <div class="nav-actions">
+      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav">
+      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+      <a href="assembly.html" class="active"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
+      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </nav>
+  </aside>
+
+  <main class="docs-main">
+    <div class="time-badge">⏱
+      <span data-lang="en">Reading time · 5 min · half a day with the build</span>
+      <span data-lang="zh">阅读时间 · 5 分钟 · 实际装配约半天</span>
+    </div>
+    <h1>
+      <span data-lang="en">Hardware Assembly</span>
+      <span data-lang="zh">硬件装配</span>
+    </h1>
+    <p class="lead">
+      <span data-lang="en">This page covers the workspace layout, arm placement with fixed USB assignment, the three-camera rig, and AprilTag placement. Careful, consistent assembly is what makes every BREE site identical.</span>
+      <span data-lang="zh">本页介绍工作区布局、机械臂的固定 USB 分配摆放、三相机机架，以及 AprilTag 标签的放置。认真一致的装配是所有 BREE 站点完全一致的基础。</span>
+    </p>
+
+    <div class="admonition admonition-note">
+      <div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div>
+      <p>
+        <span data-lang="en">Assembly photos and dimensioned drawings are being prepared and will be added to this page. The saved reference images in <a href="calibration.html">System Calibration</a> already pin down the camera geometry — if your live view matches the reference, your rig is correctly assembled.</span>
+        <span data-lang="zh">装配照片与尺寸图正在准备中，稍后补充到本页。<a href="calibration.html">系统标定</a>中保存的参考画面已经锁定了相机几何——只要实时画面与参考一致，就说明机架装配正确。</span>
+      </p>
+    </div>
+
+    <h2><span data-lang="en">1 · Workspace layout</span><span data-lang="zh">1 · 工作区布局</span></h2>
+    <ul>
+      <li><span data-lang="en">A fixed tabletop with a plain, consistent background; do not change lighting between sessions.</span>
+      <span data-lang="zh">使用固定桌面与纯色一致的背景；会话之间不要改变光照。</span></li>
+      <li><span data-lang="en">The two follower arms are clamped to the table edge, facing each other across the shared workspace.</span>
+      <span data-lang="zh">两条从臂固定夹在桌沿，隔着共享工作区相对而立。</span></li>
+      <li><span data-lang="en">The two leader arms stand beside the operator for two-handed teleoperation.</span>
+      <span data-lang="zh">两条主臂放在操作者旁边，便于双手遥操作。</span></li>
+    </ul>
+
+    <h2><span data-lang="en">2 · Arm placement &amp; USB port assignment</span><span data-lang="zh">2 · 机械臂摆放与 USB 端口分配</span></h2>
+    <p>
+      <span data-lang="en">BREE fixes which arm lives on which serial port. Plug the arms into the host in the order 0 → 1 → 2 → 3:</span>
+      <span data-lang="zh">BREE 固定了每条臂对应的串口。请按 0 → 1 → 2 → 3 的顺序将机械臂接入主机：</span>
+    </p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th>
+            <th><span data-lang="en">Type</span><span data-lang="zh">类型</span></th>
+            <th><span data-lang="en">Port</span><span data-lang="zh">端口</span></th>
+            <th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td>follower</td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
+          <tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td>follower</td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
+          <tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td>leader</td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
+          <tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td>leader</td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2><span data-lang="en">3 · Camera rig</span><span data-lang="zh">3 · 相机机架</span></h2>
+    <p>
+      <span data-lang="en">Three cameras, each with a fixed device index on the reference machine:</span>
+      <span data-lang="zh">三台相机，参考主机上的设备编号固定如下：</span>
+    </p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><span data-lang="en">Camera</span><span data-lang="zh">相机</span></th>
+            <th><span data-lang="en">Device</span><span data-lang="zh">设备</span></th>
+            <th><span data-lang="en">Mount</span><span data-lang="zh">安装位置</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span data-lang="en">Global (overhead)</span><span data-lang="zh">全局（俯视）</span></td><td><span class="mono">/dev/video0</span></td><td><span data-lang="en">Fixed overhead mount over the workspace</span><span data-lang="zh">工作区上方固定俯视支架</span></td></tr>
+          <tr><td><span data-lang="en">Left wrist</span><span data-lang="zh">左腕</span></td><td><span class="mono">/dev/video2</span></td><td><span data-lang="en">Left follower gripper</span><span data-lang="zh">左从臂夹爪</span></td></tr>
+          <tr><td><span data-lang="en">Right wrist</span><span data-lang="zh">右腕</span></td><td><span class="mono">/dev/video4</span></td><td><span data-lang="en">Right follower gripper</span><span data-lang="zh">右从臂夹爪</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <span data-lang="en">All cameras run 640×480 @ 30 fps, MJPG. After mounting, their exact pose is locked in during <a href="calibration.html">System Calibration</a> — mount them roughly now, align them precisely later.</span>
+      <span data-lang="zh">所有相机以 640×480 @ 30 fps、MJPG 运行。安装后，相机的精确位姿会在<a href="calibration.html">系统标定</a>阶段锁定——现在先大致安装，之后再精确对齐。</span>
+    </p>
+
+    <h2><span data-lang="en">4 · AprilTag placement</span><span data-lang="zh">4 · AprilTag 摆放</span></h2>
+    <ul>
+      <li><span data-lang="en"><b>Tag 0 (80 mm)</b> is fixed in the global camera's view — flat, wrinkle-free, permanently attached to the workspace.</span>
+      <span data-lang="zh"><b>0 号标签（80 mm）</b>固定在全局相机视野内——平整无褶皱，永久固定于工作区。</span></li>
+      <li><span data-lang="en"><b>Tags 1 &amp; 2 (50 mm)</b> are used at calibration time to lock the wrist camera poses; place them in the wrist cameras' view during the check procedure.</span>
+      <span data-lang="zh"><b>1、2 号标签（50 mm）</b>在校准时用于锁定腕部相机位姿；检查流程中将其置于腕部相机视野内。</span></li>
+      <li><span data-lang="en">Tags must be flat — a wrinkled or curved tag makes detection unreliable and will fail the tolerance gate.</span>
+      <span data-lang="zh">标签必须平整——褶皱或弯曲会导致检测不可靠，并使容差判定失败。</span></li>
+    </ul>
+
+    <h2><span data-lang="en">Before the next step, ensure that:</span><span data-lang="zh">进入下一步之前，请确认：</span></h2>
+    <ul class="checklist">
+      <li><span data-lang="en">All four arms power up and appear on ACM0–ACM3 in the assigned order.</span><span data-lang="zh">四条臂都能上电，并按分配顺序出现在 ACM0–ACM3。</span></li>
+      <li><span data-lang="en">All three cameras produce a live image at the expected indices (0 / 2 / 4).</span><span data-lang="zh">三台相机在预期编号（0 / 2 / 4）上都能出图。</span></li>
+      <li><span data-lang="en">AprilTags are printed at 100% scale, flat, and placed as described.</span><span data-lang="zh">AprilTag 按 100% 比例打印、平整，并按上述要求摆放。</span></li>
+      <li><span data-lang="en">Lighting and background are fixed — they must not change between sessions.</span><span data-lang="zh">光照与背景已固定——会话之间不得改变。</span></li>
+    </ul>
+
+    <div class="docs-pager">
+      <a href="bom.html">
+        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
+        <div class="title"><span data-lang="en">1 · Bill of Materials</span><span data-lang="zh">1 · 物料清单</span></div>
+      </a>
+      <a class="next" href="software.html">
+        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
+        <div class="title"><span data-lang="en">3 · Software Installation</span><span data-lang="zh">3 · 软件安装</span></div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
+</body>
+</html>
