@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">BREE dual-arm SO-101</title>
+  <desc id="desc">A symmetrical pair of robotic arms reaching toward a shared work surface.</desc>
+
+  <!-- The dark field keeps the mark legible in a browser tab; the line colors match BREE. -->
+  <rect width="64" height="64" rx="15" fill="#17201f"/>
+  <rect x="2" y="2" width="60" height="60" rx="13" fill="none" stroke="#819397" stroke-opacity=".5"/>
+
+  <!-- 4040-style structural frame -->
+  <path d="M12 16h40M12 16v35M52 16v35M12 51h40" fill="none" stroke="#f1efe8" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M12 16h40" stroke="#a9533e" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Left SO-101: base joint, two links, and an inward-facing gripper. -->
+  <g fill="none" stroke="#f1efe8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 25v9l7 8v7" stroke-width="5"/>
+    <path d="M19 25v9l7 8v7" stroke="#49636a" stroke-width="2"/>
+    <path d="M26 49l-3 4M26 49l4 4" stroke-width="2.5"/>
+  </g>
+  <circle cx="19" cy="25" r="4.5" fill="#a9533e" stroke="#f1efe8" stroke-width="1.5"/>
+  <circle cx="19" cy="25" r="1.5" fill="#17201f"/>
+
+  <!-- Right SO-101, mirrored to make the bimanual identity unmistakable. -->
+  <g fill="none" stroke="#f1efe8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M45 25v9l-7 8v7" stroke-width="5"/>
+    <path d="M45 25v9l-7 8v7" stroke="#49636a" stroke-width="2"/>
+    <path d="M38 49l-4 4M38 49l3 4" stroke-width="2.5"/>
+  </g>
+  <circle cx="45" cy="25" r="4.5" fill="#a9533e" stroke="#f1efe8" stroke-width="1.5"/>
+  <circle cx="45" cy="25" r="1.5" fill="#17201f"/>
+
+  <!-- Shared task surface / calibration target. -->
+  <path d="M27 45h10l3 6H24z" fill="#f1efe8"/>
+  <path d="M29 47h6" stroke="#a9533e" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="43" r="1.8" fill="#a9533e"/>
+</svg>

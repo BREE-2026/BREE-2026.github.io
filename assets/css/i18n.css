@@ -1,0 +1,61 @@
+html.i18n-pending body { visibility: hidden; }
+
+.bree-language-toggle {
+  position: fixed;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: 2147483000;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid rgba(12, 31, 38, .2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .96);
+  color: #10252c;
+  box-shadow: 0 8px 26px rgba(12, 31, 38, .2), 0 2px 7px rgba(12, 31, 38, .12);
+  font: 600 14px/1.2 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.bree-language-toggle:hover { box-shadow: 0 10px 32px rgba(12, 31, 38, .28), 0 3px 9px rgba(12, 31, 38, .16); }
+.bree-language-toggle:focus-visible { outline: 3px solid #287f91; outline-offset: 3px; }
+.bree-language-toggle__icon { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 50%; background: #eaf1f2; font-size: 14px; }
+.bree-language-toggle__label { display: inline-flex; align-items: center; gap: 6px; }
+.bree-language-toggle [aria-current="true"] { color: #087f8c; }
+.bree-language-toggle__divider { color: #8b999d; font-weight: 400; }
+.docs-topbar .lang-switch { display: none !important; }
+
+html[lang="zh"] body.docs .docs-main h1 {
+  text-wrap: balance;
+  line-break: strict;
+}
+
+/* Setup body copy stays at full size; only main-content titles are reduced. */
+html[lang="zh"] body.docs .docs-main h1 [data-lang="zh"],
+html[lang="zh"] body.docs .docs-main h2 [data-lang="zh"],
+html[lang="zh"] body.docs .docs-main h3 [data-lang="zh"],
+body.docs .docs-main h1 [data-lang="en"],
+body.docs .docs-main h2 [data-lang="en"],
+body.docs .docs-main h3 [data-lang="en"] {
+  font-size: 75%;
+}
+
+html[lang="zh"] body.docs .docs-main h1 .i18n-zh-scale,
+html[lang="zh"] body.docs .docs-main h2 .i18n-zh-scale,
+html[lang="zh"] body.docs .docs-main h3 .i18n-zh-scale {
+  font-size: 75%;
+}
+
+html[lang="zh"] body.docs .docs-main .i18n-zh-scale {
+  font-size: 100%;
+}
+
+@media (max-width: 600px) {
+  .bree-language-toggle { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); min-height: 46px; padding: 0 14px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bree-language-toggle { transition: box-shadow .18s ease, transform .18s ease; }
+  .bree-language-toggle:hover { transform: translateY(-2px); }
+}
