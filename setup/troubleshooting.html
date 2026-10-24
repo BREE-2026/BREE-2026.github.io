@@ -51,7 +51,7 @@
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
+    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
 
 <h1><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></h1>
 <p class="lead"><span data-lang="en">Start with device mapping, the H pose and saved camera overlays. Keep the existing calibration and reference files available while diagnosing drift.</span><span data-lang="zh">从设备映射、H 位与相机参考图叠加开始排查，并保留已有标定与参考文件。</span></p>
@@ -63,6 +63,9 @@
 <div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Symptom</span><span data-lang="zh">现象</span></th><th><span data-lang="en">Action</span><span data-lang="zh">处理方式</span></th></tr></thead><tbody><tr><td><span data-lang="en">Serial permission denied or wrong arm</span><span data-lang="zh">串口权限不足或机械臂对应错误</span></td><td><span data-lang="en">Run lerobot-find-port, verify each arm, then grant access to the verified ports after reconnecting.</span><span data-lang="zh">运行 lerobot-find-port 逐臂核对，重连后对实际使用的串口重新赋权。</span></td></tr>
 <tr><td><span data-lang="en">Left and right wrist views swapped</span><span data-lang="zh">左右腕画面颠倒</span></td><td><span data-lang="en">Identify each view live and edit index_or_path. ACT/SmolVLA templates use 0/4/2; XVLA uses 0/2/4.</span><span data-lang="zh">按实时画面辨认并修改 index_or_path。ACT/SmolVLA 模板为 0/4/2，XVLA 为 0/2/4。</span></td></tr>
 <tr><td><span data-lang="en">H pose differs between arms</span><span data-lang="zh">机械臂 H 位不一致</span></td><td><span data-lang="en">Check calibration IDs, motor mounting and port mapping. Recalibrate the affected arm with the fixture if needed.</span><span data-lang="zh">核对标定 ID、舵机安装与端口映射，必要时对异常机械臂重新做夹具标定。</span></td></tr>
+<tr><td><span data-lang="en">Wrist-roll installation out of range</span><span data-lang="zh">腕部滚转安装超出可标定范围</span></td><td><span data-lang="en">Follow the <a href="calibration.html#wrist-roll">asymmetric wrist-roll check</a>. Power off and adjust installation as reported; do not clamp the homing offset or substitute the range midpoint.</span><span data-lang="zh">按<a href="calibration.html#wrist-roll">腕部非对称标定说明</a>，断电后按提示调整安装。不要截断偏移值或用范围中点替代夹具位置。</span></td></tr>
+<tr><td><span data-lang="en">Camera color or brightness changes between runs</span><span data-lang="zh">不同实验间相机色彩或亮度变化</span></td><td><span data-lang="en">Restore <a href="calibration.html#camera-settings">saved image controls</a>, verify manual white balance/exposure and check for driver resets after stream startup.</span><span data-lang="zh">恢复<a href="calibration.html#camera-settings">保存的图像参数</a>，核对手动白平衡与曝光，并检查启动视频流后驱动是否重置参数。</span></td></tr>
+<tr><td><span data-lang="en">Low frame rate or camera startup timeout</span><span data-lang="zh">出帧速度下降或相机启动超时</span></td><td><span data-lang="en">Check exposure, dynamic frame rate, USB access and competing camera processes. Restore controls with the documented exposure limit, then verify actual frame cadence.</span><span data-lang="zh">检查曝光、动态帧率、USB 访问及其他占用相机的进程。按文档中的曝光上限恢复参数，再检查实际出帧速度。</span></td></tr>
 <tr><td><span data-lang="en">Camera overlay has ghosting</span><span data-lang="zh">相机叠加出现双影</span></td><td><span data-lang="en">Restore the arm reference pose, lighting and camera mount; rerun the appropriate image-overlay check.</span><span data-lang="zh">恢复机械臂参考姿态、光照和相机安装位置，再运行对应叠加检查。</span></td></tr>
 <tr><td><span data-lang="en">Not enough visual features</span><span data-lang="zh">视觉特征不足</span></td><td><span data-lang="en">Improve lighting and visible fixed texture, verify the reference image and inspect alignment output before recording.</span><span data-lang="zh">改善光照与固定纹理可见性，确认参考图，并在录制前检查对齐输出。</span></td></tr>
 <tr><td><span data-lang="en">Scene image or checkpoint not found</span><span data-lang="zh">找不到场景图或模型权重</span></td><td><span data-lang="en">The template paths are local experiment examples. Prepare the images/weights and update the run JSON. Directory references require picN image names.</span><span data-lang="zh">模板路径是本地实验示例。准备图片与权重后修改运行 JSON；参考图目录需要使用 picN 文件名。</span></td></tr>
@@ -74,6 +77,7 @@
 <ul><li><span data-lang="en">Confirm all four serial ports and three camera views after reconnecting.</span><span data-lang="zh">重连后确认四个串口与三路相机画面。</span></li>
 <li><span data-lang="en">Verify the H pose and the existing global/left-wrist/right-wrist reference overlays.</span><span data-lang="zh">验证 H 位及已有的全局、左腕、右腕参考图叠加。</span></li>
 <li><span data-lang="en">Keep lighting, mounts, background and task scene references consistent.</span><span data-lang="zh">保持光照、支架、背景及任务场景参考一致。</span></li>
+<li><span data-lang="en">Restore per-camera image controls, verify manual modes and keep capture format at 640 × 480, 30 fps, MJPG.</span><span data-lang="zh">恢复各相机图像参数，核对手动模式，保持 640 × 480、30 fps、MJPG 采集格式。</span></li>
 <li><span data-lang="en">Match the selected checkpoint, task prompt, action units and model camera mapping.</span><span data-lang="zh">匹配所选权重、任务指令、动作单位与模型相机映射。</span></li>
 <li><span data-lang="en">Use a new dataset name for each run and retain configuration and check evidence.</span><span data-lang="zh">每次运行使用新的数据集名，并保留配置与检查证据。</span></li></ul>
 

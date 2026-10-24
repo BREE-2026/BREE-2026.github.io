@@ -722,3 +722,17 @@ body.docs .docs-pager .title{margin-top:8px;color:var(--ink);font:700 17px/1.3 v
 body.docs .docs-main p,
 body.docs .docs-main li{overflow-wrap:anywhere}
 body.docs .docs-main .figure img{height:auto}
+
+/* Keep the training overview readable without scrolling long model paths. */
+body.docs .docs-main .training-recipes { table-layout: fixed; }
+body.docs .docs-main .training-recipes th:first-child { width: 24%; }
+body.docs .docs-main .training-recipes td { overflow-wrap: anywhere; }
+
+/* Show both fixture views in full, with matching preview heights on desktop. */
+body.docs .docs-main .fixture-photos { align-items: start; }
+body.docs .docs-main .fixture-photos a { display: block; }
+body.docs .docs-main .fixture-photos img { display: block; height: 360px; object-fit: contain; }
+@media(max-width:640px){
+  body.docs .docs-main .fixture-photos { grid-template-columns: 1fr; }
+  body.docs .docs-main .fixture-photos img { height: auto; }
+}

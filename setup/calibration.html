@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-fixture1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-camera1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-fixture1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -61,8 +61,14 @@
 <div class="admonition admonition-note">
 <div class="admonition-title"><span data-lang="en">Keep the reference</span><span data-lang="zh">保留参考基准</span></div><p><span data-lang="en">Daily checks read the existing references. Run <span class="mono">save-reference</span> only when deliberately defining a new installation baseline; keep the previous baseline for comparison.</span><span data-lang="zh">日常检查读取已有参考文件。仅在需要重新定义安装基准时执行 <span class="mono">save-reference</span>，并保留原基准以便对照。</span></p>
 </div>
-<h2><span data-lang="en">1 · Fixture midpoint calibration</span><span data-lang="zh">1 · 限位夹具中点标定</span></h2>
+<h2 id="fixture-midpoint"><span data-lang="en">1 · Fixture midpoint calibration</span><span data-lang="zh">1 · 限位夹具中点标定</span></h2>
 <p><span data-lang="en">Complete SO-101 motor numbering and assembly first. Secure one arm in the physical fixture, verify its port and leave space for preview motion. Repeat for each arm using the table.</span><span data-lang="zh">先完成 SO-101 舵机编号与装配。将一条机械臂固定到物理限位架，核对端口，并为预览运动留足空间。按表逐臂操作。</span></p>
+<div class="figure-row fixture-photos">
+<figure class="figure docs-figure"><a href="../assets/img/calibration/fixture-arm-side.jpg" target="_blank" rel="noopener"><img src="../assets/img/calibration/fixture-arm-side.jpg" alt="Side view of the arm seated in the midpoint calibration fixture" width="2304" height="1728" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Side view · Arm placement in the physical midpoint fixture.</span><span data-lang="zh">侧视 · 机械臂放入实体中点夹具后的摆放。</span></figcaption></figure>
+<figure class="figure docs-figure"><a href="../assets/img/calibration/fixture-arm-top.jpg" target="_blank" rel="noopener"><img src="../assets/img/calibration/fixture-arm-top.jpg" alt="Top view of the arm and gripper seated in the midpoint calibration fixture" width="1571" height="2320" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Top view · Joint and gripper placement in the fixture.</span><span data-lang="zh">俯视 · 夹具中各关节与夹爪的摆放。</span></figcaption></figure>
+</div>
+<p><span data-lang="en">Use both views to check that the arm is fully seated in the fixture before reading calibration values. Click either photo to inspect the original image.</span><span data-lang="zh">结合两张实拍图，确认机械臂各关节已在夹具中就位，再读取标定数值。点击图片可查看原图。</span></p>
+<p><span data-lang="en">To compute and inspect values without writing calibration, first run the command with <span class="mono">--dry-run</span> instead of <span class="mono">--preview-ranges</span>. Range preview temporarily writes calibration to the motors and moves joints: after computation, remove the fixture before accepting the preview prompt. The final save prompt is separate from permission to preview.</span><span data-lang="zh">仅计算并检查数值时，先将命令中的 <span class="mono">--preview-ranges</span> 替换为 <span class="mono">--dry-run</span>，此时不写入标定。范围预览会临时向舵机写入标定并移动关节；计算完成后，先取下夹具，再同意运动预览。最终保存确认与预览确认是两个步骤。</span></p>
 
 <div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th><th><span data-lang="en">Device</span><span data-lang="zh">类型</span></th><th><span data-lang="en">Port</span><span data-lang="zh">端口</span></th><th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
 <tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
@@ -75,6 +81,15 @@
   --id follower_arm_left \
   --preview-ranges</code></pre>
 </div><p><span data-lang="en">Inspect the values and movement directions before answering <span class="mono">y</span> at the write prompt. The script backs up existing calibration as <span class="mono">.json.bak</span>. Follower files live under <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>; leader files under <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>.</span><span data-lang="zh">核对数值与运动方向后，在写入提示中输入 <span class="mono">y</span>。已有标定会备份为 <span class="mono">.json.bak</span>。从臂文件位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>，主臂位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>。</span></p>
+
+<h3><span data-lang="en">Calibration without range preview</span><span data-lang="zh">不进行范围预览的标定</span></h3>
+<p><span data-lang="en">If mechanics and directions have already been verified, omit --preview-ranges. This still computes and writes a new calibration after confirmation; it is not a daily check. For a calculation-only check, add --dry-run to this command.</span><span data-lang="zh">已确认机械结构与运动方向时，可省略 --preview-ranges。此命令仍会在确认后重新计算并写入标定，不用于日常检查。仅计算、不写入时，在此命令末尾增加 --dry-run。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
+  --device follower \
+  --port /dev/ttyACM0 \
+  --id follower_arm_left</code></pre></div><h3 id="wrist-roll"><span data-lang="en">Wrist-roll coordinates</span><span data-lang="zh">腕部滚转坐标说明</span></h3>
+<p><span data-lang="en">The fixture script uses an asymmetric <span class="mono">wrist_roll</span> range of <span class="mono">−270° … +45°</span> relative to the fixture pose. With the default 4096-count encoder, the saved range is approximately <span class="mono">0 … 3583</span> and the fixture pose is near <span class="mono">3071 ticks</span>. Do not replace this fixture position with the range midpoint. The default H-home wrist offset is <span class="mono">−180°</span> from the fixture; the printed LeRobot control angle uses a different coordinate origin.</span><span data-lang="zh">夹具脚本中，<span class="mono">wrist_roll</span> 相对夹具姿态采用 <span class="mono">−270° … +45°</span> 的非对称范围。默认 4096 计数编码器对应保存范围约 <span class="mono">0 … 3583</span>，夹具位置约 <span class="mono">3071 ticks</span>，不能用范围中点替代。H 位默认腕部偏移为相对夹具 <span class="mono">−180°</span>；日志中的 LeRobot 控制角度采用另一坐标原点。</span></p>
+<p><span data-lang="en">If the script reports <span class="mono">wrist_roll installation is out of range</span>, it aborts without writing calibration. Power off, adjust the installation by the direction and minimum angle reported, then reseat the arm in the fixture and retry.</span><span data-lang="zh">若提示 <span class="mono">wrist_roll installation is out of range</span>，脚本会终止且不写入标定。断电后按提示方向与最小角度调整安装齿位，再将机械臂放回夹具重新标定。</span></p>
 
 <h2><span data-lang="en">2 · Verify the H pose</span><span data-lang="zh">2 · 验证 H 位</span></h2>
 
@@ -194,6 +209,13 @@ done</code></pre></div>
 <li><span data-lang="en">All three cameras use 640 × 480, 30 fps and MJPG; the saved per-camera image controls are applied and manual modes verified.</span><span data-lang="zh">三台相机均使用 640 × 480、30 fps 与 MJPG；各路已应用保存的图像参数，并核对手动模式。</span></li>
 <li><span data-lang="en">All three live views align with their saved references at the same arm pose.</span><span data-lang="zh">三路实时画面均在相同机械臂姿态下与已有参考图对齐。</span></li>
 <li><span data-lang="en">Reference files remain unchanged; save generated check evidence under outputs/.</span><span data-lang="zh">参考文件保持不变，生成的检查证据保存在 outputs/。</span></li></ul>
+
+<h2 id="replacement-arm"><span data-lang="en">Optional · Check a replacement arm</span><span data-lang="zh">可选 · 更换机械臂后的检查</span></h2>
+<p><span data-lang="en">The repository provides <span class="mono">BREE/robot_calibration/validate_replacement_arm_calibration.py</span>. Its <span class="mono">compare-files</span> mode compares two calibration files without hardware. Replace both paths below with retained original and replacement calibration files; a file comparison does not establish physical pose equivalence.</span><span data-lang="zh">仓库提供 <span class="mono">BREE/robot_calibration/validate_replacement_arm_calibration.py</span>。其中 <span class="mono">compare-files</span> 可在不连接硬件时比较两份标定文件。将下方路径替换为保留的原臂与替换臂标定文件；文件比较不能直接证明实际姿态一致。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/validate_replacement_arm_calibration.py compare-files \
+  --reference-calibration PATH_TO_ORIGINAL.json \
+  --candidate-calibration PATH_TO_REPLACEMENT.json</code></pre></div>
+<p><span data-lang="en">For pose profiles, fixture checks and physical validation, follow the replacement-arm section in <span class="mono">BREE/docs/README.md</span>. Preserve the original calibration and reference profile before swapping hardware.</span><span data-lang="zh">参考姿态记录、夹具检查与实物验证见 <span class="mono">BREE/docs/README.md</span> 的替换机械臂章节。更换硬件前先保留原标定与参考姿态文件。</span></p>
 
 <div class="docs-pager">
       <a href="software.html">

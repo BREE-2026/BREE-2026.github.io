@@ -353,7 +353,8 @@ Object.assign(window.BREE_ZH, {
   "Build the 4040 frame with the dimensioned drawing and frame BOM, then mount the arms, cameras and lighting.": "根据尺寸图与框架物料表搭建 4040 框架，再安装机械臂、相机和照明。",
   "Install the LeRobot fork and Feetech dependencies, identify serial ports and cameras, and configure device access.": "安装 LeRobot 分支与 Feetech 依赖，辨认串口和相机，并配置设备访问权限。",
   "Calibrate the arms, verify the H pose, standardize camera parameters, and align three live views with saved references.": "标定机械臂、验证 H 位、统一相机参数，并将三路实时画面与已有参考图对齐。",
-  "Check teleoperation, prepare task scene images, and record synchronized arm and camera streams with a saved configuration.": "检查遥操作、准备任务场景图，并使用保存的配置录制同步的机械臂与相机数据。",
+  "Collect and train": "采集与训练",
+  "Verify teleoperation, record synchronized arm and camera streams, then prepare a model-specific training run.": "验证遥操作，录制同步的机械臂与相机数据，再按模型准备训练实验。",
   "Browse real ID layouts and distribution guides, prepare OOD scenes, then evaluate with matched configurations.": "查看真实 ID 布局与分布标注图，准备 OOD 场景，再使用匹配的配置进行评测。",
   "Check the eight task identifiers, match prompts to the selected model, and define scene references and success criteria.": "核对八类任务编号，将指令与所选模型匹配，并明确场景参考与成功判据。",
   "Check port mapping, H poses, camera overlays and configuration fields when recording or evaluation fails.": "录制或评测失败时，检查端口映射、H 位、相机叠加和配置字段。",
@@ -420,4 +421,10 @@ Object.assign(window.BREE_ZH, {
 // Frame drawing accessibility.
 Object.assign(window.BREE_ZH, {
   "Dimensioned BREE frame assembly drawing with orthographic and section views": "含正投影视图与剖面的 BREE 框架尺寸装配图"
+});
+
+// Physical midpoint fixture photos.
+Object.assign(window.BREE_ZH, {
+  "Side view of the arm seated in the midpoint calibration fixture": "机械臂放入中点标定夹具后的侧视实拍",
+  "Top view of the arm and gripper seated in the midpoint calibration fixture": "机械臂与夹爪放入中点标定夹具后的俯视实拍"
 });

@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-readme1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-readme1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs docs-evaluation-page">
@@ -51,7 +51,7 @@
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
+    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
 
 <h1><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></h1>
 <p class="lead"><span data-lang="en">Check the bimanual teleoperation loop, restore the task scene, then record synchronized arm and camera streams with lerobot-record.</span><span data-lang="zh">确认双臂遥操作链路，恢复任务场景，再通过 lerobot-record 录制同步的机械臂与相机数据。</span></p>
@@ -67,6 +67,7 @@
 └── pic3.jpg</code></pre>
 </div>
 <h2><span data-lang="en">2 · Verify teleoperation</span><span data-lang="zh">2 · 验证遥操作</span></h2>
+<p><span data-lang="en">First restore the saved per-camera image controls and check 640 × 480, 30 fps and MJPG as described in <a href="calibration.html#camera-settings">Camera parameters</a>. Verify the settings again after starting the camera streams.</span><span data-lang="zh">先按<a href="calibration.html#camera-settings">相机参数统一</a>恢复各路保存的图像参数，并核对 640 × 480、30 fps 与 MJPG。启动视频流后再次检查参数。</span></p>
 
 <div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-teleoperate \
   --robot.type=bi_so_follower \
@@ -138,8 +139,177 @@ PY</code></pre>
 <ul><li><span data-lang="en">Check the recorded episode count, task text and synchronized videos before training.</span><span data-lang="zh">训练前核对已录回合数、任务文本与同步视频。</span></li>
 <li><span data-lang="en">The raw camera keys are observation.images.left_global, observation.images.left_wrist and observation.images.right_wrist.</span><span data-lang="zh">原始相机键为 observation.images.left_global、observation.images.left_wrist 与 observation.images.right_wrist。</span></li>
 <li><span data-lang="en">Keep degree-based states/actions consistent with training and inference. Retain the configuration, source revision and reference images.</span><span data-lang="zh">保持状态与动作的角度单位在采集、训练和推理间一致，并保存配置、源码版本和参考图。</span></li></ul>
-<p><span data-lang="en">For ACT, SmolVLA, XVLA, RDT and OpenPI training, use the model-specific recipes in <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#10-模型训练">the training guide</a>.</span><span data-lang="zh">ACT、SmolVLA、XVLA、RDT 与 OpenPI 训练流程见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#10-模型训练">模型训练指南</a>。</span></p>
+<h2 id="training"><span data-lang="en">5 · Train a policy</span><span data-lang="zh">5 · 模型训练</span></h2>
+<p><span data-lang="en">After reviewing the dataset, select a model-specific recipe. Retain the 12-dimensional degree-based state/action convention, three camera keys and task prompt used during collection. Dataset preparation and model dependencies differ by policy.</span><span data-lang="zh">复核数据后，按模型选择训练流程。保留采集时的 12 维角度制状态 / 动作、三路相机键及任务指令。不同策略的数据准备与模型依赖各不相同。</span></p>
+<div class="table-wrap"><table class="table training-recipes"><thead><tr><th><span data-lang="en">Policy / recipe</span><span data-lang="zh">策略 / 流程</span></th><th><span data-lang="en">Preparation</span><span data-lang="zh">准备事项</span></th></tr></thead><tbody>
+<tr><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/README.md#101-act-训练">ACT ↗</a></td><td><span data-lang="en">12-D state/actions, original camera keys; README recipe: 20,000 steps, batch 8.</span><span data-lang="zh">12 维状态 / 动作，沿用原相机键；README 示例为 20,000 步、batch 8。</span></td></tr>
+<tr><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/README.md#102-smolvla-训练">SmolVLA ↗</a></td><td><span data-lang="en">Prepare models/smolvla_robotwin and edit BREE/configs/smolvla_train.json; map cameras to camera1/2/3. Set both YOUR_RUN fields and the dataset ID.</span><span data-lang="zh">准备 models/smolvla_robotwin，编辑 BREE/configs/smolvla_train.json；相机映射为 camera1/2/3。修改两处 YOUR_RUN 与数据集 ID。</span></td></tr>
+<tr><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/README.md#103-xvla-训练">XVLA ↗</a></td><td><span data-lang="en">Prepare lerobot/xvla-base; use action_mode=auto for the real 12-D actions and map cameras to image/image2/image3.</span><span data-lang="zh">准备 lerobot/xvla-base；使用 action_mode=auto 处理真实 12 维动作，相机映射为 image/image2/image3。</span></td></tr>
+<tr><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/model_training/README.md#2-rdt-训练">RDT ↗</a></td><td><span data-lang="en">Convert LeRobot data to HDF5. Prepare RDT, SigLIP, T5 weights and the RDT Python environment; select the task profile.</span><span data-lang="zh">先将 LeRobot 数据转换为 HDF5，准备 RDT、SigLIP、T5 权重及 RDT Python 环境，并选择任务 profile。</span></td></tr>
+<tr><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/model_training/README.md#1-openpi-训练">OpenPI ↗</a></td><td><span data-lang="en">Prepare LeRobot v2.1 data, pi05 base weights and normalization statistics; run the one-step smoke mode before train.</span><span data-lang="zh">准备 LeRobot v2.1 数据、pi05 基础权重和归一化统计；先执行单步 smoke，再执行 train。</span></td></tr>
+</tbody></table></div>
+<h3><span data-lang="en">ACT · prepare a run configuration</span><span data-lang="zh">ACT · 准备训练配置</span></h3>
+<p><span data-lang="en">Create a JSON configuration so optional output paths and camera maps stay out of the affected command-line parser. Replace the dataset ID and run name before training. Use a new output directory for a new run.</span><span data-lang="zh">使用 JSON 配置保存输出路径与相机映射，避开本版本相关命令行解析问题。训练前替换数据集 ID 与运行名称；新实验使用新的输出目录。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python - &lt;&lt;&#x27;PY&#x27;
+import json
+from pathlib import Path
 
+config = {
+    &quot;dataset&quot;: {&quot;repo_id&quot;: &quot;YOUR_NAME/YOUR_DATASET&quot;, &quot;video_backend&quot;: &quot;pyav&quot;},
+    &quot;policy&quot;: {&quot;type&quot;: &quot;act&quot;, &quot;device&quot;: &quot;cuda&quot;, &quot;use_amp&quot;: True, &quot;push_to_hub&quot;: False},
+    &quot;output_dir&quot;: &quot;outputs/train/ACT/YOUR_RUN&quot;,
+    &quot;job_name&quot;: &quot;YOUR_RUN&quot;,
+    &quot;rename_map&quot;: {},
+    &quot;batch_size&quot;: 8,
+    &quot;num_workers&quot;: 4,
+    &quot;steps&quot;: 20000,
+    &quot;save_checkpoint&quot;: True,
+    &quot;save_freq&quot;: 5000,
+    &quot;log_freq&quot;: 100,
+    &quot;tolerance_s&quot;: 0.05,
+    &quot;wandb&quot;: {&quot;enable&quot;: False},
+}
+Path(&quot;outputs/configs&quot;).mkdir(parents=True, exist_ok=True)
+Path(&quot;outputs/configs/act_train.json&quot;).write_text(json.dumps(config, indent=2) + &quot;\n&quot;)
+PY
+HF_HUB_DISABLE_XET=1 lerobot-train --config_path=outputs/configs/act_train.json</code></pre></div><p><span data-lang="en">For a dataset outside the default LeRobot cache, set dataset.root in the training JSON to its actual local directory; keep dataset.repo_id as the dataset identity. The JSON equivalent of the README’s --dataset.root option avoids introducing another path-valued command-line override.</span><span data-lang="zh">数据集不在默认 LeRobot 缓存时，在训练 JSON 中将 dataset.root 设为实际本地目录，dataset.repo_id 仍保留数据集标识。这对应 README 的 --dataset.root 选项，并避免再增加路径类命令行覆盖参数。</span></p>
+<h3 id="smolvla-training"><span data-lang="en">SmolVLA · full fine-tuning command</span><span data-lang="zh">SmolVLA · 完整微调命令</span></h3>
+<p><span data-lang="en">In the BREE environment, install the model extra below and prepare models/smolvla_robotwin. Change repo_id and run_name in the generator, then run the generated JSON with the full README policy settings. If the base model is elsewhere, change --policy.path.</span><span data-lang="zh">在 BREE 环境安装下方模型依赖，并准备 models/smolvla_robotwin。修改生成脚本中的 repo_id 与 run_name，再使用生成的 JSON 和 README 的完整策略参数训练。基础模型在其他位置时，修改 --policy.path。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python -m pip install -e &quot;.[feetech,smolvla]&quot;
+python - &lt;&lt;&#x27;PY&#x27;
+import json
+from pathlib import Path
+
+repo_id = &quot;YOUR_NAME/YOUR_DATASET&quot;
+run_name = &quot;YOUR_RUN&quot;
+config = json.loads(Path(&quot;BREE/configs/smolvla_train.json&quot;).read_text())
+config[&quot;dataset&quot;].update({&quot;repo_id&quot;: repo_id, &quot;video_backend&quot;: &quot;pyav&quot;})
+config[&quot;output_dir&quot;] = f&quot;outputs/train/SmolVLA_RoboTwin/{run_name}&quot;
+config[&quot;job_name&quot;] = run_name
+Path(&quot;outputs/configs&quot;).mkdir(parents=True, exist_ok=True)
+Path(&quot;outputs/configs/smolvla_train.json&quot;).write_text(json.dumps(config, indent=2) + &quot;\n&quot;)
+PY
+HF_HUB_DISABLE_XET=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-train \
+  --config_path=outputs/configs/smolvla_train.json \
+  --policy.path=models/smolvla_robotwin \
+  --policy.device=cuda \
+  --policy.use_amp=true \
+  --policy.push_to_hub=false \
+  --policy.chunk_size=50 \
+  --policy.n_action_steps=50 \
+  --policy.max_state_dim=32 \
+  --policy.max_action_dim=32 \
+  --policy.resize_imgs_with_padding=&#x27;[512, 512]&#x27; \
+  --policy.freeze_vision_encoder=true \
+  --policy.train_expert_only=true \
+  --policy.train_state_proj=true \
+  --policy.optimizer_lr=0.0001 \
+  --policy.optimizer_weight_decay=1e-10 \
+  --policy.scheduler_warmup_steps=1000 \
+  --policy.scheduler_decay_steps=20000 \
+  --policy.scheduler_decay_lr=2.5e-6 \
+  --batch_size=12 \
+  --num_workers=4 \
+  --steps=30000 \
+  --save_checkpoint=true \
+  --save_freq=5000 \
+  --log_freq=500 \
+  --tolerance_s=0.05 \
+  --wandb.enable=false</code></pre></div><h3 id="xvla-training"><span data-lang="en">XVLA · full fine-tuning command</span><span data-lang="zh">XVLA · 完整微调命令</span></h3>
+<p><span data-lang="en">Install the XVLA extra and make lerobot/xvla-base available locally or for download. Change repo_id and run_name. The camera map and output path are kept in JSON; policy.path loads the base model and the remaining flags reproduce the README fine-tuning settings.</span><span data-lang="zh">安装 XVLA 依赖，确保可下载或已缓存 lerobot/xvla-base。修改 repo_id 与 run_name。相机映射与输出路径放入 JSON；policy.path 加载基础模型，其余参数采用 README 微调设置。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python -m pip install -e &quot;.[feetech,xvla]&quot;
+python - &lt;&lt;&#x27;PY&#x27;
+import json
+from pathlib import Path
+
+repo_id = &quot;YOUR_NAME/YOUR_DATASET&quot;
+run_name = &quot;YOUR_RUN&quot;
+config = {
+    &quot;dataset&quot;: {&quot;repo_id&quot;: repo_id, &quot;video_backend&quot;: &quot;pyav&quot;},
+    &quot;policy&quot;: None,
+    &quot;output_dir&quot;: f&quot;outputs/train/XVLA/{run_name}&quot;,
+    &quot;job_name&quot;: run_name,
+    &quot;rename_map&quot;: {
+        &quot;observation.images.left_global&quot;: &quot;observation.images.image&quot;,
+        &quot;observation.images.left_wrist&quot;: &quot;observation.images.image2&quot;,
+        &quot;observation.images.right_wrist&quot;: &quot;observation.images.image3&quot;,
+    },
+}
+Path(&quot;outputs/configs&quot;).mkdir(parents=True, exist_ok=True)
+Path(&quot;outputs/configs/xvla_train.json&quot;).write_text(json.dumps(config, indent=2) + &quot;\n&quot;)
+PY
+HF_HUB_DISABLE_XET=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-train \
+  --config_path=outputs/configs/xvla_train.json \
+  --policy.path=lerobot/xvla-base \
+  --policy.device=cuda \
+  --policy.use_amp=true \
+  --policy.push_to_hub=false \
+  --policy.dtype=bfloat16 \
+  --policy.action_mode=auto \
+  --policy.max_state_dim=20 \
+  --policy.max_action_dim=20 \
+  --policy.chunk_size=30 \
+  --policy.n_action_steps=30 \
+  --policy.resize_imgs_with_padding=&#x27;[224, 224]&#x27; \
+  --policy.num_image_views=3 \
+  --policy.freeze_vision_encoder=true \
+  --policy.freeze_language_encoder=true \
+  --policy.train_policy_transformer=true \
+  --policy.train_soft_prompts=true \
+  --batch_size=2 \
+  --num_workers=2 \
+  --steps=30000 \
+  --save_checkpoint=true \
+  --save_freq=5000 \
+  --log_freq=500 \
+  --tolerance_s=0.05 \
+  --wandb.enable=false</code></pre></div><h3 id="training-parameters"><span data-lang="en">Training parameters · what to change</span><span data-lang="zh">训练参数 · 修改位置与作用</span></h3>
+<div class="table-wrap"><table class="table training-recipes"><thead><tr><th><span data-lang="en">Parameter</span><span data-lang="zh">参数</span></th><th><span data-lang="en">Use</span><span data-lang="zh">用法</span></th></tr></thead><tbody>
+<tr><td><span class="mono">repo_id / run_name</span></td><td><span data-lang="en">Dataset identity and experiment name; choose a fresh output directory for each new run.</span><span data-lang="zh">数据集标识与实验名称；新实验使用未占用的输出目录。</span></td></tr>
+<tr><td><span class="mono">--config_path / --policy.path</span></td><td><span data-lang="en">Load the run JSON / the pretrained model. Keep rename_map at the training JSON top level.</span><span data-lang="zh">分别加载训练 JSON / 预训练模型。训练用 rename_map 位于 JSON 顶层。</span></td></tr>
+<tr><td><span class="mono">batch_size / num_workers / steps</span></td><td><span data-lang="en">Samples per batch / data-loader workers / total training steps. Reduce batch_size when GPU memory is insufficient.</span><span data-lang="zh">每批样本数 / 数据加载进程数 / 总训练步数。显存不足时降低 batch_size。</span></td></tr>
+<tr><td><span class="mono">chunk_size / n_action_steps</span></td><td><span data-lang="en">Prediction horizon / number of actions used from a chunk. SmolVLA uses 50/50 here; XVLA uses 30/30.</span><span data-lang="zh">预测动作段长度 / 每段使用动作数。此处 SmolVLA 为 50/50，XVLA 为 30/30。</span></td></tr>
+<tr><td><span class="mono">max_state_dim / max_action_dim</span></td><td><span data-lang="en">Model padding limits. SmolVLA uses 32/32; XVLA uses 20/20 with action_mode=auto for the 12-D robot.</span><span data-lang="zh">模型填充上限。SmolVLA 为 32/32；XVLA 为 20/20，并用 action_mode=auto 适配 12 维机械臂。</span></td></tr>
+<tr><td><span class="mono">resize_imgs_with_padding / num_image_views</span></td><td><span data-lang="en">Input image size and number of views: SmolVLA 512×512; XVLA 224×224 with three cameras.</span><span data-lang="zh">输入图像尺寸与视角数：SmolVLA 为 512×512；XVLA 为 224×224、三路相机。</span></td></tr>
+<tr><td><span class="mono">freeze_* / train_*</span></td><td><span data-lang="en">Select frozen encoders and trainable policy modules. These commands follow the README fine-tuning scope.</span><span data-lang="zh">选择冻结的编码器与参与训练的策略模块；此处沿用 README 的微调范围。</span></td></tr>
+<tr><td><span class="mono">optimizer_* / scheduler_*</span></td><td><span data-lang="en">SmolVLA learning rate, weight decay, warmup and decay schedule; the explicit values above reproduce the README recipe.</span><span data-lang="zh">SmolVLA 的学习率、权重衰减、预热与衰减计划；上方显式数值采用 README 示例。</span></td></tr>
+<tr><td><span class="mono">use_amp / dtype / device</span></td><td><span data-lang="en">Mixed precision, XVLA bfloat16 and CUDA placement; confirm GPU support.</span><span data-lang="zh">混合精度、XVLA bfloat16 与 CUDA 设备设置；需确认 GPU 支持。</span></td></tr>
+<tr><td><span class="mono">save_freq / log_freq / tolerance_s</span></td><td><span data-lang="en">Checkpoint interval / logging interval / timestamp matching tolerance in seconds.</span><span data-lang="zh">checkpoint 保存间隔 / 日志间隔 / 时间戳匹配容差（秒）。</span></td></tr>
+<tr><td><span class="mono">push_to_hub / wandb.enable</span></td><td><span data-lang="en">These examples disable model upload and W&B logging.</span><span data-lang="zh">这些示例关闭模型上传与 W&B 日志。</span></td></tr>
+</tbody></table></div>
+<p><span data-lang="en">All training commands run from the BREE-v1 root. The scripts only generate JSON until lerobot-train is invoked. For an entirely cached VLA run, set HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1 before lerobot-train.</span><span data-lang="zh">所有训练命令均从 BREE-v1 根目录运行。生成脚本只写 JSON，执行 lerobot-train 后才开始训练。VLA 模型和数据均已缓存时，可在 lerobot-train 前设置 HF_HUB_OFFLINE=1 与 TRANSFORMERS_OFFLINE=1 完全离线运行。</span></p>
+<h3><span data-lang="en">RDT / OpenPI · training entry points</span><span data-lang="zh">RDT / OpenPI · 训练入口</span></h3>
+<p><span data-lang="en">The following examples use repository task/profile names, which differ from this website’s 3DAssets task numbers. Match the dataset and instruction before running. Base weights, training data and the RDT environment must be supplied separately.</span><span data-lang="zh">以下使用仓库任务 / profile 名称，与本站 3DAssets 编号不同；运行前按数据集与指令核对。基础权重、训练数据与 RDT 环境需另外准备。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>BREE/model_training/rdt/convert_dataset.sh \
+  yyyyyy0604/task08_cylinder_insertion_50 \
+  PATH_TO_LOCAL_LEROBOT_DATASET
+GPU=0 BREE/model_training/rdt/train_rdt.sh \
+  task08_insertion_170m \
+  task08_cylinder_insertion_50 \
+  &quot;Pick up the red cylinder with the right arm, then place the blue cylinder onto the red cylinder with the left arm&quot;</code></pre></div><p><span data-lang="en">Activate the RDT environment first or set RDT_PYTHON to its interpreter. OpenPI training reads datasets/openpi/ and models/openpi/pi05_base/params/. When converting RDT HDF5 data, use convert_from_rdt_hdf5.sh and compute_norm_stats.sh as documented in BREE/model_training/README.md.</span><span data-lang="zh">先激活 RDT 环境，或用 RDT_PYTHON 指定解释器。OpenPI 训练默认读取 datasets/openpi/ 与 models/openpi/pi05_base/params/。从 RDT HDF5 转换数据时，按 BREE/model_training/README.md 使用 convert_from_rdt_hdf5.sh 与 compute_norm_stats.sh。</span></p>
+<p><span data-lang="en">For the RDT conversion, replace PATH_TO_LOCAL_LEROBOT_DATASET with the local dataset directory. The converter also accepts only the dataset ID when files are already under datasets/lerobot/USER/DATASET. The three train_rdt.sh arguments are the profile, HDF5 directory name and exact language instruction. GPU selects the physical card; RDT_PYTHON can select a separate interpreter.</span><span data-lang="zh">RDT 转换命令中的 PATH_TO_LOCAL_LEROBOT_DATASET 替换为本地数据集目录；若数据已位于 datasets/lerobot/USER/DATASET，可省略该参数。train_rdt.sh 的三个位置参数依次为 profile、HDF5 目录名和完整任务指令。GPU 选择物理显卡，RDT_PYTHON 可指定独立解释器。</span></p>
+<h3 id="openpi-data"><span data-lang="en">OpenPI · convert data and compute statistics</span><span data-lang="zh">OpenPI · 转换数据与计算统计</span></h3>
+<p><span data-lang="en">For repository task01, convert its prepared RDT HDF5 directory to LeRobot v2.1 and compute the task configuration’s normalization statistics. Change both the dataset ID and config name together for another task. INPUT_DIR is the source directory; REPO_ID determines the output under datasets/openpi/.</span><span data-lang="zh">以仓库 task01 为例，将已准备的 RDT HDF5 目录转换为 LeRobot v2.1，再计算任务配置的归一化统计。切换任务时同步修改数据集 ID 与配置名。第一个参数为源目录，第二个参数决定 datasets/openpi/ 下的输出位置。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>BREE/model_training/openpi/convert_from_rdt_hdf5.sh \
+  datasets/rdt_hdf5/task01_pickplace_big_50 \
+  yyyyyy0604/task01_pickplace_big_50
+BREE/model_training/openpi/compute_norm_stats.sh pi05_biso_task01</code></pre></div><p><span data-lang="en">GPU_IDS selects the physical GPUs for OpenPI. The first train_openpi.sh argument is its config name; smoke runs one step and train starts a full run. Standard tasks use 30,000 steps, while the documented long-prompt, wrist-swapped and switch variants use 20,000. TRAIN_STEPS overrides this count.</span><span data-lang="zh">GPU_IDS 选择 OpenPI 使用的物理显卡。train_openpi.sh 的第一个参数为配置名；smoke 执行 1 步，train 执行完整训练。标准任务为 30,000 步，文档列出的 long-prompt、wrist-swapped 和 switch 变体为 20,000 步；TRAIN_STEPS 可覆盖步数。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>GPU_IDS=0,1 BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 smoke
+GPU_IDS=0,1 BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 train</code></pre></div><p><span data-lang="en">New training outputs go under outputs/train/. RDT defaults to 25,000 steps with checkpoints every 5,000; standard OpenPI tasks default to 30,000 steps and some variants use 20,000. To resume, use RESUME=1 with the same RDT output directory or the same OpenPI EXP_NAME. Save the training configuration and use the actual generated checkpoint path in evaluation.</span><span data-lang="zh">新训练结果写入 outputs/train/。RDT 默认 25,000 步、每 5,000 步保存；OpenPI 标准任务默认 30,000 步，部分变体为 20,000 步。恢复训练时使用 RESUME=1，并保持 RDT 输出目录或 OpenPI EXP_NAME 与原实验一致。保存训练配置，评测时填写实际生成的 checkpoint 路径。</span></p>
+<h3 id="resume-training"><span data-lang="en">Resume RDT / OpenPI training</span><span data-lang="zh">恢复 RDT / OpenPI 训练</span></h3>
+<p><span data-lang="en">Resume the same experiment, using its original output directory and settings. For OpenPI, replace my_test with the EXP_NAME used when starting that run. For RDT, keep PROFILE, dataset and instruction unchanged; preserve any OUTPUT_DIR or RDT_PYTHON override from the initial run.</span><span data-lang="zh">恢复同一实验时，沿用原输出目录与配置。OpenPI 的 my_test 要替换为最初启动时使用的 EXP_NAME。RDT 保持 profile、数据集和指令不变，并沿用首次运行时设置的 OUTPUT_DIR 或 RDT_PYTHON。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>GPU_IDS=0,1 RESUME=1 EXP_NAME=my_test \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task03_switch_new train
+
+GPU=0 RESUME=1 \
+BREE/model_training/rdt/train_rdt.sh \
+  task08_insertion_170m \
+  task08_cylinder_insertion_50 \
+  &quot;Pick up the red cylinder with the right arm, then place the blue cylinder onto the red cylinder with the left arm&quot;</code></pre></div>
 <div class="docs-pager"><a href="calibration.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div></a><a class="next" href="evaluation.html"><div class="dir"><span data-lang="en">Next step →</span><span data-lang="zh">下一步 →</span></div><div class="title"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div></a></div>
   </main>
 </div>

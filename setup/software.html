@@ -51,7 +51,7 @@
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
+    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
 
 <h1><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></h1>
 <p class="lead"><span data-lang="en">Install the BREE-v1 LeRobot fork, then identify four serial ports and three cameras. A local Linux environment is the direct path for the hardware workflow.</span><span data-lang="zh">安装 BREE-v1 的 LeRobot 分支，再确认四个串口与三台相机。本地 Linux 环境可直接运行硬件操作流程。</span></p>
@@ -69,7 +69,7 @@ conda install ffmpeg=7.1.1 -c conda-forge -y
 python -m pip install -e ".[feetech]"
 python -c "import lerobot; print(lerobot.__file__)"
 lerobot-info</code></pre>
-</div><p><span data-lang="en">The revision above is the documentation baseline. The SO-101 motor extra is <span class="mono">feetech</span>. Install model-specific extras for the policy you use; see <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/pyproject.toml">pyproject.toml</a>.</span><span data-lang="zh">上面的版本是本指南的对照基线。SO-101 的舵机附加依赖为 <span class="mono">feetech</span>。按所用策略安装模型依赖，具体见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/pyproject.toml">pyproject.toml</a>。</span></p>
+</div><p><span data-lang="en">The revision above is the documentation baseline. The SO-101 motor extra is <span class="mono">feetech</span>. Install model-specific extras for the policy you use; see <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/pyproject.toml">pyproject.toml</a>.</span><span data-lang="zh">上面的版本是本指南的对照基线。SO-101 的舵机附加依赖为 <span class="mono">feetech</span>。按所用策略安装模型依赖，具体见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/pyproject.toml">pyproject.toml</a>。</span></p>
 
 <h2><span data-lang="en">2 · Identify devices and grant access</span><span data-lang="zh">2 · 确认设备并赋予权限</span></h2>
 
@@ -95,7 +95,7 @@ lerobot-find-cameras opencv</code></pre>
 <tr><td><span class="mono">outputs/</span></td><td><span data-lang="en">Generated results and ID benchmark references; prepare OOD scenes and model checkpoints separately</span><span data-lang="zh">生成结果与 ID 评测参考图；OOD 场景与模型权重需另行准备</span></td></tr></tbody></table>
 </div>
 <h2><span data-lang="en">Optional · Docker</span><span data-lang="zh">可选 · Docker</span></h2>
-<p><span data-lang="en">The repository includes <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/docker/Dockerfile.user">a general LeRobot user image</a>. It installs all extras and is not a frozen BREE-specific environment. Build from the checked-out root:</span><span data-lang="zh">仓库提供 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/docker/Dockerfile.user">通用 LeRobot 用户镜像</a>，会安装全部附加依赖；它并非冻结的 BREE 专用环境。在已检出的仓库根目录构建：</span></p>
+<p><span data-lang="en">The repository includes <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/docker/Dockerfile.user">a general LeRobot user image</a>. It installs all extras and is not a frozen BREE-specific environment. Build from the checked-out root:</span><span data-lang="zh">仓库提供 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/docker/Dockerfile.user">通用 LeRobot 用户镜像</a>，会安装全部附加依赖；它并非冻结的 BREE 专用环境。在已检出的仓库根目录构建：</span></p>
 
 <div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>docker build -f docker/Dockerfile.user -t bree:local .
 docker run --rm -it \
