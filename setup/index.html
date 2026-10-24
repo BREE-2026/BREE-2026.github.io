@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs docs-overview-page">
@@ -20,10 +20,8 @@
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
     <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb">
-      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Overview</span><span data-lang="zh">总览</span></b>
-    </span>
-    <div class="nav-actions">
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Overview & Prerequisites</span><span data-lang="zh">总览与前置条件</span></b></span>
+<div class="nav-actions">
       <a class="btn btn-outline btn-sm" href="../index.html">
         <span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
       <div class="lang-switch" role="group" aria-label="Language">
@@ -38,61 +36,134 @@
 <div class="docs-layout">
   <aside class="docs-sidebar">
     <nav class="docs-nav">
-      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-      <a href="index.html" class="active"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
-      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
-      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-    </nav>
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html" class="active"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
 
-<h1><span data-lang="en">BREE Setup Guide</span><span data-lang="zh">BREE 搭建指南</span></h1>
-<p class="lead"><span data-lang="en">Build the SO-101 bimanual rig, install the BREE-v1 software, calibrate the arms and cameras, then collect data or evaluate a trained policy.</span><span data-lang="zh">搭建 SO-101 双臂机架，安装 BREE-v1 软件，完成机械臂与相机标定后，采集数据或评测训练好的策略。</span></p>
-<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
+<!-- readme-block:1:start -->
+<h1 data-readme-block="1" data-i18n-ignore lang="zh-CN" id="readme-block-1"><span data-lang="en" lang="en">BREE dual-arm system operating guide</span><span data-lang="zh" lang="zh-CN">BREE 双臂系统操作指南</span></h1>
+<!-- readme-block:1:end -->
 
+<!-- readme-block:2:start -->
+<p data-readme-block="2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This document assumes that all commands are run from the LeRobot repository root:</span><span data-lang="zh" lang="zh-CN">本文档默认所有命令都从 LeRobot 仓库根目录运行：</span></p>
+<!-- readme-block:2:end -->
 
-<h2><span data-lang="en">Follow the workflow</span><span data-lang="zh">按流程开始</span></h2>
+<!-- readme-block:3:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="3" data-i18n-ignore lang="zh-CN" data-readme-code="1">cd lerobot
+conda activate lerobot
+</code></pre></div>
+<!-- readme-block:3:end -->
 
-<div class="start-grid"><a class="start-card" href="bom.html"><span class="n">1</span><div class="t"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></div><div class="d"><span data-lang="en">Arms, cameras and fixtures</span><span data-lang="zh">机械臂、相机与夹具</span></div></a>
-<a class="start-card" href="assembly.html"><span class="n">2</span><div class="t"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></div><div class="d"><span data-lang="en">Frame build, arm mounts and camera supports</span><span data-lang="zh">框架搭建、机械臂安装与相机支架</span></div></a>
-<a class="start-card" href="software.html"><span class="n">3</span><div class="t"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></div><div class="d"><span data-lang="en">Clone, dependencies and device mapping</span><span data-lang="zh">克隆、依赖与设备映射</span></div></a>
-<a class="start-card" href="calibration.html"><span class="n">4</span><div class="t"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div><div class="d"><span data-lang="en">Fixture calibration, H pose, camera parameters and overlays</span><span data-lang="zh">夹具标定、H 位、相机参数统一与参考图叠加</span></div></a>
-<a class="start-card" href="collection.html"><span class="n">5</span><div class="t"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></div><div class="d"><span data-lang="en">Teleoperation, recording and model training</span><span data-lang="zh">遥操作、数据录制与模型训练</span></div></a>
-<a class="start-card" href="evaluation.html"><span class="n">6</span><div class="t"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div><div class="d"><span data-lang="en">Policy JSON, checkpoints and trial settings</span><span data-lang="zh">策略 JSON、权重与试验设置</span></div></a>
-<a class="start-card" href="tasks.html"><span class="n">7</span><div class="t"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div><div class="d"><span data-lang="en">Eight task IDs and scene references</span><span data-lang="zh">八类任务编号与场景参考</span></div></a>
-<a class="start-card" href="troubleshooting.html"><span class="n">8</span><div class="t"><span data-lang="en">Troubleshooting</span><span data-lang="zh">故障排查</span></div><div class="d"><span data-lang="en">Device, camera and configuration checks</span><span data-lang="zh">设备、相机与配置检查</span></div></a></div>
-<h2><span data-lang="en">Prerequisites</span><span data-lang="zh">前置条件</span></h2>
-<ul><li><span data-lang="en">Four assembled SO-101 arms: two leaders and two followers, plus a global and two wrist cameras.</span><span data-lang="zh">四条装配好的 SO-101 机械臂，包括两条主臂与两条从臂，以及一台全局和两台腕部相机。</span></li>
-<li><span data-lang="en">Linux hardware access, Python 3.10+ and the BREE-v1 LeRobot fork. Use the software page for the versioned installation command.</span><span data-lang="zh">Linux 硬件访问环境、Python 3.10 及以上版本和 BREE-v1 LeRobot 分支；具体版本安装命令见软件页面。</span></li>
-<li><span data-lang="en">A compatible inference device and model-specific dependencies. Confirm checkpoint files, tokenizer assets and task scene images separately.</span><span data-lang="zh">兼容的推理设备与模型依赖；单独核实模型权重、tokenizer 资源及任务场景图。</span></li></ul>
+<!-- readme-block:4:start -->
+<p data-readme-block="4" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If you are not using a Conda environment, first confirm that the current Python can run <code>python -c "import lerobot"</code>.</span><span data-lang="zh" lang="zh-CN">如果使用的不是 Conda 环境，也应先确认当前 Python 能够执行 <code>python -c "import lerobot"</code>。</span></p>
+<!-- readme-block:4:end -->
 
-<h2><span data-lang="en">First installation and daily startup</span><span data-lang="zh">首次安装与日常开机</span></h2>
-
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">When</span><span data-lang="zh">时机</span></th><th><span data-lang="en">Steps</span><span data-lang="zh">步骤</span></th></tr></thead><tbody><tr><td><span data-lang="en">First installation / hardware changes</span><span data-lang="zh">首次安装 / 硬件变化</span></td><td><span data-lang="en">Verify devices → calibrate arms → verify H pose → tune and save camera parameters → align all camera references.</span><span data-lang="zh">确认设备 → 标定机械臂 → 验证 H 位 → 调节并保存相机参数 → 对齐三台相机参考。</span></td></tr>
-<tr><td><span data-lang="en">Daily startup</span><span data-lang="zh">日常开机</span></td><td><span data-lang="en">Grant device access → verify mapping → check H pose → restore camera parameters → compare existing camera overlays → collect or evaluate.</span><span data-lang="zh">赋予设备权限 → 核对映射 → 检查 H 位 → 恢复相机参数 → 对比已有相机叠加 → 采集或评测。</span></td></tr><tr><td><span data-lang="en">Training and evaluation</span><span data-lang="zh">训练与评测</span></td><td><span data-lang="en">Prepare task references → record episodes → train the selected policy → evaluate a matching checkpoint → retain outputs and run settings.</span><span data-lang="zh">准备任务参考 → 录制回合 → 训练所选策略 → 评测匹配权重 → 保存输出与运行配置。</span></td></tr></tbody></table>
+<h2><span data-lang="en">Follow the workflow</span><span data-lang="zh">按流程开始</span></h2><div class="start-grid"><a class="start-card" href="bom.html"><span class="n">1</span><div class="t"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></div><div class="d"><span data-lang="en">Arms, cameras and fixtures</span><span data-lang="zh">机械臂、相机与夹具</span></div></a>
+<a class="start-card" href="assembly.html"><span class="n">2</span><div class="t"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></div><div class="d"><span data-lang="en">Frame, arm mounts and camera supports</span><span data-lang="zh">框架、机械臂安装与相机支架</span></div></a>
+<a class="start-card" href="software.html"><span class="n">3</span><div class="t"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></div><div class="d"><span data-lang="en">LeRobot, BREE, environment and devices</span><span data-lang="zh">LeRobot、BREE、环境与设备</span></div></a>
+<a class="start-card" href="calibration.html"><span class="n">4</span><div class="t"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div><div class="d"><span data-lang="en">Fixture calibration, H pose and three cameras</span><span data-lang="zh">夹具标定、H 位与三台相机</span></div></a>
+<a class="start-card" href="collection.html"><span class="n">5</span><div class="t"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></div><div class="d"><span data-lang="en">Teleoperation, scene references and recording</span><span data-lang="zh">遥操作、场景参考图与数据录制</span></div></a>
+<a class="start-card" href="training.html"><span class="n">6</span><div class="t"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></div><div class="d"><span data-lang="en">ACT, SmolVLA, XVLA, RDT and OpenPI</span><span data-lang="zh">ACT、SmolVLA、XVLA、RDT 与 OpenPI</span></div></a>
+<a class="start-card" href="evaluation.html"><span class="n">7</span><div class="t"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div><div class="d"><span data-lang="en">Five policy paths and ID/OOD references</span><span data-lang="zh">五类模型评测与 ID/OOD 参考图</span></div></a>
+<a class="start-card" href="tasks.html"><span class="n">8</span><div class="t"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div><div class="d"><span data-lang="en">Task identifiers and scene preparation</span><span data-lang="zh">任务编号与场景准备</span></div></a>
+<a class="start-card" href="troubleshooting.html"><span class="n">9</span><div class="t"><span data-lang="en">Troubleshooting</span><span data-lang="zh">故障排查</span></div><div class="d"><span data-lang="en">Port, calibration and reference-file checks</span><span data-lang="zh">端口、标定与参考文件检查</span></div></a>
 </div>
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">The clone includes camera installation references, evaluation templates and ID task scene images. See the <a href="evaluation.html#id-references">ID reference gallery</a>. Model weights and OOD task scenes still need to be prepared separately. Save newly generated check and run artifacts under <span class="mono">outputs/</span>.</span><span data-lang="zh">克隆已包含相机安装参考、评测模板与 ID 任务场景图，见<a href="evaluation.html#id-references">ID 参考图库</a>。模型权重与 OOD 任务场景仍需另行准备。新生成的检查与运行产物保存在 <span class="mono">outputs/</span>。</span></p>
-</div>
+
+<!-- readme-block:5:start -->
+<h2 data-readme-block="5" data-i18n-ignore lang="zh-CN" id="readme-1"><span data-lang="en" lang="en">1. Complete workflow overview</span><span data-lang="zh" lang="zh-CN">1. 完整流程概览</span></h2>
+<!-- readme-block:5:end -->
+
+<!-- readme-block:6:start -->
+<p data-readme-block="6" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Choose the workflow that matches your current task. Recalibration is not required every time.</span><span data-lang="zh" lang="zh-CN">根据当前工作内容选择对应流程，不需要每次都重新校准。</span></p>
+<!-- readme-block:6:end -->
+
+<!-- readme-block:7:start -->
+<h3 data-readme-block="7" data-i18n-ignore lang="zh-CN" id="readme-block-7"><span data-lang="en" lang="en">First installation or hardware replacement</span><span data-lang="zh" lang="zh-CN">首次安装或更换硬件</span></h3>
+<!-- readme-block:7:end -->
+
+<!-- readme-block:8:start -->
+<ol data-readme-block="8" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">Identify the serial ports and grant access permissions.</span><span data-lang="zh" lang="zh-CN">确认串口并赋予权限。</span></li><li><span data-lang="en" lang="en">Calibrate all four arms.</span><span data-lang="zh" lang="zh-CN">校准四条机械臂。</span></li><li><span data-lang="en" lang="en">Confirm that the arms can safely return to the H pose.</span><span data-lang="zh" lang="zh-CN">确认机械臂能够安全回到 H 位。</span></li><li><span data-lang="en" lang="en">Confirm the device indices of all three cameras.</span><span data-lang="zh" lang="zh-CN">确认三个相机的设备编号。</span></li><li><span data-lang="en" lang="en">Adjust the global camera and both wrist cameras.</span><span data-lang="zh" lang="zh-CN">调整全局相机和两个腕部相机。</span></li><li><span data-lang="en" lang="en">Regenerate camera reference files only when the installation baseline needs to be redefined.</span><span data-lang="zh" lang="zh-CN">只有在需要重新定义安装基准时，才重新生成相机参考文件。</span></li></ol>
+<!-- readme-block:8:end -->
+
+<!-- readme-block:9:start -->
+<h3 data-readme-block="9" data-i18n-ignore lang="zh-CN" id="readme-block-9"><span data-lang="en" lang="en">Daily workflow after each startup</span><span data-lang="zh" lang="zh-CN">每次开机后的日常流程</span></h3>
+<!-- readme-block:9:end -->
+
+<!-- readme-block:10:start -->
+<ol data-readme-block="10" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">Grant access permissions to the serial ports.</span><span data-lang="zh" lang="zh-CN">给串口赋予权限。</span></li><li><span data-lang="en" lang="en">Check the serial ports and camera indices.</span><span data-lang="zh" lang="zh-CN">核对串口和相机编号。</span></li><li><span data-lang="en" lang="en">Check the arms at the H pose.</span><span data-lang="zh" lang="zh-CN">检查机械臂 H 位。</span></li><li><span data-lang="en" lang="en">Use the existing reference images to check the positions of all three cameras.</span><span data-lang="zh" lang="zh-CN">用已有参考图检查三个相机的位置。</span></li><li><span data-lang="en" lang="en">Proceed with teleoperation, data collection or model evaluation.</span><span data-lang="zh" lang="zh-CN">进行遥操作、数据采集或模型评估。</span></li></ol>
+<!-- readme-block:10:end -->
+
+<!-- readme-block:11:start -->
+<h3 data-readme-block="11" data-i18n-ignore lang="zh-CN" id="readme-block-11"><span data-lang="en" lang="en">Training and evaluation workflow</span><span data-lang="zh" lang="zh-CN">训练与评估流程</span></h3>
+<!-- readme-block:11:end -->
+
+<!-- readme-block:12:start -->
+<ol data-readme-block="12" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">Prepare task scene reference images.</span><span data-lang="zh" lang="zh-CN">准备任务场景参考图。</span></li><li><span data-lang="en" lang="en">Collect data with <code>lerobot-record</code>.</span><span data-lang="zh" lang="zh-CN">使用 <code>lerobot-record</code> 采集数据。</span></li><li><span data-lang="en" lang="en">Train a model with <code>lerobot-train</code>.</span><span data-lang="zh" lang="zh-CN">使用 <code>lerobot-train</code> 训练模型。</span></li><li><span data-lang="en" lang="en">Evaluate with <code>lerobot-record</code>, the RDT client or the OpenPI client.</span><span data-lang="zh" lang="zh-CN">使用 <code>lerobot-record</code>、RDT 客户端或 OpenPI 客户端进行评估。</span></li><li><span data-lang="en" lang="en">Write all run results to <code>outputs/</code> under the repository root, rather than to <code>BREE/</code>.</span><span data-lang="zh" lang="zh-CN">所有运行结果统一写入仓库根目录下的 <code>outputs/</code>，不要写入 <code>BREE/</code>。</span></li></ol>
+<!-- readme-block:12:end -->
+
+<!-- readme-block:13:start -->
+<h2 data-readme-block="13" data-i18n-ignore lang="zh-CN" id="readme-2"><span data-lang="en" lang="en">2. Directory guide</span><span data-lang="zh" lang="zh-CN">2. 目录说明</span></h2>
+<!-- readme-block:13:end -->
+
+<!-- readme-block:14:start -->
+<div class="table-wrap" data-readme-block="14" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Path</span><span data-lang="zh" lang="zh-CN">路径</span></th><th><span data-lang="en" lang="en">Purpose</span><span data-lang="zh" lang="zh-CN">用途</span></th></tr></thead><tbody><tr><td><code>BREE/robot_calibration/</code></td><td><span data-lang="en" lang="en">Arm calibration, H-pose verification and wrist repeatability verification scripts</span><span data-lang="zh" lang="zh-CN">机械臂校准、H 位验证和腕部重复性验证脚本</span></td></tr><tr><td><code>BREE/camera_calibration/</code></td><td><span data-lang="en" lang="en">Camera-view, white-balance and reference-image alignment scripts</span><span data-lang="zh" lang="zh-CN">相机画面、白平衡和参考图对齐脚本</span></td></tr><tr><td><code>BREE/camera_reference/</code></td><td><span data-lang="en" lang="en">Camera installation reference files currently in use</span><span data-lang="zh" lang="zh-CN">当前使用的相机安装参考文件</span></td></tr><tr><td><code>BREE/model_inference/</code></td><td><span data-lang="en" lang="en">RDT dual-arm evaluation entry point</span><span data-lang="zh" lang="zh-CN">RDT 双臂评估入口</span></td></tr><tr><td><code>BREE/openpi_eval/</code></td><td><span data-lang="en" lang="en">OpenPI code, environment, models, server and client</span><span data-lang="zh" lang="zh-CN">OpenPI 代码、环境、模型、服务端和客户端</span></td></tr><tr><td><code>outputs/</code></td><td><span data-lang="en" lang="en">Data processing, training, evaluation videos and check results</span><span data-lang="zh" lang="zh-CN">数据处理、训练、评估视频和检查结果</span></td></tr></tbody></table></div>
+<!-- readme-block:14:end -->
+
+<!-- readme-block:15:start -->
+<p data-readme-block="15" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The repository already contains the following camera installation references:</span><span data-lang="zh" lang="zh-CN">当前仓库内已经存在以下相机安装参考：</span></p>
+<!-- readme-block:15:end -->
+
+<!-- readme-block:16:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="16" data-i18n-ignore lang="zh-CN" data-readme-code="2">BREE/camera_reference/
+├── global_image/
+│   ├── reference.jpg
+│   └── reference.json
+└── overlay/
+    ├── left_wrist/
+    │   ├── reference.jpg
+    │   └── reference.json
+    └── right_wrist/
+        ├── reference.jpg
+        └── reference.json
+</code></pre></div>
+<!-- readme-block:16:end -->
+
+<!-- readme-block:17:start -->
+<p data-readme-block="17" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Daily checks should read these files. Do not overwrite them by running <code>save-reference</code>.</span><span data-lang="zh" lang="zh-CN">日常检查应读取这些文件，不要运行 <code>save-reference</code> 覆盖它们。</span></p>
+<!-- readme-block:17:end -->
+
+<!-- readme-block:178:start -->
+<h2 data-readme-block="178" data-i18n-ignore lang="zh-CN" id="readme-12"><span data-lang="en" lang="en">12. Output locations</span><span data-lang="zh" lang="zh-CN">12. 输出位置</span></h2>
+<!-- readme-block:178:end -->
+
+<!-- readme-block:179:start -->
+<p data-readme-block="179" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Place all newly generated results under <code>outputs/</code> at the repository root:</span><span data-lang="zh" lang="zh-CN">所有新生成结果都放在仓库根目录的 <code>outputs/</code> 下：</span></p>
+<!-- readme-block:179:end -->
+
+<!-- readme-block:180:start -->
+<div class="table-wrap" data-readme-block="180" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Result</span><span data-lang="zh" lang="zh-CN">结果</span></th><th><span data-lang="en" lang="en">Recommended location</span><span data-lang="zh" lang="zh-CN">推荐位置</span></th></tr></thead><tbody><tr><td><span data-lang="en" lang="en">Camera alignment checks</span><span data-lang="zh" lang="zh-CN">相机对齐检查</span></td><td><code>outputs/camera_check/</code></td></tr><tr><td><span data-lang="en" lang="en">Arm calibration verification</span><span data-lang="zh" lang="zh-CN">机械臂校准验证</span></td><td><code>outputs/robot_calibration/</code></td></tr><tr><td><span data-lang="en" lang="en">Model training</span><span data-lang="zh" lang="zh-CN">模型训练</span></td><td><code>outputs/train/</code></td></tr><tr><td><span data-lang="en" lang="en">RDT language embeddings</span><span data-lang="zh" lang="zh-CN">RDT 语言向量</span></td><td><code>outputs/rdt_lang/</code></td></tr><tr><td><span data-lang="en" lang="en">RDT evaluation videos</span><span data-lang="zh" lang="zh-CN">RDT 评估视频</span></td><td><code>outputs/rdt_eval_videos/</code></td></tr></tbody></table></div>
+<!-- readme-block:180:end -->
+
+<!-- readme-block:181:start -->
+<p data-readme-block="181" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en"><code>BREE/</code> stores code, fixed reference files and OpenPI runtime dependencies. It does not store the results generated by individual runs.</span><span data-lang="zh" lang="zh-CN"><code>BREE/</code> 用于保存代码、固定参考文件和 OpenPI 运行依赖，不用于保存每次运行产生的结果。</span></p>
+<!-- readme-block:181:end -->
 
 <div class="docs-pager">
-      <a href="../index.html">
-        <div class="dir"><span data-lang="en">← Back</span><span data-lang="zh">← 返回</span></div>
-        <div class="title"><span data-lang="en">Project page</span><span data-lang="zh">项目主页</span></div>
-      </a>
-      <a class="next" href="bom.html">
-        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
-        <div class="title"><span data-lang="en">1 · Bill of Materials</span><span data-lang="zh">1 · 物料清单</span></div>
-      </a>
-    </div>
+<a href="bom.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></div></a>
+</div>
   </main>
 </div>
 

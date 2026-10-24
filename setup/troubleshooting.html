@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -20,10 +20,8 @@
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
     <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb">
-      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Troubleshooting</span><span data-lang="zh">故障排查</span></b>
-    </span>
-    <div class="nav-actions">
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Troubleshooting & Checklists</span><span data-lang="zh">故障排查与检查清单</span></b></span>
+<div class="nav-actions">
       <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en">EN</button>
@@ -37,64 +35,74 @@
 <div class="docs-layout">
   <aside class="docs-sidebar">
     <nav class="docs-nav">
-      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
-      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
-      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-      <a href="troubleshooting.html" class="active"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-    </nav>
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html" class="active"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
 
-<h1><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></h1>
-<p class="lead"><span data-lang="en">Start with device mapping, the H pose and saved camera overlays. Keep the existing calibration and reference files available while diagnosing drift.</span><span data-lang="zh">从设备映射、H 位与相机参考图叠加开始排查，并保留已有标定与参考文件。</span></p>
-<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
+<h1><span data-lang="en">Troubleshooting & Checklists</span><span data-lang="zh">故障排查与检查清单</span></h1>
 
+<details class="guide-contents"><summary><span data-lang="en">On this page</span><span data-lang="zh">本页内容</span></summary><nav class="readme-page-toc" aria-label="本页内容"><ul><li><a href="#readme-13" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">13. Common issues</span><span data-lang="zh" lang="zh-CN">13. 常见问题</span></a></li><li><a href="#readme-block-183" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">No serial-port permission</span><span data-lang="zh" lang="zh-CN">串口没有权限</span></a></li><li><a href="#readme-block-185" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Left and right wrist camera views are swapped</span><span data-lang="zh" lang="zh-CN">左右腕相机画面相反</span></a></li><li><a href="#readme-block-187" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Camera reference files cannot be found</span><span data-lang="zh" lang="zh-CN">相机参考文件找不到</span></a></li><li><a href="#readme-block-189" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Arm poses do not match after returning to the H pose</span><span data-lang="zh" lang="zh-CN">机械臂回到 H 位后姿态不一致</span></a></li><li><a href="#readme-block-191" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">A task path in a command does not exist</span><span data-lang="zh" lang="zh-CN">命令中的任务路径不存在</span></a></li></ul></nav></details>
 
-<h2><span data-lang="en">Common failure points</span><span data-lang="zh">常见故障点</span></h2>
+<!-- readme-block:182:start -->
+<h2 data-readme-block="182" data-i18n-ignore lang="zh-CN" id="readme-13"><span data-lang="en" lang="en">13. Common issues</span><span data-lang="zh" lang="zh-CN">13. 常见问题</span></h2>
+<!-- readme-block:182:end -->
 
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Symptom</span><span data-lang="zh">现象</span></th><th><span data-lang="en">Action</span><span data-lang="zh">处理方式</span></th></tr></thead><tbody><tr><td><span data-lang="en">Serial permission denied or wrong arm</span><span data-lang="zh">串口权限不足或机械臂对应错误</span></td><td><span data-lang="en">Run lerobot-find-port, verify each arm, then grant access to the verified ports after reconnecting.</span><span data-lang="zh">运行 lerobot-find-port 逐臂核对，重连后对实际使用的串口重新赋权。</span></td></tr>
-<tr><td><span data-lang="en">Left and right wrist views swapped</span><span data-lang="zh">左右腕画面颠倒</span></td><td><span data-lang="en">Identify each view live and edit index_or_path. ACT/SmolVLA templates use 0/4/2; XVLA uses 0/2/4.</span><span data-lang="zh">按实时画面辨认并修改 index_or_path。ACT/SmolVLA 模板为 0/4/2，XVLA 为 0/2/4。</span></td></tr>
-<tr><td><span data-lang="en">H pose differs between arms</span><span data-lang="zh">机械臂 H 位不一致</span></td><td><span data-lang="en">Check calibration IDs, motor mounting and port mapping. Recalibrate the affected arm with the fixture if needed.</span><span data-lang="zh">核对标定 ID、舵机安装与端口映射，必要时对异常机械臂重新做夹具标定。</span></td></tr>
-<tr><td><span data-lang="en">Wrist-roll installation out of range</span><span data-lang="zh">腕部滚转安装超出可标定范围</span></td><td><span data-lang="en">Follow the <a href="calibration.html#wrist-roll">asymmetric wrist-roll check</a>. Power off and adjust installation as reported; do not clamp the homing offset or substitute the range midpoint.</span><span data-lang="zh">按<a href="calibration.html#wrist-roll">腕部非对称标定说明</a>，断电后按提示调整安装。不要截断偏移值或用范围中点替代夹具位置。</span></td></tr>
-<tr><td><span data-lang="en">Camera color or brightness changes between runs</span><span data-lang="zh">不同实验间相机色彩或亮度变化</span></td><td><span data-lang="en">Restore <a href="calibration.html#camera-settings">saved image controls</a>, verify manual white balance/exposure and check for driver resets after stream startup.</span><span data-lang="zh">恢复<a href="calibration.html#camera-settings">保存的图像参数</a>，核对手动白平衡与曝光，并检查启动视频流后驱动是否重置参数。</span></td></tr>
-<tr><td><span data-lang="en">Low frame rate or camera startup timeout</span><span data-lang="zh">出帧速度下降或相机启动超时</span></td><td><span data-lang="en">Check exposure, dynamic frame rate, USB access and competing camera processes. Restore controls with the documented exposure limit, then verify actual frame cadence.</span><span data-lang="zh">检查曝光、动态帧率、USB 访问及其他占用相机的进程。按文档中的曝光上限恢复参数，再检查实际出帧速度。</span></td></tr>
-<tr><td><span data-lang="en">Camera overlay has ghosting</span><span data-lang="zh">相机叠加出现双影</span></td><td><span data-lang="en">Restore the arm reference pose, lighting and camera mount; rerun the appropriate image-overlay check.</span><span data-lang="zh">恢复机械臂参考姿态、光照和相机安装位置，再运行对应叠加检查。</span></td></tr>
-<tr><td><span data-lang="en">Not enough visual features</span><span data-lang="zh">视觉特征不足</span></td><td><span data-lang="en">Improve lighting and visible fixed texture, verify the reference image and inspect alignment output before recording.</span><span data-lang="zh">改善光照与固定纹理可见性，确认参考图，并在录制前检查对齐输出。</span></td></tr>
-<tr><td><span data-lang="en">Scene image or checkpoint not found</span><span data-lang="zh">找不到场景图或模型权重</span></td><td><span data-lang="en">The template paths are local experiment examples. Prepare the images/weights and update the run JSON. Directory references require picN image names.</span><span data-lang="zh">模板路径是本地实验示例。准备图片与权重后修改运行 JSON；参考图目录需要使用 picN 文件名。</span></td></tr>
-<tr><td><span data-lang="en">Configuration parser errors</span><span data-lang="zh">配置解析错误</span></td><td><span data-lang="en">Keep dataset.rename_map, scene_reference and evaluation_seed in JSON and pass --config_path.</span><span data-lang="zh">将 dataset.rename_map、scene_reference 与 evaluation_seed 放入 JSON，通过 --config_path 加载。</span></td></tr>
-<tr><td><span data-lang="en">OpenCV GUI unavailable</span><span data-lang="zh">OpenCV 图形界面不可用</span></td><td><span data-lang="en">The scene recorder uses GUI windows. Check display access and the installed OpenCV build; a headless build does not provide those windows.</span><span data-lang="zh">场景录制器使用 GUI 窗口。检查显示访问和 OpenCV 安装版本，headless 版本不提供此类窗口。</span></td></tr>
-<tr><td><span data-lang="en">Preview port already in use</span><span data-lang="zh">预览端口被占用</span></td><td><span data-lang="en">Global and right-wrist examples both use 8092. Stop the previous check or select another web port.</span><span data-lang="zh">全局与右腕示例都使用 8092，先停止前一检查或指定其他预览端口。</span></td></tr></tbody></table>
-</div>
-<h2><span data-lang="en">Before every session</span><span data-lang="zh">每次实验前</span></h2>
-<ul><li><span data-lang="en">Confirm all four serial ports and three camera views after reconnecting.</span><span data-lang="zh">重连后确认四个串口与三路相机画面。</span></li>
-<li><span data-lang="en">Verify the H pose and the existing global/left-wrist/right-wrist reference overlays.</span><span data-lang="zh">验证 H 位及已有的全局、左腕、右腕参考图叠加。</span></li>
-<li><span data-lang="en">Keep lighting, mounts, background and task scene references consistent.</span><span data-lang="zh">保持光照、支架、背景及任务场景参考一致。</span></li>
-<li><span data-lang="en">Restore per-camera image controls, verify manual modes and keep capture format at 640 × 480, 30 fps, MJPG.</span><span data-lang="zh">恢复各相机图像参数，核对手动模式，保持 640 × 480、30 fps、MJPG 采集格式。</span></li>
-<li><span data-lang="en">Match the selected checkpoint, task prompt, action units and model camera mapping.</span><span data-lang="zh">匹配所选权重、任务指令、动作单位与模型相机映射。</span></li>
-<li><span data-lang="en">Use a new dataset name for each run and retain configuration and check evidence.</span><span data-lang="zh">每次运行使用新的数据集名，并保留配置与检查证据。</span></li></ul>
+<!-- readme-block:183:start -->
+<h3 data-readme-block="183" data-i18n-ignore lang="zh-CN" id="readme-block-183"><span data-lang="en" lang="en">No serial-port permission</span><span data-lang="zh" lang="zh-CN">串口没有权限</span></h3>
+<!-- readme-block:183:end -->
 
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">Reuse the existing arm calibration and camera references for daily checks. Recalibrate after hardware changes or abnormal H poses; regenerate references only when defining a new installation baseline.</span><span data-lang="zh">日常检查复用已有机械臂标定与相机参考。硬件变化或 H 位异常时重新标定；仅在重新定义安装基准时生成参考图。</span></p>
-</div>
+<!-- readme-block:184:start -->
+<p data-readme-block="184" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If <code>Permission denied</code> appears, rerun the <code>chmod</code> commands in section 4.2 and confirm that the device indices have not changed.</span><span data-lang="zh" lang="zh-CN">如果出现 <code>Permission denied</code>，重新执行第 4.2 节中的 <code>chmod</code> 命令，并确认设备没有重新编号。</span></p>
+<!-- readme-block:184:end -->
+
+<!-- readme-block:185:start -->
+<h3 data-readme-block="185" data-i18n-ignore lang="zh-CN" id="readme-block-185"><span data-lang="en" lang="en">Left and right wrist camera views are swapped</span><span data-lang="zh" lang="zh-CN">左右腕相机画面相反</span></h3>
+<!-- readme-block:185:end -->
+
+<!-- readme-block:186:start -->
+<p data-readme-block="186" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Run <code>lerobot-find-cameras opencv</code> again instead of relying on indices from the previous startup. Update the camera parameters in teleoperation, data-collection and evaluation commands accordingly.</span><span data-lang="zh" lang="zh-CN">重新运行 <code>lerobot-find-cameras opencv</code>，不要依赖上一次启动的编号。同步修改遥操作、数据采集和评估命令中的相机参数。</span></p>
+<!-- readme-block:186:end -->
+
+<!-- readme-block:187:start -->
+<h3 data-readme-block="187" data-i18n-ignore lang="zh-CN" id="readme-block-187"><span data-lang="en" lang="en">Camera reference files cannot be found</span><span data-lang="zh" lang="zh-CN">相机参考文件找不到</span></h3>
+<!-- readme-block:187:end -->
+
+<!-- readme-block:188:start -->
+<p data-readme-block="188" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">First check in <code>BREE/camera_reference/</code> that the corresponding <code>reference.json</code> and <code>reference.jpg</code> actually exist. Do not run <code>save-reference</code> merely to bypass the error, as this may save an incorrect installation position as the new baseline.</span><span data-lang="zh" lang="zh-CN">先检查 <code>BREE/camera_reference/</code> 中是否确实存在对应的 <code>reference.json</code> 和 <code>reference.jpg</code>。不要为了绕过报错直接运行 <code>save-reference</code>，否则可能把错误安装位置保存为新基准。</span></p>
+<!-- readme-block:188:end -->
+
+<!-- readme-block:189:start -->
+<h3 data-readme-block="189" data-i18n-ignore lang="zh-CN" id="readme-block-189"><span data-lang="en" lang="en">Arm poses do not match after returning to the H pose</span><span data-lang="zh" lang="zh-CN">机械臂回到 H 位后姿态不一致</span></h3>
+<!-- readme-block:189:end -->
+
+<!-- readme-block:190:start -->
+<p data-readme-block="190" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Stop real-robot evaluation and check the port mapping, calibration IDs, calibration files and servo installation orientation in that order. Do not modify task reference images to conceal an arm calibration problem.</span><span data-lang="zh" lang="zh-CN">停止实机评估，依次检查端口映射、校准 ID、校准文件和舵机安装方向。不要通过修改任务参考图来掩盖机械臂校准问题。</span></p>
+<!-- readme-block:190:end -->
+
+<!-- readme-block:191:start -->
+<h3 data-readme-block="191" data-i18n-ignore lang="zh-CN" id="readme-block-191"><span data-lang="en" lang="en">A task path in a command does not exist</span><span data-lang="zh" lang="zh-CN">命令中的任务路径不存在</span></h3>
+<!-- readme-block:191:end -->
+
+<!-- readme-block:192:start -->
+<p data-readme-block="192" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The <code>YOUR_NAME</code>, <code>YOUR_DATASET</code>, <code>YOUR_TASK</code>, <code>YOUR_RUN</code> and <code>PATH_TO_RDT_CHECKPOINT</code> values in this document are placeholders that must be replaced. Before running, use <code>test -e &lt;路径&gt;</code> or <code>ls &lt;路径&gt;</code> to confirm that the actual files exist.</span><span data-lang="zh" lang="zh-CN">本文档中的 <code>YOUR_NAME</code>、<code>YOUR_DATASET</code>、<code>YOUR_TASK</code>、<code>YOUR_RUN</code> 和 <code>PATH_TO_RDT_CHECKPOINT</code> 都是必须替换的占位符。运行前先用 <code>test -e &lt;路径&gt;</code> 或 <code>ls &lt;路径&gt;</code> 确认实际文件存在。</span></p>
+<!-- readme-block:192:end -->
 
 <div class="docs-pager">
-      <a href="tasks.html">
-        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
-        <div class="title"><span data-lang="en">6 · Task Reference</span><span data-lang="zh">6 · 任务参考</span></div>
-      </a>
-      <a class="next" href="../index.html">
-        <div class="dir"><span data-lang="en">Back</span><span data-lang="zh">返回</span> ↩</div>
-        <div class="title"><span data-lang="en">Project page</span><span data-lang="zh">项目主页</span></div>
-      </a>
-    </div>
+<a href="tasks.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div></a>
+</div>
   </main>
 </div>
 

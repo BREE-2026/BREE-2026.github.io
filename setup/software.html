@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Setup Guide · Software Installation · BREE</title>
+  <title>Setup Guide · Installation & Startup · BREE</title>
   <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -20,10 +20,8 @@
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
     <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb">
-      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></b>
-    </span>
-    <div class="nav-actions">
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Installation & Startup</span><span data-lang="zh">安装与开机检查</span></b></span>
+<div class="nav-actions">
       <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en">EN</button>
@@ -37,89 +35,141 @@
 <div class="docs-layout">
   <aside class="docs-sidebar">
     <nav class="docs-nav">
-      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-      <a href="software.html" class="active"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
-      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
-      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-    </nav>
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html" class="active"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
   </aside>
 
   <main class="docs-main">
-    <!-- Commands synchronized with BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
 
-<h1><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></h1>
-<p class="lead"><span data-lang="en">Install the BREE-v1 LeRobot fork, then identify four serial ports and three cameras. A local Linux environment is the direct path for the hardware workflow.</span><span data-lang="zh">安装 BREE-v1 的 LeRobot 分支，再确认四个串口与三台相机。本地 Linux 环境可直接运行硬件操作流程。</span></p>
-<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
+<h1><span data-lang="en">Installation & Startup</span><span data-lang="zh">安装与开机检查</span></h1>
 
+<details class="guide-contents"><summary><span data-lang="en">On this page</span><span data-lang="zh">本页内容</span></summary><nav class="readme-page-toc" aria-label="本页内容"><ul><li><a href="#installation"><span data-lang="en">Clone and install</span><span data-lang="zh">克隆与安装</span></a></li><li><a href="#readme-3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">3. Hardware identifiers</span><span data-lang="zh" lang="zh-CN">3. 硬件编号</span></a></li><li><a href="#readme-3-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">3.1 Arm serial ports</span><span data-lang="zh" lang="zh-CN">3.1 机械臂串口</span></a></li><li><a href="#readme-3-2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">3.2 Camera devices</span><span data-lang="zh" lang="zh-CN">3.2 相机设备</span></a></li><li><a href="#readme-4" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">4. Startup checks and permissions</span><span data-lang="zh" lang="zh-CN">4. 开机检查与权限</span></a></li><li><a href="#readme-4-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">4.1 Find serial ports</span><span data-lang="zh" lang="zh-CN">4.1 查找串口</span></a></li><li><a href="#readme-4-2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">4.2 Grant serial-port permissions</span><span data-lang="zh" lang="zh-CN">4.2 赋予串口权限</span></a></li><li><a href="#readme-4-3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">4.3 Find cameras</span><span data-lang="zh" lang="zh-CN">4.3 查找相机</span></a></li></ul></nav></details>
 
-<h2><span data-lang="en">1 · Clone and install</span><span data-lang="zh">1 · 克隆与安装</span></h2>
+<h2 id="installation"><span data-lang="en">Clone and install</span><span data-lang="zh">克隆与安装</span></h2>
+<p><span data-lang="en">For a new workspace, clone LeRobot first, then fetch the BREE repository into the same workspace and switch to its branch. This places both BREE/ and its matching LeRobot source directly under lerobot/.</span><span data-lang="zh">新建工作区时，先克隆 LeRobot，再在同一工作区获取 BREE 仓库并切换到其分支，使 BREE/ 与配套的 LeRobot 源码直接位于 lerobot/ 根目录。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>git clone https://github.com/huggingface/lerobot.git
+cd lerobot
+</code></pre></div>
+<p><span data-lang="en">Fetch the BREE repository and use its complete code tree:</span><span data-lang="zh">获取 BREE 仓库，并切换到其完整代码版本：</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>git remote add bree https://github.com/YyyYyy0604/BREE-v1.git
+git fetch bree
+git switch -c bree-v1 --track bree/main
+</code></pre></div>
+<p><span data-lang="en">Create the lerobot environment and install the checked-out code with SO-101 motor support:</span><span data-lang="zh">创建 lerobot 环境，并安装当前代码与 SO-101 舵机依赖：</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>conda create -y -n lerobot python=3.10
+</code></pre></div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>conda activate lerobot
+</code></pre></div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>conda install ffmpeg -c conda-forge
+</code></pre></div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>pip install -e ".[feetech]" # or "[dynamixel]" for example
+</code></pre></div>
+<p><span data-lang="en">The Git steps above set up a new workspace; environment and installation commands follow the repository’s installation documentation. The operating instructions below retain BREE/README.md verbatim.</span><span data-lang="zh">上方 Git 步骤用于新建工作区；环境与安装命令取自仓库安装文档。后续操作说明按 BREE/README.md 原文保留。</span></p>
+<h3><span data-lang="en">Start a later session</span><span data-lang="zh">后续运行入口</span></h3>
+<p><span data-lang="en">In a new terminal, start from the parent directory of lerobot before using the entry commands below. If the terminal is already at the repository root after installation, keep that working directory.</span><span data-lang="zh">后续新开终端时，从 lerobot 仓库的上一级目录使用下方入口命令。安装完成后若已位于仓库根目录，保持当前工作目录即可。</span></p>
+<p data-readme-copy="2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This document assumes that all commands are run from the LeRobot repository root:</span><span data-lang="zh" lang="zh-CN">本文档默认所有命令都从 LeRobot 仓库根目录运行：</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-copy="3" data-i18n-ignore lang="zh-CN">cd lerobot
+conda activate lerobot
+</code></pre></div>
+<p data-readme-copy="4" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If you are not using a Conda environment, first confirm that the current Python can run <code>python -c "import lerobot"</code>.</span><span data-lang="zh" lang="zh-CN">如果使用的不是 Conda 环境，也应先确认当前 Python 能够执行 <code>python -c "import lerobot"</code>。</span></p>
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>git clone https://github.com/YyyYyy0604/BREE-v1.git
-cd BREE-v1
-git checkout e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb
-conda create -n bree python=3.10 -y
-conda activate bree
-conda install ffmpeg=7.1.1 -c conda-forge -y
-python -m pip install -e ".[feetech]"
-python -c "import lerobot; print(lerobot.__file__)"
-lerobot-info</code></pre>
-</div><p><span data-lang="en">The revision above is the documentation baseline. The SO-101 motor extra is <span class="mono">feetech</span>. Install model-specific extras for the policy you use; see <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/pyproject.toml">pyproject.toml</a>.</span><span data-lang="zh">上面的版本是本指南的对照基线。SO-101 的舵机附加依赖为 <span class="mono">feetech</span>。按所用策略安装模型依赖，具体见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/pyproject.toml">pyproject.toml</a>。</span></p>
+<!-- readme-block:18:start -->
+<h2 data-readme-block="18" data-i18n-ignore lang="zh-CN" id="readme-3"><span data-lang="en" lang="en">3. Hardware identifiers</span><span data-lang="zh" lang="zh-CN">3. 硬件编号</span></h2>
+<!-- readme-block:18:end -->
 
-<h2><span data-lang="en">2 · Identify devices and grant access</span><span data-lang="zh">2 · 确认设备并赋予权限</span></h2>
+<!-- readme-block:19:start -->
+<h3 data-readme-block="19" data-i18n-ignore lang="zh-CN" id="readme-3-1"><span data-lang="en" lang="en">3.1 Arm serial ports</span><span data-lang="zh" lang="zh-CN">3.1 机械臂串口</span></h3>
+<!-- readme-block:19:end -->
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-find-port
-sudo chmod 666 /dev/ttyACM0 /dev/ttyACM1 /dev/ttyACM2 /dev/ttyACM3
-lerobot-find-cameras opencv</code></pre>
-</div>
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th><th><span data-lang="en">Example port</span><span data-lang="zh">示例端口</span></th><th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
-<tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
-<tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
-<tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr></tbody></table>
-</div><p><span data-lang="en">The operating guide uses global / left wrist / right wrist indices <span class="mono">0 / 2 / 4</span>. Check live views after every reconnect. ACT and SmolVLA evaluation JSON files instead contain <span class="mono">0 / 4 / 2</span>; XVLA contains <span class="mono">0 / 2 / 4</span>. Update the selected configuration to match your hardware.</span><span data-lang="zh">操作指南使用全局 / 左腕 / 右腕编号 <span class="mono">0 / 2 / 4</span>。每次重连都应按实时画面辨认。ACT 与 SmolVLA 评测 JSON 中则为 <span class="mono">0 / 4 / 2</span>，XVLA 为 <span class="mono">0 / 2 / 4</span>。请按实际接线修改所选配置。</span></p>
+<!-- readme-block:20:start -->
+<p data-readme-block="20" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The current device mapping is:</span><span data-lang="zh" lang="zh-CN">当前设备约定如下：</span></p>
+<!-- readme-block:20:end -->
 
-<h2><span data-lang="en">3 · Repository map</span><span data-lang="zh">3 · 仓库目录</span></h2>
+<!-- readme-block:21:start -->
+<div class="table-wrap" data-readme-block="21" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Arm</span><span data-lang="zh" lang="zh-CN">机械臂</span></th><th><span data-lang="en" lang="en">Type</span><span data-lang="zh" lang="zh-CN">类型</span></th><th><span data-lang="en" lang="en">Port</span><span data-lang="zh" lang="zh-CN">端口</span></th><th><span data-lang="en" lang="en">Calibration ID</span><span data-lang="zh" lang="zh-CN">校准 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en" lang="en">Left follower</span><span data-lang="zh" lang="zh-CN">左从臂</span></td><td>follower</td><td><code>/dev/ttyACM0</code></td><td><code>follower_arm_left</code></td></tr><tr><td><span data-lang="en" lang="en">Right follower</span><span data-lang="zh" lang="zh-CN">右从臂</span></td><td>follower</td><td><code>/dev/ttyACM1</code></td><td><code>follower_arm_right</code></td></tr><tr><td><span data-lang="en" lang="en">Left leader</span><span data-lang="zh" lang="zh-CN">左主臂</span></td><td>leader</td><td><code>/dev/ttyACM2</code></td><td><code>leader_arm_left</code></td></tr><tr><td><span data-lang="en" lang="en">Right leader</span><span data-lang="zh" lang="zh-CN">右主臂</span></td><td>leader</td><td><code>/dev/ttyACM3</code></td><td><code>leader_arm_right</code></td></tr></tbody></table></div>
+<!-- readme-block:21:end -->
 
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Path</span><span data-lang="zh">路径</span></th><th><span data-lang="en">Purpose</span><span data-lang="zh">用途</span></th></tr></thead><tbody><tr><td><span class="mono">BREE/robot_calibration/</span></td><td><span data-lang="en">Fixture calibration and H-pose checks</span><span data-lang="zh">夹具标定与 H 位验证</span></td></tr>
-<tr><td><span class="mono">BREE/camera_calibration/</span></td><td><span data-lang="en">Image-control tuning and restoration, global and wrist reference overlays</span><span data-lang="zh">图像参数调节与恢复、全局及腕部参考图叠加</span></td></tr>
-<tr><td><span class="mono">BREE/camera_reference/</span></td><td><span data-lang="en">Saved camera installation references</span><span data-lang="zh">相机安装参考文件</span></td></tr>
-<tr><td><span class="mono">BREE/configs/</span></td><td><span data-lang="en">Policy training and evaluation JSON</span><span data-lang="zh">策略训练与评测 JSON</span></td></tr>
-<tr><td><span class="mono">BREE/model_training/</span></td><td><span data-lang="en">RDT and OpenPI training entry points</span><span data-lang="zh">RDT 与 OpenPI 训练入口</span></td></tr>
-<tr><td><span class="mono">BREE/model_inference/</span></td><td><span data-lang="en">RDT evaluation client</span><span data-lang="zh">RDT 评测客户端</span></td></tr>
-<tr><td><span class="mono">BREE/openpi_eval/</span></td><td><span data-lang="en">OpenPI server and robot client</span><span data-lang="zh">OpenPI 服务端与机器人客户端</span></td></tr>
-<tr><td><span class="mono">outputs/</span></td><td><span data-lang="en">Generated results and ID benchmark references; prepare OOD scenes and model checkpoints separately</span><span data-lang="zh">生成结果与 ID 评测参考图；OOD 场景与模型权重需另行准备</span></td></tr></tbody></table>
-</div>
-<h2><span data-lang="en">Optional · Docker</span><span data-lang="zh">可选 · Docker</span></h2>
-<p><span data-lang="en">The repository includes <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/docker/Dockerfile.user">a general LeRobot user image</a>. It installs all extras and is not a frozen BREE-specific environment. Build from the checked-out root:</span><span data-lang="zh">仓库提供 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/docker/Dockerfile.user">通用 LeRobot 用户镜像</a>，会安装全部附加依赖；它并非冻结的 BREE 专用环境。在已检出的仓库根目录构建：</span></p>
+<!-- readme-block:22:start -->
+<p data-readme-block="22" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">USB device indices may change after unplugging and reconnecting. Check the actual ports first, rather than relying only on the table.</span><span data-lang="zh" lang="zh-CN">USB 设备重新插拔后，编号可能变化。不要只根据表格判断，必须先检查实际端口。</span></p>
+<!-- readme-block:22:end -->
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>docker build -f docker/Dockerfile.user -t bree:local .
-docker run --rm -it \
-  --device /dev/ttyACM0 --device /dev/ttyACM1 \
-  --device /dev/ttyACM2 --device /dev/ttyACM3 \
-  --device /dev/video0 --device /dev/video2 --device /dev/video4 \
-  -p 8091:8091 -p 8092:8092 \
-  -v "$HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface" \
-  bree:local bash</code></pre>
-</div>
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">The image runs as <span class="mono">user_lerobot</span>. Ensure that user can access the mapped devices and cache. Browser previews in a container require <span class="mono">--web-host 0.0.0.0</span> with the matching published port. Live recording uses GUI windows; configure display access before using it in Docker. NVIDIA GPU access also requires host/container GPU setup.</span><span data-lang="zh">镜像以 <span class="mono">user_lerobot</span> 运行，需确保该用户可读写映射的设备与缓存。容器内浏览器预览需设置 <span class="mono">--web-host 0.0.0.0</span> 并发布对应端口。实时录制使用 GUI 窗口，在 Docker 中运行前需配置显示访问；NVIDIA GPU 还需配置主机与容器的 GPU 支持。</span></p>
-</div>
+<!-- readme-block:23:start -->
+<h3 data-readme-block="23" data-i18n-ignore lang="zh-CN" id="readme-3-2"><span data-lang="en" lang="en">3.2 Camera devices</span><span data-lang="zh" lang="zh-CN">3.2 相机设备</span></h3>
+<!-- readme-block:23:end -->
+
+<!-- readme-block:24:start -->
+<p data-readme-block="24" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The camera mapping recorded in <code>CalibrateREADME.md</code> is:</span><span data-lang="zh" lang="zh-CN"><code>CalibrateREADME.md</code> 中记录的相机映射为：</span></p>
+<!-- readme-block:24:end -->
+
+<!-- readme-block:25:start -->
+<div class="table-wrap" data-readme-block="25" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Camera</span><span data-lang="zh" lang="zh-CN">相机</span></th><th><span data-lang="en" lang="en">Device</span><span data-lang="zh" lang="zh-CN">设备</span></th></tr></thead><tbody><tr><td><span data-lang="en" lang="en">Global camera</span><span data-lang="zh" lang="zh-CN">全局相机</span></td><td><code>/dev/video0</code></td></tr><tr><td><span data-lang="en" lang="en">Left wrist camera</span><span data-lang="zh" lang="zh-CN">左腕相机</span></td><td><code>/dev/video2</code></td></tr><tr><td><span data-lang="en" lang="en">Right wrist camera</span><span data-lang="zh" lang="zh-CN">右腕相机</span></td><td><code>/dev/video4</code></td></tr></tbody></table></div>
+<!-- readme-block:25:end -->
+
+<!-- readme-block:26:start -->
+<p data-readme-block="26" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Note: confirm the mapping from live views after every startup, and explicitly pass the correct indices in evaluation commands.</span><span data-lang="zh" lang="zh-CN">注意：每次启动后都要根据实时画面确认，并在评估命令中显式传入正确编号。</span></p>
+<!-- readme-block:26:end -->
+
+<!-- readme-block:27:start -->
+<h2 data-readme-block="27" data-i18n-ignore lang="zh-CN" id="readme-4"><span data-lang="en" lang="en">4. Startup checks and permissions</span><span data-lang="zh" lang="zh-CN">4. 开机检查与权限</span></h2>
+<!-- readme-block:27:end -->
+
+<!-- readme-block:28:start -->
+<h3 data-readme-block="28" data-i18n-ignore lang="zh-CN" id="readme-4-1"><span data-lang="en" lang="en">4.1 Find serial ports</span><span data-lang="zh" lang="zh-CN">4.1 查找串口</span></h3>
+<!-- readme-block:28:end -->
+
+<!-- readme-block:29:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="29" data-i18n-ignore lang="zh-CN" data-readme-code="3">lerobot-find-port
+</code></pre></div>
+<!-- readme-block:29:end -->
+
+<!-- readme-block:30:start -->
+<p data-readme-block="30" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Unplug and reconnect USB devices one at a time to identify the mapping between the four arms and <code>/dev/ttyACM0</code> through <code>/dev/ttyACM3</code>.</span><span data-lang="zh" lang="zh-CN">逐个拔插 USB，确认四条机械臂与 <code>/dev/ttyACM0</code>～<code>/dev/ttyACM3</code> 的对应关系。</span></p>
+<!-- readme-block:30:end -->
+
+<!-- readme-block:31:start -->
+<h3 data-readme-block="31" data-i18n-ignore lang="zh-CN" id="readme-4-2"><span data-lang="en" lang="en">4.2 Grant serial-port permissions</span><span data-lang="zh" lang="zh-CN">4.2 赋予串口权限</span></h3>
+<!-- readme-block:31:end -->
+
+<!-- readme-block:32:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="32" data-i18n-ignore lang="zh-CN" data-readme-code="4">sudo chmod 666 /dev/ttyACM0
+sudo chmod 666 /dev/ttyACM1
+sudo chmod 666 /dev/ttyACM2
+sudo chmod 666 /dev/ttyACM3
+</code></pre></div>
+<!-- readme-block:32:end -->
+
+<!-- readme-block:33:start -->
+<p data-readme-block="33" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This usually needs to be repeated after powering off a device, reconnecting USB or restarting the system.</span><span data-lang="zh" lang="zh-CN">设备断电、重新插入 USB 或系统重启后，通常需要重新执行。</span></p>
+<!-- readme-block:33:end -->
+
+<!-- readme-block:34:start -->
+<h3 data-readme-block="34" data-i18n-ignore lang="zh-CN" id="readme-4-3"><span data-lang="en" lang="en">4.3 Find cameras</span><span data-lang="zh" lang="zh-CN">4.3 查找相机</span></h3>
+<!-- readme-block:34:end -->
+
+<!-- readme-block:35:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="35" data-i18n-ignore lang="zh-CN" data-readme-code="5">lerobot-find-cameras opencv
+</code></pre></div>
+<!-- readme-block:35:end -->
+
+<!-- readme-block:36:start -->
+<p data-readme-block="36" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Record the global, left wrist and right wrist camera indices from their actual views. Later commands use <code>0 / 2 / 4</code> as an example; if the current detection results differ, update the commands accordingly.</span><span data-lang="zh" lang="zh-CN">根据实际画面记录全局、左腕和右腕相机编号。后面的命令以 <code>0 / 2 / 4</code> 为例；如果本次检测结果不同，必须同步修改命令。</span></p>
+<!-- readme-block:36:end -->
 
 <div class="docs-pager">
-      <a href="assembly.html">
-        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
-        <div class="title"><span data-lang="en">2 · Hardware Assembly</span><span data-lang="zh">2 · 硬件装配</span></div>
-      </a>
-      <a class="next" href="calibration.html">
-        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
-        <div class="title"><span data-lang="en">4 · System Calibration</span><span data-lang="zh">4 · 系统标定</span></div>
-      </a>
-    </div>
+<a href="assembly.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></div></a>
+<a href="calibration.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div></a>
+</div>
   </main>
 </div>
 

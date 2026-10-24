@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-idrefs2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
   <link rel="stylesheet" href="../assets/css/evaluation-guide.css?v=20261024-idrefs2">
 </head>
@@ -21,10 +21,8 @@
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
     <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb">
-      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></b>
-    </span>
-    <div class="nav-actions">
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></b></span>
+<div class="nav-actions">
       <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en">EN</button>
@@ -38,66 +36,333 @@
 <div class="docs-layout">
   <aside class="docs-sidebar">
     <nav class="docs-nav">
-      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
-      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
-      <a href="evaluation.html" class="active"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-    </nav>
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html" class="active"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
   </aside>
 
   <main class="docs-main">
-    <!-- Commands, ID images and selection records: BREE-v1 e97d1b6. See assets/BREE-v1-NOTICE.md. -->
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
 
 <h1><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></h1>
-<p class="lead"><span data-lang="en">Use the policy-specific JSON configuration to record real-robot evaluation episodes. The current templates use 20 episodes, a 120-second limit and seeds grouped in sets of five saved episodes.</span><span data-lang="zh">使用策略对应的 JSON 配置录制真机评测回合。当前模板为 20 回合、每回合最长 120 秒，并以每 5 个已保存回合为一组设置 seed。</span></p>
-<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
+<details class="guide-contents"><summary><span data-lang="en">On this page</span><span data-lang="zh">本页内容</span></summary><nav class="readme-page-toc" aria-label="本页内容"><ul><li><a href="#readme-11" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">11. Model evaluation</span><span data-lang="zh" lang="zh-CN">11. 模型评估</span></a></li><li><a href="#readme-11-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">11.1 LeRobot policy evaluation</span><span data-lang="zh" lang="zh-CN">11.1 LeRobot 策略评估</span></a></li><li><a href="#readme-11-1-1" data-i18n-ignore lang="zh-CN">11.1.1 ACT</a></li><li><a href="#readme-11-1-2" data-i18n-ignore lang="zh-CN">11.1.2 SmolVLA-RoboTwin</a></li><li><a href="#readme-11-1-3" data-i18n-ignore lang="zh-CN">11.1.3 XVLA</a></li><li><a href="#readme-11-1-4" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">11.1.4 Configurable parameters and their effects</span><span data-lang="zh" lang="zh-CN">11.1.4 可修改参数及作用</span></a></li><li><a href="#readme-11-2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">11.2 RDT evaluation</span><span data-lang="zh" lang="zh-CN">11.2 RDT 评估</span></a></li><li><a href="#readme-11-3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">11.3 OpenPI evaluation</span><span data-lang="zh" lang="zh-CN">11.3 OpenPI 评估</span></a></li><li><a href="#openpi-evaluation-readme-block-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">OpenPI · complete evaluation instructions</span><span data-lang="zh" lang="zh-CN">OpenPI · 完整评测说明</span></a></li></ul></nav></details>
 
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Before you evaluate</span><span data-lang="zh">评测之前</span></div><p><span data-lang="en">Verify the H pose, all three reference overlays, camera order and action units first. These LeRobot evaluation commands can move the arms; they are not dry runs. Prepare the checkpoint and scene images before starting.</span><span data-lang="zh">先验证 H 位、三路参考图叠加、相机顺序与动作单位。以下 LeRobot 评测命令会驱动机械臂，并非 dry-run；启动前准备好模型权重与场景参考图。</span></p>
-</div>
-<h2><span data-lang="en">1 · Check teleoperation</span><span data-lang="zh">1 · 遥操作自检</span></h2>
-<p><span data-lang="en">Restore the saved image controls from <a href="calibration.html#camera-settings">Camera parameters</a>, then check the live settings after opening the streams. Keep these settings consistent with collection for the matched ID/OOD comparison.</span><span data-lang="zh">先按<a href="calibration.html#camera-settings">相机参数统一</a>恢复保存的图像参数，启动视频流后核对实际值。配对 ID/OOD 比较应保持这些参数与采集时一致。</span></p>
+<span id="run-evaluation"></span>
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-teleoperate \
-  --robot.type=bi_so_follower \
-  --robot.id=follower_arm \
-  --robot.left_arm_config.port=/dev/ttyACM0 \
-  --robot.right_arm_config.port=/dev/ttyACM1 \
-  --robot.left_arm_config.use_degrees=true \
-  --robot.right_arm_config.use_degrees=true \
-  --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
-  --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
-  --teleop.type=bi_so_leader \
-  --teleop.id=leader_arm \
-  --teleop.left_arm_config.port=/dev/ttyACM2 \
-  --teleop.right_arm_config.port=/dev/ttyACM3 \
-  --teleop.left_arm_config.use_degrees=true \
-  --teleop.right_arm_config.use_degrees=true \
-  --fps=30 \
-  --display_data=true</code></pre>
-</div><p><span data-lang="en">Stop teleoperation before starting policy evaluation so the serial ports and cameras are released. Pure policy evaluation does not require the leader arms.</span><span data-lang="zh">启动策略评测前先停止遥操作，释放串口和相机。纯策略评测不需要连接主臂。</span></p>
+<!-- readme-block:144:start -->
+<h2 data-readme-block="144" data-i18n-ignore lang="zh-CN" id="readme-11"><span data-lang="en" lang="en">11. Model evaluation</span><span data-lang="zh" lang="zh-CN">11. 模型评估</span></h2>
+<!-- readme-block:144:end -->
 
-<h2><span data-lang="en">2 · Select and edit a configuration</span><span data-lang="zh">2 · 选择并编辑配置</span></h2>
+<!-- readme-block:145:start -->
+<p data-readme-block="145" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">When connecting any model to real hardware for the first time, begin with a read-only check, a dry-run, or a minimal motion range. Allow real motion only after confirming the camera order, state dimensions, action units, and joint directions.</span><span data-lang="zh" lang="zh-CN">任何模型第一次连接实机时，都应先采用只读、dry-run 或最小动作范围进行检查。确认相机顺序、状态维度、动作单位和关节方向无误后，再允许真实动作。</span></p>
+<!-- readme-block:145:end -->
 
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Policy</span><span data-lang="zh">策略</span></th><th><span data-lang="en">Repository template</span><span data-lang="zh">仓库模板</span></th><th><span data-lang="en">Model camera names</span><span data-lang="zh">模型相机名</span></th><th><span data-lang="en">Global / left wrist / right wrist</span><span data-lang="zh">全局 / 左腕 / 右腕</span></th></tr></thead><tbody><tr><td>ACT</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/configs/act_eval.json">act_eval.json</a></td><td><span class="mono">left_global / left_wrist / right_wrist</span></td><td><span class="mono">0 / 4 / 2</span></td></tr>
-<tr><td>SmolVLA</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/configs/smolvla_eval.json">smolvla_eval.json</a></td><td><span class="mono">camera1 / camera2 / camera3</span></td><td><span class="mono">0 / 4 / 2</span></td></tr>
-<tr><td>XVLA</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/configs/xvla_eval.json">xvla_eval.json</a></td><td><span class="mono">image / image2 / image3</span></td><td><span class="mono">0 / 2 / 4</span></td></tr></tbody></table>
-</div><p><span data-lang="en">Copy the template to a new run configuration. Edit <span class="mono">robot.*_arm_config.port</span>, camera <span class="mono">index_or_path</span>, <span class="mono">dataset.repo_id</span>, <span class="mono">dataset.single_task</span> and <span class="mono">scene_reference</span>. The checked-in paths point to local experiments; prepare the model weights and the ID/OOD scene sets described in <a href="#id-ood">step 3</a>.</span><span data-lang="zh">将模板复制为本次实验的独立配置，修改 <span class="mono">robot.*_arm_config.port</span>、相机 <span class="mono">index_or_path</span>、<span class="mono">dataset.repo_id</span>、<span class="mono">dataset.single_task</span> 与 <span class="mono">scene_reference</span>。仓库模板中的路径对应本地实验；需准备模型权重和<a href="#id-ood">第 3 节</a>说明的 ID/OOD 场景集。</span></p>
+<!-- readme-block:146:start -->
+<h3 data-readme-block="146" data-i18n-ignore lang="zh-CN" id="readme-11-1"><span data-lang="en" lang="en">11.1 LeRobot policy evaluation</span><span data-lang="zh" lang="zh-CN">11.1 LeRobot 策略评估</span></h3>
+<!-- readme-block:146:end -->
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>mkdir -p outputs/eval
-cp BREE/configs/act_eval.json outputs/eval/act_run.json</code></pre>
-</div>
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">Keep <span class="mono">dataset.rename_map</span>, <span class="mono">scene_reference</span> and <span class="mono">evaluation_seed</span> in the JSON file. The operating guide reports parser errors when passing these directly on the command line. Keep <span class="mono">use_degrees=true</span> consistent with the training data.</span><span data-lang="zh">将 <span class="mono">dataset.rename_map</span>、<span class="mono">scene_reference</span> 与 <span class="mono">evaluation_seed</span> 保留在 JSON 中；操作指南记录了直接通过命令行传入时的解析问题。<span class="mono">use_degrees=true</span> 必须与训练数据的动作单位一致。</span></p>
-</div>
-<h2 id="id-ood"><span data-lang="en">3 · ID / OOD scenes and operation</span><span data-lang="zh">3 · ID / OOD 场景与操作</span></h2>
+<!-- readme-block:147:start -->
+<p data-readme-block="147" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The following restores the ID/OOD benchmark evaluation procedure used in the original <code>CalibrateREADME</code>: 20 episodes per evaluation run, a maximum of 120 seconds per episode, scene reference images used in sequence, and an evaluation seed assigned to each group of 5 episodes. The current argument parser cannot correctly handle <code>--dataset.rename_map</code>, <code>--scene_reference</code>, or <code>--evaluation_seed</code> on the command line, so these parameters are placed in the corresponding JSON configurations, with exactly the same effect as the original full commands.</span><span data-lang="zh" lang="zh-CN">下面恢复原 <code>CalibrateREADME</code> 使用的 ID/OOD benchmark 评估方式：每轮评估 20 个 episode、单次最长 120 秒、依次轮换场景参考图，并以每 5 个 episode 为一组设置评估 seed。当前版本的参数解析器不能正确处理命令行中的 <code>--dataset.rename_map</code>、<code>--scene_reference</code> 和 <code>--evaluation_seed</code>，所以这些参数放在对应 JSON 配置中，作用与原长命令完全相同。</span></p>
+<!-- readme-block:147:end -->
+
+<!-- readme-block:148:start -->
+<h4 data-readme-block="148" data-i18n-ignore lang="zh-CN" id="readme-11-1-1">11.1.1 ACT</h4>
+<!-- readme-block:148:end -->
+
+<!-- readme-block:149:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="149" data-i18n-ignore lang="zh-CN" data-readme-code="37">HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-record \
+  --config_path=BREE/configs/act_eval.json \
+  --policy.path=outputs/train/ACT/task08_cylinder/020000/pretrained_model \
+  --policy.device=cuda \
+  --policy.use_amp=true
+</code></pre></div>
+<!-- readme-block:149:end -->
+
+<!-- readme-block:150:start -->
+<p data-readme-block="150" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">ACT uses <code>left_global</code>, <code>left_wrist</code>, and <code>right_wrist</code> directly, without renaming camera keys. To evaluate a different saved training step, change only <code>--policy.path</code>.</span><span data-lang="zh" lang="zh-CN">ACT 直接使用 <code>left_global</code>、<code>left_wrist</code>、<code>right_wrist</code>，不需要相机键重命名。若要评估其他保存步数，只修改 <code>--policy.path</code>。</span></p>
+<!-- readme-block:150:end -->
+
+<!-- readme-block:151:start -->
+<h4 data-readme-block="151" data-i18n-ignore lang="zh-CN" id="readme-11-1-2">11.1.2 SmolVLA-RoboTwin</h4>
+<!-- readme-block:151:end -->
+
+<!-- readme-block:152:start -->
+<p data-readme-block="152" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">SmolVLA requires the three physical cameras to be mapped to <code>camera1</code>, <code>camera2</code>, and <code>camera3</code>. This mapping is saved in <code>BREE/configs/smolvla_eval.json</code>:</span><span data-lang="zh" lang="zh-CN">SmolVLA 必须把三路真实相机映射为 <code>camera1</code>、<code>camera2</code>、<code>camera3</code>，映射已保存在 <code>BREE/configs/smolvla_eval.json</code>：</span></p>
+<!-- readme-block:152:end -->
+
+<!-- readme-block:153:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="153" data-i18n-ignore lang="zh-CN" data-readme-code="38">HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-record \
+  --config_path=BREE/configs/smolvla_eval.json \
+  --policy.path=outputs/train/SmolVLA_RoboTwin/smolvla_robotwin_task04_drawer_A_50_30k/checkpoints/020000/pretrained_model \
+  --policy.device=cuda \
+  --policy.use_amp=true
+</code></pre></div>
+<!-- readme-block:153:end -->
+
+<!-- readme-block:154:start -->
+<p data-readme-block="154" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This configuration evaluates task04 drawer by default. The task text and scene reference directory are already set to match the original command. Before running it, confirm that the checkpoint above has been placed at that path inside the repository. If the model is still stored elsewhere, set <code>--policy.path</code> to its actual location.</span><span data-lang="zh" lang="zh-CN">该配置默认评估 task04 drawer，任务文本和场景参考目录均已按原命令写入。运行前必须确认上述 checkpoint 已放入仓库内该路径；如果模型仍位于其他目录，应把 <code>--policy.path</code> 改成其实际位置。</span></p>
+<!-- readme-block:154:end -->
+
+<!-- readme-block:155:start -->
+<h4 data-readme-block="155" data-i18n-ignore lang="zh-CN" id="readme-11-1-3">11.1.3 XVLA</h4>
+<!-- readme-block:155:end -->
+
+<!-- readme-block:156:start -->
+<p data-readme-block="156" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">XVLA requires the three physical cameras to be mapped to <code>image</code>, <code>image2</code>, and <code>image3</code>. This mapping is saved in <code>BREE/configs/xvla_eval.json</code>:</span><span data-lang="zh" lang="zh-CN">XVLA 必须把三路真实相机映射为 <code>image</code>、<code>image2</code>、<code>image3</code>，映射已保存在 <code>BREE/configs/xvla_eval.json</code>：</span></p>
+<!-- readme-block:156:end -->
+
+<!-- readme-block:157:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="157" data-i18n-ignore lang="zh-CN" data-readme-code="39">HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-record \
+  --config_path=BREE/configs/xvla_eval.json \
+  --policy.path=outputs/train/XVLA/xvla_task08_cylinder_insertion_50_25k/checkpoints/020000/pretrained_model \
+  --policy.device=cuda \
+  --policy.use_amp=true
+</code></pre></div>
+<!-- readme-block:157:end -->
+
+<span id="evaluation-parameters"></span>
+
+<!-- readme-block:158:start -->
+<h4 data-readme-block="158" data-i18n-ignore lang="zh-CN" id="readme-11-1-4"><span data-lang="en" lang="en">11.1.4 Configurable parameters and their effects</span><span data-lang="zh" lang="zh-CN">11.1.4 可修改参数及作用</span></h4>
+<!-- readme-block:158:end -->
+
+<!-- readme-block:159:start -->
+<p data-readme-block="159" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The three <code>BREE/configs/*_eval.json</code> files share the same structure, but their camera indices and camera key mappings can differ. Do not use the configurations interchangeably.</span><span data-lang="zh" lang="zh-CN">三个 <code>BREE/configs/*_eval.json</code> 的结构相同，但相机编号和相机键映射可以不同。不要直接混用配置。</span></p>
+<!-- readme-block:159:end -->
+
+<!-- readme-block:160:start -->
+<div class="table-wrap" data-readme-block="160" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Parameter</span><span data-lang="zh" lang="zh-CN">参数</span></th><th><span data-lang="en" lang="en">Purpose and how to change it</span><span data-lang="zh" lang="zh-CN">作用与修改方法</span></th></tr></thead><tbody><tr><td><code>--policy.path</code></td><td><span data-lang="en" lang="en">The model checkpoint to load. Change it when switching tasks, models, or saved training steps. The directory should contain <code>config.json</code> and model weights.</span><span data-lang="zh" lang="zh-CN">要加载的模型 checkpoint。切换任务、模型或保存步数时必须修改。目录中应存在 <code>config.json</code> 和模型权重。</span></td></tr><tr><td><code>--policy.device</code></td><td><span data-lang="en" lang="en">The inference device. Use <code>cuda</code> for GPU inference; switch to <code>cpu</code> only when troubleshooting compatibility.</span><span data-lang="zh" lang="zh-CN">推理设备。GPU 使用 <code>cuda</code>；只有排查兼容问题时才改为 <code>cpu</code>。</span></td></tr><tr><td><code>--policy.use_amp</code></td><td><span data-lang="en" lang="en">Whether to enable automatic mixed precision. <code>true</code> generally reduces GPU memory use and improves GPU inference speed.</span><span data-lang="zh" lang="zh-CN">是否启用自动混合精度。<code>true</code> 通常降低显存占用并提高 GPU 推理速度。</span></td></tr><tr><td><code>robot.*_arm_config.port</code></td><td><span data-lang="en" lang="en">The left and right follower serial ports. Update the JSON if reconnecting the devices changes their indices.</span><span data-lang="zh" lang="zh-CN">左右 follower 串口。设备重新插拔后如果编号变化，需要修改 JSON。</span></td></tr><tr><td><code>robot.*_arm_config.use_degrees</code></td><td><span data-lang="en" lang="en">Use degrees for states and actions. This is <code>true</code> in all three current configurations and must match the units in the training data.</span><span data-lang="zh" lang="zh-CN">使用角度制状态和动作。当前三个配置均为 <code>true</code>，必须与训练数据单位一致。</span></td></tr><tr><td><code>index_or_path</code></td><td><span data-lang="en" lang="en">Camera device indices. The current ACT/SmolVLA configurations use global 0, left wrist 4, and right wrist 2; XVLA uses global 0, left wrist 2, and right wrist 4. Confirm the actual device connections before running.</span><span data-lang="zh" lang="zh-CN">相机设备编号。ACT/SmolVLA 配置当前为全局 0、左腕 4、右腕 2；XVLA 为全局 0、左腕 2、右腕 4。运行前必须按实际接线确认。</span></td></tr><tr><td><code>width</code>、<code>height</code>、<code>fps</code>、<code>fourcc</code></td><td><span data-lang="en" lang="en">Camera resolution, frame rate, and encoding format. The current values are 640×480, 30 FPS, and MJPG. After changing them, ensure that all three cameras remain stably synchronized.</span><span data-lang="zh" lang="zh-CN">相机分辨率、帧率和编码格式。当前为 640×480、30 FPS、MJPG。修改后要保证三个相机稳定同步。</span></td></tr><tr><td><code>warmup_s</code></td><td><span data-lang="en" lang="en">Camera warmup time in seconds after startup. The current value is 3 seconds; increase it if exposure has not yet stabilized.</span><span data-lang="zh" lang="zh-CN">相机启动后的预热秒数。当前为 3 秒，可在曝光尚未稳定时适当增大。</span></td></tr><tr><td><code>dataset.repo_id</code></td><td><span data-lang="en" lang="en">The name of the local evaluation dataset. Use a new name for every new experiment to avoid conflicts with existing datasets. Even with <code>push_to_hub=false</code>, the <code>用户/数据集</code> format is recommended.</span><span data-lang="zh" lang="zh-CN">本地评估数据集名称。每次新实验应使用新名称，避免与已有数据集冲突。<code>push_to_hub=false</code> 时仍建议保持 <code>用户/数据集</code> 格式。</span></td></tr><tr><td><code>dataset.single_task</code></td><td><span data-lang="en" lang="en">The task text supplied to the VLA and also saved in the evaluation data. It must match both the model training prompt and the actual task. ACT does not depend on language, but this field is still recorded.</span><span data-lang="zh" lang="zh-CN">输入给 VLA 的任务文本，同时写入评估数据。必须与模型训练提示词和实际任务一致；ACT 不依赖语言，但仍会记录该字段。</span></td></tr><tr><td><code>dataset.rename_map</code></td><td><span data-lang="en" lang="en">Convert physical camera keys to the keys used during model training. Leave this empty for ACT; SmolVLA uses <code>camera1/2/3</code>, and XVLA uses <code>image/image2/image3</code>.</span><span data-lang="zh" lang="zh-CN">把真实相机键转换为模型训练时使用的键。ACT 为空；SmolVLA 使用 <code>camera1/2/3</code>；XVLA 使用 <code>image/image2/image3</code>。</span></td></tr><tr><td><code>dataset.num_episodes</code></td><td><span data-lang="en" lang="en">The total number of evaluation episodes; currently 20.</span><span data-lang="zh" lang="zh-CN">总评估次数，当前为 20。</span></td></tr><tr><td><code>dataset.episode_time_s</code></td><td><span data-lang="en" lang="en">The maximum execution time for each episode; currently 120 seconds.</span><span data-lang="zh" lang="zh-CN">每个 episode 的最长执行时间，当前为 120 秒。</span></td></tr><tr><td><code>dataset.reset_time_s</code></td><td><span data-lang="en" lang="en">The fixed reset wait between episodes. The current value of 0 means there is no additional countdown wait.</span><span data-lang="zh" lang="zh-CN">episode 之间的固定复位等待时间。当前为 0，表示不额外倒计时等待。</span></td></tr><tr><td><code>dataset.push_to_hub</code></td><td><span data-lang="en" lang="en">Whether to upload evaluation data automatically. This is currently <code>false</code>, so data is saved only on the local machine.</span><span data-lang="zh" lang="zh-CN">是否自动上传评估数据。当前为 <code>false</code>，只保存在本机。</span></td></tr><tr><td><code>enable_home_hotkey</code></td><td><span data-lang="en" lang="en">Enable the <code>H</code> key to return to the configured home pose. Before evaluation, ensure that the motion path is free of collision risks.</span><span data-lang="zh" lang="zh-CN">启用 <code>H</code> 键回到设定 home pose。评估前应先确保该动作路径没有碰撞风险。</span></td></tr><tr><td><code>home_duration_s</code></td><td><span data-lang="en" lang="en">The duration of the smooth return-to-home motion; currently 2 seconds. Increasing it reduces the motion speed.</span><span data-lang="zh" lang="zh-CN">回 home 的平滑运动时长，当前为 2 秒；增大可降低运动速度。</span></td></tr><tr><td><code>scene_reference</code></td><td><span data-lang="en" lang="en">The directory containing ID/OOD scene reference images. Change it when switching tasks or OOD conditions, for example by replacing the final <code>ID</code> with the corresponding <code>OOD</code> directory.</span><span data-lang="zh" lang="zh-CN">ID/OOD 场景参考图片目录。切换任务或切换到 OOD 条件时修改，例如将末尾 <code>ID</code> 改为对应的 <code>OOD</code> 目录。</span></td></tr><tr><td><code>scene_reference_camera</code></td><td><span data-lang="en" lang="en">The camera used for the reference overlay; currently the fixed global camera, <code>global</code>.</span><span data-lang="zh" lang="zh-CN">用哪一路相机叠加参考图，当前为固定全局相机 <code>global</code>。</span></td></tr><tr><td><code>scene_overlay_alpha</code></td><td><span data-lang="en" lang="en">The reference image opacity, from 0 to 1. The current value is 0.4; higher values make the reference more visible.</span><span data-lang="zh" lang="zh-CN">参考图透明度，范围 0～1。当前 0.4；数值越大参考图越明显。</span></td></tr><tr><td><code>episodes_per_reference</code></td><td><span data-lang="en" lang="en">The number of consecutive successful episodes that use each reference image. The current value is 1, so the next image is selected after each completed episode.</span><span data-lang="zh" lang="zh-CN">每张参考图连续用于多少个成功 episode。当前为 1，即每次完成后切换下一张图。</span></td></tr><tr><td><code>scene_reference_cycle</code></td><td><span data-lang="en" lang="en">Whether to loop back to the first reference image after reaching the last one. Keep this <code>true</code> when 20 evaluation episodes require multiple passes through the reference images.</span><span data-lang="zh" lang="zh-CN">到达最后一张参考图后是否从第一张重新循环。20 次评估需要多轮参考图时保持 <code>true</code>。</span></td></tr><tr><td><code>evaluation_seed</code></td><td><span data-lang="en" lang="en">The seed for the first evaluation group; currently 0. This changes stochastic inference only for policies that support <code>inference_seed</code>; ACT output is largely unaffected.</span><span data-lang="zh" lang="zh-CN">第一组评估使用的 seed，当前为 0。仅对支持 <code>inference_seed</code> 的策略改变随机推理；ACT 输出基本不受影响。</span></td></tr><tr><td><code>episodes_per_seed</code></td><td><span data-lang="en" lang="en">The number of consecutive successful episodes per seed. The current value is 5, dividing 20 evaluation episodes into 4 seed groups.</span><span data-lang="zh" lang="zh-CN">每个 seed 连续使用多少个成功 episode。当前为 5，因此 20 次评估分为 4 组 seed。</span></td></tr><tr><td><code>scene_home_requires_h</code></td><td><span data-lang="en" lang="en">When <code>true</code>, pressing <code>H</code> is required to return home during scene preview. This is currently <code>false</code>.</span><span data-lang="zh" lang="zh-CN"><code>true</code> 时场景预览阶段必须按 <code>H</code> 才会回 home；当前为 <code>false</code>。</span></td></tr><tr><td><code>require_leader_home_alignment</code></td><td><span data-lang="en" lang="en">Whether the leader and follower home poses must align before an episode can start. Policy-only evaluation has no leader, so keep this <code>false</code>.</span><span data-lang="zh" lang="zh-CN">是否要求 leader 与 follower 的 home 姿态对齐后才能开始。纯 policy 评估没有 leader，保持 <code>false</code>。</span></td></tr><tr><td><code>display_data</code></td><td><span data-lang="en" lang="en">Whether to display camera and state data; currently <code>true</code>.</span><span data-lang="zh" lang="zh-CN">是否显示相机和状态数据，当前为 <code>true</code>。</span></td></tr><tr><td><code>play_sounds</code></td><td><span data-lang="en" lang="en">Whether to play spoken prompts for episode starts, ends, and other events; currently <code>true</code>.</span><span data-lang="zh" lang="zh-CN">是否播放 episode 开始、结束等语音提示，当前为 <code>true</code>。</span></td></tr></tbody></table></div>
+<!-- readme-block:160:end -->
+
+<!-- readme-block:161:start -->
+<p data-readme-block="161" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en"><code>HF_HUB_OFFLINE=1</code> and <code>TRANSFORMERS_OFFLINE=1</code> force the use of local model files only; missing cached files cause an error. <code>PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True</code> helps reduce CUDA memory fragmentation. Before the first run, check the checkpoint, camera indices, task text, and <code>scene_reference</code> individually.</span><span data-lang="zh" lang="zh-CN"><code>HF_HUB_OFFLINE=1</code> 和 <code>TRANSFORMERS_OFFLINE=1</code> 强制只使用本地模型文件；若缺少缓存会直接报错。<code>PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True</code> 用于缓解 CUDA 显存碎片。第一次运行前，应先逐项核对 checkpoint、相机编号、任务文本和 <code>scene_reference</code>。</span></p>
+<!-- readme-block:161:end -->
+
+<!-- readme-block:162:start -->
+<h3 data-readme-block="162" data-i18n-ignore lang="zh-CN" id="readme-11-2"><span data-lang="en" lang="en">11.2 RDT evaluation</span><span data-lang="zh" lang="zh-CN">11.2 RDT 评估</span></h3>
+<!-- readme-block:162:end -->
+
+<!-- readme-block:163:start -->
+<p data-readme-block="163" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The RDT client is located at:</span><span data-lang="zh" lang="zh-CN">RDT 客户端位于：</span></p>
+<!-- readme-block:163:end -->
+
+<!-- readme-block:164:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="164" data-i18n-ignore lang="zh-CN" data-readme-code="40">BREE/model_inference/rdt_bi_so_inference.py
+</code></pre></div>
+<!-- readme-block:164:end -->
+
+<!-- readme-block:165:start -->
+<p data-readme-block="165" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">For the first run, add <code>--dry-run</code>. This reads the robot and cameras and performs inference without sending motor commands:</span><span data-lang="zh" lang="zh-CN">第一次运行必须增加 <code>--dry-run</code>，此时会读取机器人和相机并执行推理，但不会发送电机命令：</span></p>
+<!-- readme-block:165:end -->
+
+<!-- readme-block:166:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="166" data-i18n-ignore lang="zh-CN" data-readme-code="41">python BREE/model_inference/rdt_bi_so_inference.py \
+  --checkpoint PATH_TO_RDT_CHECKPOINT \
+  --siglip models/rdt/siglip-so400m-patch14-384 \
+  --lang-embedding outputs/rdt_lang/task01_pickplace.pt \
+  --global-camera 0 \
+  --left-wrist-camera 2 \
+  --right-wrist-camera 4 \
+  --steps 600 \
+  --num-episodes 10 \
+  --save-videos \
+  --video-output-dir outputs/rdt_eval_videos \
+  --dry-run
+</code></pre></div>
+<!-- readme-block:166:end -->
+
+<!-- readme-block:167:start -->
+<p data-readme-block="167" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Only after confirming that the predictions and directions are correct should you remove the final <code>--dry-run</code> line to execute real motion. RDT evaluation videos are saved in <code>outputs/rdt_eval_videos/</code>.</span><span data-lang="zh" lang="zh-CN">确认预测值和方向无误后，删除最后一行的 <code>--dry-run</code> 才会执行真实动作。RDT 评估视频统一保存在 <code>outputs/rdt_eval_videos/</code>。</span></p>
+<!-- readme-block:167:end -->
+
+<!-- readme-block:168:start -->
+<h3 data-readme-block="168" data-i18n-ignore lang="zh-CN" id="readme-11-3"><span data-lang="en" lang="en">11.3 OpenPI evaluation</span><span data-lang="zh" lang="zh-CN">11.3 OpenPI 评估</span></h3>
+<!-- readme-block:168:end -->
+
+<!-- readme-block:169:start -->
+<p data-readme-block="169" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">OpenPI has been consolidated under <code>BREE/openpi_eval/</code>. Run the server and robot client in two separate terminals.</span><span data-lang="zh" lang="zh-CN">OpenPI 已完整整理到 <code>BREE/openpi_eval/</code>。服务端和机器人客户端需要在两个终端中运行。</span></p>
+<!-- readme-block:169:end -->
+
+<!-- readme-block:170:start -->
+<p data-readme-block="170" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">In the first terminal, start the server using task01 as the example:</span><span data-lang="zh" lang="zh-CN">终端一，以 task01 为例启动服务端：</span></p>
+<!-- readme-block:170:end -->
+
+<!-- readme-block:171:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="171" data-i18n-ignore lang="zh-CN" data-readme-code="42">BREE/openpi_eval/run_server.sh \
+  --policy-config pi05_biso_task01 \
+  --checkpoint BREE/openpi_eval/checkpoints/task01_openpi_pi05_lora_2gpu_30k/20000 \
+  --dataset-repo-id yyyyyy0604/task01_pickplace_big_50
+</code></pre></div>
+<!-- readme-block:171:end -->
+
+<!-- readme-block:172:start -->
+<p data-readme-block="172" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">In the second terminal, start the client:</span><span data-lang="zh" lang="zh-CN">终端二启动客户端：</span></p>
+<!-- readme-block:172:end -->
+
+<!-- readme-block:173:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="173" data-i18n-ignore lang="zh-CN" data-readme-code="43">BREE/openpi_eval/run_client.sh \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --left-port /dev/ttyACM0 \
+  --right-port /dev/ttyACM1 \
+  --global-camera 0 \
+  --left-wrist-camera 2 \
+  --right-wrist-camera 4 \
+  --prompt "YOUR TASK DESCRIPTION" \
+  --steps 300
+</code></pre></div>
+<!-- readme-block:173:end -->
+
+<!-- readme-block:174:start -->
+<p data-readme-block="174" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The client defaults to dry-run and does not send motor commands. Add the following only after checking the predictions:</span><span data-lang="zh" lang="zh-CN">客户端默认是 dry-run，不会发送电机命令。确认预测结果后才增加：</span></p>
+<!-- readme-block:174:end -->
+
+<!-- readme-block:175:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="175" data-i18n-ignore lang="zh-CN" data-readme-code="44">--execute
+</code></pre></div>
+<!-- readme-block:175:end -->
+
+<!-- readme-block:176:start -->
+<p data-readme-block="176" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">For OpenPI task configurations, checkpoint mappings, fixed diffusion seeds, and dependencies, see:</span><span data-lang="zh" lang="zh-CN">OpenPI 的任务配置、checkpoint 对应关系、固定 diffusion seed 和依赖说明见：</span></p>
+<!-- readme-block:176:end -->
+
+<!-- readme-block:177:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="177" data-i18n-ignore lang="zh-CN" data-readme-code="45">BREE/openpi_eval/README.md
+</code></pre></div>
+<!-- readme-block:177:end -->
+
+<p><span data-lang="en">The complete contents of <code>BREE/openpi_eval/README.md</code> follow.</span><span data-lang="zh">下方完整展开 <code>BREE/openpi_eval/README.md</code> 的内容。</span></p>
+<p><span data-lang="en">Camera indices: the main operating README uses left wrist 2 and right wrist 4; the OpenPI-specific README below uses left wrist 4 and right wrist 2. Both commands retain their original indices. Confirm the actual mapping from live views before running.</span><span data-lang="zh">相机编号说明：主操作 README 的客户端示例为左腕 2、右腕 4；下方 OpenPI 专项 README 的示例为左腕 4、右腕 2。两份原文命令均保留各自编号，运行前按实时画面核对。</span></p>
+
+<!-- reference-block:openpi-evaluation:1:start -->
+<h2 data-reference-source="openpi-evaluation" data-reference-block="1" data-i18n-ignore lang="zh-CN" id="openpi-evaluation-readme-block-1"><span data-lang="en" lang="en">OpenPI dual-arm evaluation</span><span data-lang="zh" lang="zh-CN">OpenPI 双臂评估</span></h2>
+<!-- reference-block:openpi-evaluation:1:end -->
+
+<!-- reference-block:openpi-evaluation:2:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This directory contains the project files, Python environment, tokenizer, model checkpoints, server, and robot client required for OpenPI Pi0.5 dual-arm evaluation.</span><span data-lang="zh" lang="zh-CN">本目录包含 OpenPI Pi0.5 双臂评估需要的项目文件、Python 环境、tokenizer、模型 checkpoint、服务端和机器人客户端。</span></p>
+<!-- reference-block:openpi-evaluation:2:end -->
+
+<!-- reference-block:openpi-evaluation:3:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Directory structure:</span><span data-lang="zh" lang="zh-CN">目录结构：</span></p>
+<!-- reference-block:openpi-evaluation:3:end -->
+
+<!-- reference-block:openpi-evaluation:4:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="4" data-i18n-ignore lang="zh-CN" data-reference-code="1">BREE/openpi_eval/
+├── calibration/                       # OpenPI 客户端使用的双臂标定文件副本
+├── checkpoints/                       # task01～task08 微调 checkpoint
+├── openpi/                            # OpenPI 源码及 .venv
+├── openpi_data/                       # PaliGemma tokenizer 等离线数据
+├── python_runtime/                    # .venv 使用的 Python 3.11 runtime
+├── openpi_pi05_biso_inference.py      # 双臂机器人客户端
+├── serve_openpi_seeded_policy.py      # 支持固定扩散 seed 的服务端
+├── run_server.sh                      # 服务端统一入口
+└── run_client.sh                      # 客户端统一入口
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:4:end -->
+
+<!-- reference-block:openpi-evaluation:5:start -->
+<h3 data-reference-source="openpi-evaluation" data-reference-block="5" data-i18n-ignore lang="zh-CN" id="openpi-evaluation-readme-block-5"><span data-lang="en" lang="en">Start the server</span><span data-lang="zh" lang="zh-CN">启动服务端</span></h3>
+<!-- reference-block:openpi-evaluation:5:end -->
+
+<!-- reference-block:openpi-evaluation:6:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="6" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Run the following commands from the LeRobot repository root. This example uses task01:</span><span data-lang="zh" lang="zh-CN">以下命令均从 LeRobot 仓库根目录运行。示例为 task01：</span></p>
+<!-- reference-block:openpi-evaluation:6:end -->
+
+<!-- reference-block:openpi-evaluation:7:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="7" data-i18n-ignore lang="zh-CN" data-reference-code="2">BREE/openpi_eval/run_server.sh \
+  --policy-config pi05_biso_task01 \
+  --checkpoint BREE/openpi_eval/checkpoints/task01_openpi_pi05_lora_2gpu_30k/20000 \
+  --dataset-repo-id yyyyyy0604/task01_pickplace_big_50
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:7:end -->
+
+<!-- reference-block:openpi-evaluation:8:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="8" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The checkpoint dataset names for task02 and task03 differ from the default names in the configuration files. When starting the server, pass the repo id that actually exists in the checkpoint:</span><span data-lang="zh" lang="zh-CN">task02 和 task03 的 checkpoint 数据集名称与配置文件中的默认名称不同，启动时必须传入 checkpoint 内真实存在的 repo id：</span></p>
+<!-- reference-block:openpi-evaluation:8:end -->
+
+<!-- reference-block:openpi-evaluation:9:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="9" data-i18n-ignore lang="zh-CN" data-reference-code="3">task02: yyyyyy0604/task02_stacking_A_50_fixed_long_prompt_wrist_swapped
+task03: yyyyyy0604/task03_switch_right_50
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:9:end -->
+
+<!-- reference-block:openpi-evaluation:10:start -->
+<h3 data-reference-source="openpi-evaluation" data-reference-block="10" data-i18n-ignore lang="zh-CN" id="openpi-evaluation-readme-block-10"><span data-lang="en" lang="en">Start the robot client</span><span data-lang="zh" lang="zh-CN">启动机器人客户端</span></h3>
+<!-- reference-block:openpi-evaluation:10:end -->
+
+<!-- reference-block:openpi-evaluation:11:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="11" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Open a second terminal and run from the LeRobot repository root:</span><span data-lang="zh" lang="zh-CN">打开第二个终端，从 LeRobot 仓库根目录运行：</span></p>
+<!-- reference-block:openpi-evaluation:11:end -->
+
+<!-- reference-block:openpi-evaluation:12:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="12" data-i18n-ignore lang="zh-CN" data-reference-code="4">BREE/openpi_eval/run_client.sh \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --left-port /dev/ttyACM0 \
+  --right-port /dev/ttyACM1 \
+  --global-camera 0 \
+  --left-wrist-camera 4 \
+  --right-wrist-camera 2 \
+  --prompt "Pick up the red cylinder" \
+  --steps 300
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:12:end -->
+
+<!-- reference-block:openpi-evaluation:13:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="13" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The client defaults to a read-only dry-run and does not send commands to the motors. Add the following only after confirming that the predicted directions and values are correct:</span><span data-lang="zh" lang="zh-CN">客户端默认是只读 dry-run，不会向电机发送命令。确认预测方向和数值正确后才可增加：</span></p>
+<!-- reference-block:openpi-evaluation:13:end -->
+
+<!-- reference-block:openpi-evaluation:14:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="14" data-i18n-ignore lang="zh-CN" data-reference-code="5">--execute
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:14:end -->
+
+<!-- reference-block:openpi-evaluation:15:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="15" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">To fix the diffusion seed, add:</span><span data-lang="zh" lang="zh-CN">需要固定扩散 seed 时增加：</span></p>
+<!-- reference-block:openpi-evaluation:15:end -->
+
+<!-- reference-block:openpi-evaluation:16:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="16" data-i18n-ignore lang="zh-CN" data-reference-code="6">--evaluation-seed 0
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:16:end -->
+
+<!-- reference-block:openpi-evaluation:17:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="17" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">For scene reference images, pass a relative path inside this repository, for example:</span><span data-lang="zh" lang="zh-CN">如果需要场景参考图，可以传入位于本仓库内的相对路径，例如：</span></p>
+<!-- reference-block:openpi-evaluation:17:end -->
+
+<!-- reference-block:openpi-evaluation:18:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="openpi-evaluation" data-reference-block="18" data-i18n-ignore lang="zh-CN" data-reference-code="7">--scene-reference BREE/camera_reference/&lt;任务目录&gt;
+</code></pre></div>
+<!-- reference-block:openpi-evaluation:18:end -->
+
+<!-- reference-block:openpi-evaluation:19:start -->
+<h3 data-reference-source="openpi-evaluation" data-reference-block="19" data-i18n-ignore lang="zh-CN" id="openpi-evaluation-readme-block-19"><span data-lang="en" lang="en">System dependencies</span><span data-lang="zh" lang="zh-CN">系统级依赖</span></h3>
+<!-- reference-block:openpi-evaluation:19:end -->
+
+<!-- reference-block:openpi-evaluation:20:start -->
+<p data-reference-source="openpi-evaluation" data-reference-block="20" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This directory already includes the OpenPI code, Python 3.11 runtime, Python package environment, tokenizer, and fine-tuned checkpoints. The operating system must still provide compatible Linux x86-64 runtime libraries, NVIDIA driver/CUDA device access, USB serial permissions, and camera devices. These are system and hardware requirements, rather than project data files.</span><span data-lang="zh" lang="zh-CN">本目录已包含 OpenPI 代码、Python 3.11 runtime、Python 包环境、tokenizer 和微调 checkpoint。仍需要操作系统提供兼容的 Linux x86-64 运行库、NVIDIA 驱动/CUDA 设备访问、USB 串口权限和摄像头设备。这些属于系统与硬件运行环境，不是项目数据文件。</span></p>
+<!-- reference-block:openpi-evaluation:20:end -->
+
+<h2 id="id-ood"><span data-lang="en">Supplement · ID / OOD scenes and operation</span><span data-lang="zh">补充 · ID / OOD 场景与操作</span></h2>
 <p><span data-lang="en"><strong>ID (in-distribution)</strong> evaluates scenes drawn from the conditions covered by training. <strong>OOD (out-of-distribution)</strong> evaluates a specified held-out condition. The diagrams below illustrate a change in starting position while the task and target stay the same.</span><span data-lang="zh"><strong>ID（分布内）</strong>评测训练数据覆盖的场景条件，<strong>OOD（分布外）</strong>评测指定的未见条件。下图以初始摆放位置变化为例，任务与目标位置保持一致。</span></p>
 <div class="figure-row eval-condition-grid">
 <figure class="figure eval-condition-figure"><div class="eval-condition-figure__head">ID</div>
@@ -242,195 +507,22 @@ cp BREE/configs/act_eval.json outputs/eval/act_run.json</code></pre>
 <figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/distribution_guide.png" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/distribution_guide.png" alt="Task 01 Pick and Place: training distribution guide" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Task 01 · Pick and Place · training distribution</span><span data-lang="zh">任务 01 · 抓取与放置 · 训练分布</span></figcaption></figure>
 <figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/distribution_guide.png" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/distribution_guide.png" alt="Task 06 Block Stacking: training distribution guide" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Task 06 · Block Stacking · training distribution</span><span data-lang="zh">任务 06 · 积木堆叠 · 训练分布</span></figcaption></figure>
 </div>
-<h3><span data-lang="en">B · Prepare matched image sets</span><span data-lang="zh">B · 准备配对场景图</span></h3>
-<p><span data-lang="en">Use the supplied ID directory for the chosen task. When its OOD reference set is available, place those images in a sibling OOD directory and number each set <span class="mono">pic1</span>, <span class="mono">pic2</span>, and so on. The recorder accepts JPG, JPEG, PNG and WebP. Use the same numbered scene pairs for each policy comparison.</span><span data-lang="zh">使用所选任务随仓库提供的 ID 目录。取得对应 OOD 参考集后，将其放在同级 OOD 目录，并各自按 <span class="mono">pic1</span>、<span class="mono">pic2</span> 等连续编号。录制器支持 JPG、JPEG、PNG 和 WebP；不同策略的比较应使用同一组编号配对场景。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code>outputs/id_ood_benchmark_pairs/YOUR_TASK/
-├── ID/
-│   ├── pic1.jpg
-│   ├── pic2.jpg
-│   └── ...
-└── OOD/
-    ├── pic1.jpg
-    ├── pic2.jpg
-    └── ...</code></pre></div>
-<p><span data-lang="en">Choose the OOD condition before running trials and record what changes relative to ID. For a position-only comparison, retain the same objects, colors, instruction, camera mounting, lighting and target definition. The actual ID/OOD split and image count belong to the task protocol.</span><span data-lang="zh">在试验前确定 OOD 条件，并记录相对 ID 改变了什么。若只评测位置变化，则保持物体、颜色、指令、相机安装、光照及目标定义一致。实际 ID/OOD 划分与图片数量由任务协议确定。</span></p>
-<h3><span data-lang="en">C · Create ID and optional OOD configurations</span><span data-lang="zh">C · 生成 ID 与可选 OOD 配置</span></h3>
-<p><span data-lang="en">Start from the edited <span class="mono">outputs/eval/act_run.json</span> in step 2. In the script below, replace <span class="mono">YOUR_TASK</span>, <span class="mono">YOUR_NAME</span> and <span class="mono">YOUR_RUN</span>. The script defaults to ID only. Once OOD images are ready, set <span class="mono">splits = ("ID", "OOD")</span> to generate the matched pair. It changes only <span class="mono">scene_reference</span> and <span class="mono">dataset.repo_id</span>.</span><span data-lang="zh">以上一步编辑好的 <span class="mono">outputs/eval/act_run.json</span> 为基础。替换下方脚本中的 <span class="mono">YOUR_TASK</span>、<span class="mono">YOUR_NAME</span> 与 <span class="mono">YOUR_RUN</span>。脚本默认仅生成 ID 配置。OOD 图片准备好后，将 <span class="mono">splits</span> 改为 <span class="mono">("ID", "OOD")</span>，即可生成配对配置。脚本仅更换 <span class="mono">scene_reference</span> 与 <span class="mono">dataset.repo_id</span>。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python - &lt;&lt;&#x27;PY&#x27;
-import copy
-import json
-import re
-from pathlib import Path
 
-base = json.loads(Path(&quot;outputs/eval/act_run.json&quot;).read_text())
-scene_root = Path(&quot;outputs/id_ood_benchmark_pairs/YOUR_TASK&quot;)
-owner = &quot;YOUR_NAME&quot;
-run = &quot;YOUR_RUN&quot;
-splits = (&quot;ID&quot;,)
 
-counts = []
-for split in splits:
-    folder = scene_root / split
-    if not folder.is_dir():
-        raise FileNotFoundError(folder)
-    numbers = sorted(
-        int(match.group(1))
-        for image in folder.iterdir()
-        if image.is_file() and image.suffix.lower() in (&quot;.jpg&quot;, &quot;.jpeg&quot;, &quot;.png&quot;, &quot;.webp&quot;)
-        if (match := re.fullmatch(r&quot;pic(\d+)&quot;, image.stem))
-    )
-    if not numbers or numbers != list(range(1, len(numbers) + 1)):
-        raise ValueError(f&quot;{split}: expected one image per number, starting at pic1&quot;)
-    counts.append(len(numbers))
-if len(set(counts)) &gt; 1:
-    raise ValueError(&quot;ID and OOD must have matching numbered scene pairs&quot;)
-
-for split in splits:
-    config = copy.deepcopy(base)
-    config[&quot;scene_reference&quot;] = (scene_root / split).as_posix()
-    config[&quot;dataset&quot;][&quot;repo_id&quot;] = f&quot;{owner}/eval_{run}_{split.lower()}&quot;
-    output = Path(f&quot;outputs/eval/act_{split.lower()}.json&quot;)
-    output.write_text(json.dumps(config, indent=2) + &quot;\n&quot;)
-    print(output)
-PY</code></pre></div>
-<p><span data-lang="en">Use a new run name for each experiment. For SmolVLA or XVLA, begin with that policy’s edited configuration so its camera mapping is retained. Keep the checkpoint, timing, episode count and seed settings identical for the matched comparison.</span><span data-lang="zh">每次实验使用新的运行名称。SmolVLA 或 XVLA 应以各自编辑后的配置为基础，保留对应相机映射。配对比较使用相同模型权重、时间预算、回合数与 seed 设置。</span></p>
-<h3><span data-lang="en">D · Reset and confirm each scene</span><span data-lang="zh">D · 逐回合复位与确认场景</span></h3>
-<ol><li><span data-lang="en">Run the ID configuration first using step 4 below. The recorder shows the selected reference over the live global camera image. It requires a graphical desktop and a GUI-capable OpenCV installation.</span><span data-lang="zh">按下一节命令先运行 ID 配置。录制器将所选参考图叠加到全局相机实时画面上；此预览需要图形桌面与支持 GUI 的 OpenCV。</span></li>
+<h3><span data-lang="en">Reset and confirm each scene</span><span data-lang="zh">逐回合复位与确认场景</span></h3>
+<ol><li><span data-lang="en">Run the ID configuration first using section 11 above. The recorder shows the selected reference over the live global camera image. It requires a graphical desktop and a GUI-capable OpenCV installation.</span><span data-lang="zh">按上方第 11 节命令先运行 ID 配置。录制器将所选参考图叠加到全局相机实时画面上；此预览需要图形桌面与支持 GUI 的 OpenCV。</span></li>
 <li><span data-lang="en">Wait for the follower arms to reach the H pose, then arrange the objects to match the reference. The current evaluation templates home automatically; if scene_home_requires_h is true, press H first.</span><span data-lang="zh">等待从臂回到 H 位，再按参考图摆放物体。当前评测模板会自动回 H 位；若 scene_home_requires_h 为 true，则先按 H。</span></li>
 <li><span data-lang="en">Press Enter after the scene is aligned. The policy then runs until the episode limit or an early-end key. The recorder advances references according to saved episodes.</span><span data-lang="zh">场景对齐后按 Enter 开始。策略执行至回合时间上限或提前结束操作；录制器按已保存回合数推进参考图。</span></li>
 <li><span data-lang="en">Record task success or failure for every trial. A failed task still counts as an evaluation trial; keep it in the results. Use the left-arrow rerecord function for recording/setup errors and log the reason.</span><span data-lang="zh">每次试验都记录任务成功或失败。任务失败仍属于评测试验，应保留在结果中；录制或场景设置错误时使用左方向键重录，并记录原因。</span></li>
 <li><span data-lang="en">After the ID run exits and the OOD images are available, launch the OOD configuration with the same checkpoint. Restore each OOD scene from its reference and record results in the separate OOD dataset.</span><span data-lang="zh">ID 运行结束退出且 OOD 图片已齐备后，用同一模型启动 OOD 配置。逐回合按 OOD 参考图恢复场景，结果录入独立的 OOD 数据集。</span></li>
 </ol>
 <div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Key</span><span data-lang="zh">按键</span></th><th><span data-lang="en">Operation</span><span data-lang="zh">操作</span></th></tr></thead><tbody><tr><td><span class="mono">Enter</span></td><td><span data-lang="en">Confirm the preview and start the episode once home conditions are satisfied</span><span data-lang="zh">满足回 H 位条件后，确认预览并开始回合</span></td></tr><tr><td><span class="mono">H</span></td><td><span data-lang="en">Return home; during a recorded episode this ends recording before the unrecorded home movement</span><span data-lang="zh">返回 H 位；录制中按下会先结束录制，再执行不计入数据的回位动作</span></td></tr><tr><td><span class="mono">→</span></td><td><span data-lang="en">End the current episode early</span><span data-lang="zh">提前结束当前回合</span></td></tr><tr><td><span class="mono">←</span></td><td><span data-lang="en">Discard and rerecord the current episode with the same reference</span><span data-lang="zh">丢弃并按同一参考图重录当前回合</span></td></tr><tr><td><span class="mono">Esc</span></td><td><span data-lang="en">Stop the run</span><span data-lang="zh">停止本次运行</span></td></tr></tbody></table></div>
-<h3><span data-lang="en">E · Keep reference and seed schedules matched</span><span data-lang="zh">E · 保持场景与 seed 调度一致</span></h3>
-<p><span data-lang="en">For an example set of <strong>five reference images per condition</strong>, the current 20-episode template with <span class="mono">episodes_per_reference=1</span>, <span class="mono">scene_reference_cycle=true</span> and <span class="mono">episodes_per_seed=5</span> repeats the five scenes four times. This is a scheduling example; prepare the image count required by your actual protocol.</span><span data-lang="zh">若每个条件使用<strong>5 张参考图</strong>，当前 20 回合模板在 <span class="mono">episodes_per_reference=1</span>、<span class="mono">scene_reference_cycle=true</span>、<span class="mono">episodes_per_seed=5</span> 下会循环这 5 张图共 4 轮。这是调度示例，实际图片数量以所用协议为准。</span></p>
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Saved episode numbers</span><span data-lang="zh">已保存回合编号</span></th><th><span data-lang="en">Reference sequence</span><span data-lang="zh">参考图顺序</span></th><th>Seed</th></tr></thead><tbody><tr><td>1–5</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>0</td></tr><tr><td>6–10</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>1</td></tr><tr><td>11–15</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>2</td></tr><tr><td>16–20</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>3</td></tr></tbody></table></div>
-<p><span data-lang="en">Seed groups follow saved episode count, not task-success count. Seed control affects policies that expose <span class="mono">inference_seed</span>; ACT is largely deterministic. Report ID and OOD success rates separately, including trial counts, the OOD change, reference-set version, checkpoint and the two run configurations.</span><span data-lang="zh">seed 分组按已保存回合数递增，不按任务成功次数递增。seed 控制作用于提供 <span class="mono">inference_seed</span> 的策略；ACT 通常基本确定。分别报告 ID 与 OOD 成功率，并附试验次数、OOD 改变因素、参考图版本、模型权重和两份运行配置。</span></p>
 
-<h2 id="run-evaluation"><span data-lang="en">4 · Run ID and OOD with the same checkpoint</span><span data-lang="zh">4 · 使用同一模型运行 ID 与 OOD</span></h2>
-<p><span data-lang="en">After preparing the ID configuration (and the OOD configuration when images are available), replace <span class="mono">YOUR_RUN</span> and <span class="mono">YOUR_STEP</span> with your actual checkpoint directory. It must contain the model configuration and weights.</span><span data-lang="zh">准备好 ID 配置后（OOD 图片齐备时再生成 OOD 配置），将 <span class="mono">YOUR_RUN</span> 与 <span class="mono">YOUR_STEP</span> 替换为实际模型目录；目录中需包含模型配置与权重。</span></p>
-
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-lerobot-record \
-  --config_path=outputs/eval/act_id.json \
-  --policy.path=outputs/train/ACT/YOUR_RUN/checkpoints/YOUR_STEP/pretrained_model \
-  --policy.device=cuda \
-  --policy.use_amp=true</code></pre>
-</div><p><span data-lang="en">Once ID completes and the OOD image set and configuration are ready, use the same command with <span class="mono">--config_path=outputs/eval/act_ood.json</span> and the unchanged <span class="mono">--policy.path</span> to run OOD.</span><span data-lang="zh">ID 完成且 OOD 场景图与配置均准备好后，将同一命令的配置参数改为 <span class="mono">--config_path=outputs/eval/act_ood.json</span>，保持 <span class="mono">--policy.path</span> 不变，运行 OOD。</span></p>
-<p><span data-lang="en">For SmolVLA or XVLA, copy and edit its own template and use a matching checkpoint. If all required weights and tokenizers are already cached, <span class="mono">HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1</span> can force offline loading.</span><span data-lang="zh">评测 SmolVLA 或 XVLA 时，应复制并修改各自模板，选择对应权重。所需模型与 tokenizer 均已缓存时，可用 <span class="mono">HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1</span> 强制离线加载。</span></p>
-
-<h2><span data-lang="en">5 · Record the protocol settings</span><span data-lang="zh">5 · 记录评测设置</span></h2>
-
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">JSON field</span><span data-lang="zh">JSON 字段</span></th><th><span data-lang="en">Current template value</span><span data-lang="zh">当前模板值</span></th><th><span data-lang="en">Meaning</span><span data-lang="zh">含义</span></th></tr></thead><tbody><tr><td><span class="mono">dataset.num_episodes</span></td><td><span class="mono">20</span></td><td><span data-lang="en">Recorded episodes</span><span data-lang="zh">录制回合数</span></td></tr>
-<tr><td><span class="mono">dataset.episode_time_s</span></td><td><span class="mono">120</span></td><td><span data-lang="en">Maximum seconds per episode</span><span data-lang="zh">每回合最长秒数</span></td></tr>
-<tr><td><span class="mono">dataset.reset_time_s</span></td><td><span class="mono">0</span></td><td><span data-lang="en">No extra fixed reset countdown</span><span data-lang="zh">无额外固定重置倒计时</span></td></tr>
-<tr><td><span class="mono">dataset.push_to_hub</span></td><td><span class="mono">false</span></td><td><span data-lang="en">Keep recordings local</span><span data-lang="zh">录制结果保存在本地</span></td></tr>
-<tr><td><span class="mono">episodes_per_reference</span></td><td><span class="mono">1</span></td><td><span data-lang="en">Advance reference after each saved episode</span><span data-lang="zh">每保存一回合切换参考图</span></td></tr>
-<tr><td><span class="mono">scene_reference_cycle</span></td><td><span class="mono">true</span></td><td><span data-lang="en">Cycle the scene images</span><span data-lang="zh">循环使用场景图</span></td></tr>
-<tr><td><span class="mono">evaluation_seed / episodes_per_seed</span></td><td><span class="mono">0 / 5</span></td><td><span data-lang="en">Start at seed 0, change after five saved episodes</span><span data-lang="zh">从 seed 0 开始，每 5 个已保存回合切换</span></td></tr></tbody></table>
-</div><p><span data-lang="en">These are executable template settings. Preserve the task-specific protocol for a comparison and report any changes. Match the task prompt and ID/OOD scene set to the chosen checkpoint. Record every trial’s success or failure together with the source revision, configuration, checkpoint and check evidence.</span><span data-lang="zh">以上为可执行模板的当前设置。比较实验应保持任务协议一致，并报告任何改动。任务指令、ID/OOD 场景集与所选模型需相互匹配；逐次记录成功或失败，同时保存源码版本、配置、模型与检查证据。</span></p>
-
-<h3 id="evaluation-parameters"><span data-lang="en">Device and scene parameters</span><span data-lang="zh">设备与场景参数用法</span></h3>
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Field / option</span><span data-lang="zh">字段 / 选项</span></th><th><span data-lang="en">Use</span><span data-lang="zh">用法</span></th></tr></thead><tbody>
-<tr><td><span class="mono">--policy.path / --policy.device / --policy.use_amp</span></td><td><span data-lang="en">Load the matching checkpoint, select cuda/cpu and enable mixed precision. The checkpoint directory must contain its config and weights.</span><span data-lang="zh">加载匹配的 checkpoint、选择 cuda/cpu、启用混合精度。权重目录需包含配置与模型文件。</span></td></tr>
-<tr><td><span class="mono">robot.*_arm_config.port / use_degrees</span></td><td><span data-lang="en">Follower serial ports and degree-based states/actions; match the calibration and training units.</span><span data-lang="zh">从臂串口与角度制状态 / 动作，需与标定及训练单位一致。</span></td></tr>
-<tr><td><span class="mono">index_or_path</span></td><td><span data-lang="en">Map the actual camera devices. ACT/SmolVLA templates use 0/4/2; XVLA uses 0/2/4 for global/left/right. Verify live views.</span><span data-lang="zh">映射实际相机。ACT/SmolVLA 模板的全局 / 左腕 / 右腕为 0/4/2，XVLA 为 0/2/4，需按实时画面核对。</span></td></tr>
-<tr><td><span class="mono">width / height / fps / fourcc / warmup_s</span></td><td><span data-lang="en">Templates use 640×480, 30 fps, MJPG and 3 seconds of startup warmup. Keep capture settings aligned with collection.</span><span data-lang="zh">模板为 640×480、30 fps、MJPG、启动预热 3 秒；采集格式需与录制时一致。</span></td></tr>
-<tr><td><span class="mono">dataset.repo_id / dataset.single_task</span></td><td><span data-lang="en">New run dataset name and task instruction. Match the language prompt and scene to the trained policy.</span><span data-lang="zh">本次数据集名与任务指令；语言提示和场景需与训练策略匹配。</span></td></tr>
-<tr><td><span class="mono">dataset.rename_map</span></td><td><span data-lang="en">Evaluation camera-key conversion: ACT uses raw keys; SmolVLA uses camera1/2/3; XVLA uses image/image2/image3.</span><span data-lang="zh">评测相机键转换：ACT 沿用原键；SmolVLA 使用 camera1/2/3；XVLA 使用 image/image2/image3。</span></td></tr>
-<tr><td><span class="mono">enable_home_hotkey / home_duration_s</span></td><td><span data-lang="en">Enable H-home and set the movement duration. Current templates enable it and use 2 seconds.</span><span data-lang="zh">启用 H 键回位并设置运动时长；当前模板已开启，时长 2 秒。</span></td></tr>
-<tr><td><span class="mono">scene_reference</span></td><td><span data-lang="en">Task-specific reference image or directory. Select the designated ID or OOD set; verify files exist.</span><span data-lang="zh">任务场景参考图片或目录；选择指定 ID 或 OOD 集，并确认文件存在。</span></td></tr>
-<tr><td><span class="mono">scene_reference_camera / scene_overlay_alpha</span></td><td><span data-lang="en">Overlay camera and opacity: templates use global and 0.4. Opacity ranges from 0 to 1.</span><span data-lang="zh">叠加相机与透明度：模板为 global、0.4，透明度范围 0～1。</span></td></tr>
-<tr><td><span class="mono">scene_home_requires_h</span></td><td><span data-lang="en">When true, wait for H to start scene-setup homing. Policy-evaluation templates use false.</span><span data-lang="zh">为 true 时等待按 H 才在场景准备阶段回位；策略评测模板为 false。</span></td></tr>
-<tr><td><span class="mono">require_leader_home_alignment</span></td><td><span data-lang="en">Require leader/follower home alignment for collection. Pure policy evaluation has no leaders and uses false.</span><span data-lang="zh">采集时要求主从臂回位姿态对齐；纯策略评测无主臂，设为 false。</span></td></tr>
-<tr><td><span class="mono">display_data / play_sounds</span></td><td><span data-lang="en">Show camera/state visualization and play episode cues. Both are true in the evaluation templates.</span><span data-lang="zh">显示相机 / 状态可视化及播放回合提示音；评测模板中两项均为 true。</span></td></tr>
-</tbody></table></div>
-<h3 id="vla-evaluation-commands"><span data-lang="en">SmolVLA / XVLA · full evaluation commands</span><span data-lang="zh">SmolVLA / XVLA · 完整评测命令</span></h3>
-<p><span data-lang="en">Copy each policy’s own template, then edit its ports, camera indices, task prompt, dataset.repo_id, scene_reference and checkpoint path before running. Preserve its dataset.rename_map. The JSON templates retain the README’s 20 episodes, 120-second budget and five-episode seed groups. Use a fresh dataset name for each run.</span><span data-lang="zh">分别复制各策略的模板；运行前修改串口、相机编号、任务指令、dataset.repo_id、scene_reference 与权重路径，保留各自的 dataset.rename_map。JSON 模板沿用 README 的 20 回合、120 秒及每 5 回合一组的 seed。每次运行使用新的数据集名。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>mkdir -p outputs/eval
-cp BREE/configs/smolvla_eval.json outputs/eval/smolvla_run.json
-cp BREE/configs/xvla_eval.json outputs/eval/xvla_run.json</code></pre></div><p><span data-lang="en">SmolVLA · after editing outputs/eval/smolvla_run.json:</span><span data-lang="zh">SmolVLA · 编辑 outputs/eval/smolvla_run.json 后运行：</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-lerobot-record \
-  --config_path=outputs/eval/smolvla_run.json \
-  --policy.path=outputs/train/SmolVLA_RoboTwin/YOUR_RUN/checkpoints/YOUR_STEP/pretrained_model \
-  --policy.device=cuda \
-  --policy.use_amp=true</code></pre></div><p><span data-lang="en">XVLA · after editing outputs/eval/xvla_run.json:</span><span data-lang="zh">XVLA · 编辑 outputs/eval/xvla_run.json 后运行：</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-lerobot-record \
-  --config_path=outputs/eval/xvla_run.json \
-  --policy.path=outputs/train/XVLA/YOUR_RUN/checkpoints/YOUR_STEP/pretrained_model \
-  --policy.device=cuda \
-  --policy.use_amp=true</code></pre></div><p><span data-lang="en">YOUR_RUN and YOUR_STEP identify the actual saved checkpoint. Offline flags require cached model/tokenizer assets; PYTORCH_CUDA_ALLOC_CONF adjusts the CUDA allocator. Choose the intended ID or OOD scene set in each run JSON and retain both configurations for comparison.</span><span data-lang="zh">YOUR_RUN 与 YOUR_STEP 指向实际保存的 checkpoint。离线开关要求模型与 tokenizer 已缓存；PYTORCH_CUDA_ALLOC_CONF 用于配置 CUDA 内存分配。各运行 JSON 应指定本次 ID 或 OOD 场景集，并保留两份配置用于比较。</span></p>
-<h2><span data-lang="en">6 · RDT and OpenPI</span><span data-lang="zh">6 · RDT 与 OpenPI</span></h2>
-<p><span data-lang="en">RDT uses <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/model_inference/rdt_bi_so_inference.py">BREE/model_inference/rdt_bi_so_inference.py</a>; see the <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/README.md#112-rdt-评估">RDT example</a> and start with <span class="mono">--dry-run</span>. OpenPI uses a separate policy server and robot client; follow <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/openpi_eval/README.md">the OpenPI guide</a>. Its client is read-only by default and requires <span class="mono">--execute</span> to send actions. Check environment, tokenizer and checkpoint availability separately.</span><span data-lang="zh">RDT 使用 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/model_inference/rdt_bi_so_inference.py">BREE/model_inference/rdt_bi_so_inference.py</a>，参照 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/README.md#112-rdt-评估">RDT 示例</a> 并先保留 <span class="mono">--dry-run</span>。OpenPI 分为策略服务端与机器人客户端，见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb/BREE/openpi_eval/README.md">OpenPI 指南</a>；客户端默认只读，需增加 <span class="mono">--execute</span> 才会发送动作。请单独核实环境、tokenizer 与权重是否齐全。</span></p>
-
-<h3><span data-lang="en">RDT · prepare the language embedding</span><span data-lang="zh">RDT · 准备语言向量</span></h3>
-<p><span data-lang="en">The inference client requires a T5 embedding for the exact task instruction. The training wrapper creates instruction.pt automatically when missing; for a separate evaluation embedding, activate the RDT environment and run:</span><span data-lang="zh">推理客户端需要与任务指令一致的 T5 语言向量。训练入口会在缺少时自动生成 instruction.pt；需要单独生成评测向量时，激活 RDT 环境后运行：</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/model_training/rdt/tools/encode_rdt_instruction.py \
-  --rdt-root third_party/RoboticsDiffusionTransformer \
-  --model models/rdt/t5-v1_1-xxl \
-  --instruction &quot;YOUR TASK DESCRIPTION&quot; \
-  --task-name YOUR_TASK \
-  --output outputs/rdt_lang/YOUR_TASK.pt \
-  --offload-dir outputs/rdt_t5_offload/YOUR_TASK \
-  --gpu 0</code></pre></div><p><span data-lang="en">Set instruction to the model’s task prompt, model to the local T5 weights and output to the file passed as --lang-embedding below. The offload directory stores temporary encoder files; gpu selects the encoder CUDA device.</span><span data-lang="zh">instruction 填写模型对应的任务文本，model 指向本地 T5 权重，output 与下方 --lang-embedding 使用同一文件。offload-dir 存放编码临时文件，gpu 选择编码使用的 CUDA 设备。</span></p>
-<h3><span data-lang="en">RDT · README evaluation command</span><span data-lang="zh">RDT · README 评测命令</span></h3>
-<p><span data-lang="en">Prepare the checkpoint directory, SigLIP weights and the task language embedding. This README example reads cameras and runs inference with no motor commands while --dry-run is present. Replace paths and verify camera indices before running.</span><span data-lang="zh">准备 checkpoint 目录、SigLIP 权重与对应任务的语言向量。下面的 README 示例在带有 --dry-run 时读取相机并推理，不发送电机命令；先替换文件路径并核对相机编号。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/model_inference/rdt_bi_so_inference.py \
-  --checkpoint PATH_TO_RDT_CHECKPOINT \
-  --siglip models/rdt/siglip-so400m-patch14-384 \
-  --lang-embedding outputs/rdt_lang/YOUR_TASK.pt \
-  --left-port /dev/ttyACM0 \
-  --right-port /dev/ttyACM1 \
-  --global-camera 0 \
-  --left-wrist-camera 2 \
-  --right-wrist-camera 4 \
-  --steps 600 \
-  --num-episodes 10 \
-  --save-videos \
-  --video-output-dir outputs/rdt_eval_videos \
-  --dry-run</code></pre></div><p><span data-lang="en">checkpoint selects the RDT weights; siglip selects its visual encoder; lang-embedding loads the task text representation. steps limits control iterations per episode and num-episodes sets the episode count. save-videos records all three views under video-output-dir. The README example uses 600 steps and 10 episodes.</span><span data-lang="zh">checkpoint 选择 RDT 权重，siglip 选择视觉编码器，lang-embedding 加载任务文本表示。steps 限制每回合控制步数，num-episodes 设置回合数；save-videos 将三路画面保存到 video-output-dir。README 示例为每回合 600 步、10 回合。</span></p>
-<p><span data-lang="en">Inspect predicted values and directions before removing --dry-run for real motion. Video output is under outputs/rdt_eval_videos/.</span><span data-lang="zh">核对预测数值与方向后，移除 --dry-run 才会执行真实动作。视频写入 outputs/rdt_eval_videos/。</span></p>
-<h3><span data-lang="en">OpenPI · server and client</span><span data-lang="zh">OpenPI · 服务端与客户端</span></h3>
-<p><span data-lang="en">Use two terminals. The launchers use BREE/openpi_eval/openpi/.venv/bin/python. Check that this runtime, tokenizer, checkpoint and normalization assets exist in your installation; the README describes a populated server environment. Replace the example checkpoint and match dataset-repo-id to the normalization assets inside it.</span><span data-lang="zh">使用两个终端。启动脚本调用 BREE/openpi_eval/openpi/.venv/bin/python。核对本机是否具备该运行环境、tokenizer、checkpoint 与归一化资源；README 描述的是已配置好的服务器环境。替换示例 checkpoint，并确保 dataset-repo-id 与权重中的归一化资源一致。</span></p>
-<p><span data-lang="en">Terminal 1 · policy server (repository task01 example)</span><span data-lang="zh">终端 1 · 策略服务端（仓库 task01 示例）</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>BREE/openpi_eval/run_server.sh \
-  --policy-config pi05_biso_task01 \
-  --checkpoint PATH_TO_OPENPI_CHECKPOINT \
-  --dataset-repo-id yyyyyy0604/task01_pickplace_big_50</code></pre></div><p><span data-lang="en">Terminal 2 · robot client. Point calibration-dir at your verified follower calibration files; its default uses a separate copy under BREE/openpi_eval/calibration/.</span><span data-lang="zh">终端 2 · 机器人客户端。将 calibration-dir 指向本机已验证的从臂标定文件；脚本默认读取 BREE/openpi_eval/calibration/ 下的独立副本。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>BREE/openpi_eval/run_client.sh \
-  --host 127.0.0.1 \
-  --port 8000 \
-  --left-port /dev/ttyACM0 \
-  --right-port /dev/ttyACM1 \
-  --calibration-dir &quot;$HOME/.cache/huggingface/lerobot/calibration/robots/so_follower&quot; \
-  --global-camera 0 \
-  --left-wrist-camera 2 \
-  --right-wrist-camera 4 \
-  --prompt &quot;YOUR TASK DESCRIPTION&quot; \
-  --steps 300 \
-  --num-episodes 1 \
-  --evaluation-seed 0</code></pre></div><p><span data-lang="en">The server uses policy-config to select the task model configuration and dataset-repo-id to find its normalization statistics. In the client, host/port select that server, prompt is the task language instruction and steps is a control-step limit. calibration-dir and robot ports must match the current hardware.</span><span data-lang="zh">服务端用 policy-config 选择任务模型配置，用 dataset-repo-id 查找归一化统计。客户端的 host/port 指向服务端，prompt 为任务指令，steps 为控制步数上限；calibration-dir 与机械臂串口需对应当前硬件。</span></p>
-<p><span data-lang="en">The client remains dry-run until --execute is added. The seeded server above is required for --evaluation-seed. When using existing checkpoints, the OpenPI README records task02 normalization ID yyyyyy0604/task02_stacking_A_50_fixed_long_prompt_wrist_swapped and task03 ID yyyyyy0604/task03_switch_right_50; confirm the actual checkpoint assets.</span><span data-lang="zh">客户端默认 dry-run，增加 --execute 后才发送动作。--evaluation-seed 需要配合上方支持 seed 的服务端。复用已有权重时，OpenPI README 中 task02 的归一化 ID 为 yyyyyy0604/task02_stacking_A_50_fixed_long_prompt_wrist_swapped，task03 为 yyyyyy0604/task03_switch_right_50；仍需以实际权重资源为准。</span></p>
-<p><span data-lang="en">These client commands use step budgets; they do not implement the LeRobot 20-episode, 120-second protocol above. For a benchmark run, configure each client’s scene references, episode count, step budget and seed schedule explicitly and record them with the results.</span><span data-lang="zh">以上客户端命令使用步数预算，并未实现前述 LeRobot 的 20 回合、120 秒协议。正式评测需显式设置各客户端的场景参考、回合数、步数预算和 seed 调度，并随结果保存。</span></p>
 
 <div class="docs-pager">
-      <a href="collection.html">
-        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
-        <div class="title"><span data-lang="en">5 · Data Collection</span><span data-lang="zh">5 · 数据采集</span></div>
-      </a>
-      <a class="next" href="tasks.html">
-        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
-        <div class="title"><span data-lang="en">6 · Task Reference</span><span data-lang="zh">6 · 任务参考</span></div>
-      </a>
-    </div>
+<a href="training.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></div></a>
+<a href="tasks.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div></a>
+</div>
   </main>
 </div>
 

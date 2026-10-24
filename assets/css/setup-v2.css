@@ -728,6 +728,34 @@ body.docs .docs-main .training-recipes { table-layout: fixed; }
 body.docs .docs-main .training-recipes th:first-child { width: 24%; }
 body.docs .docs-main .training-recipes td { overflow-wrap: anywhere; }
 
+body.docs .guide-contents {
+  margin: 24px 0 34px;
+  padding: 14px 18px;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+body.docs .guide-contents summary {
+  color: var(--steel);
+  font: 600 14px/1.5 var(--guide-sans);
+  cursor: pointer;
+}
+body.docs .readme-page-toc { margin: 18px 0 0; }
+body.docs .readme-page-toc ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 8px 24px;
+  padding-left: 1.25em;
+}
+body.docs .readme-page-toc li { margin: 0; }
+body.docs .readme-page-toc li a { font-size: 14px; }
+body.docs .docs-main h4 {
+  margin: 32px 0 12px;
+  color: var(--ink);
+  font: 700 17px/1.4 var(--guide-sans);
+}
+body.docs .docs-main [id] { scroll-margin-top: 100px; }
+
 /* Show both fixture views in full, with matching preview heights on desktop. */
 body.docs .docs-main .fixture-photos { align-items: start; }
 body.docs .docs-main .fixture-photos a { display: block; }

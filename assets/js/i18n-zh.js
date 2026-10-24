@@ -428,3 +428,36 @@ Object.assign(window.BREE_ZH, {
   "Side view of the arm seated in the midpoint calibration fixture": "机械臂放入中点标定夹具后的侧视实拍",
   "Top view of the arm and gripper seated in the midpoint calibration fixture": "机械臂与夹爪放入中点标定夹具后的俯视实拍"
 });
+
+// Separate collection and training guide cards.
+Object.assign(window.BREE_ZH, {
+  "Assemble the hardware, prepare LeRobot and fetch BREE, then calibrate the arms and align the cameras. Follow the separate guides for teleoperation and data collection, model training, and evaluation.": "装配硬件，准备 LeRobot 并获取 BREE，再标定机械臂、对齐相机。遥操作与数据采集、模型训练、模型评测分别提供独立指南。",
+  "Clone LeRobot, fetch the BREE branch, prepare the lerobot environment, then check serial ports, cameras and permissions.": "先克隆 LeRobot，再获取 BREE 分支，准备 lerobot 环境，并检查串口、相机与设备权限。",
+  "Collect data": "采集数据",
+  "Run the complete teleoperation check, prepare task reference images, and record episodes with the README command.": "使用完整命令检查双臂遥操作，准备任务参考图，再按 README 原命令录制数据。",
+  "Train models": "模型训练",
+  "Training": "训练",
+  "Follow the complete ACT, SmolVLA, XVLA, RDT and OpenPI commands, including data conversion, smoke tests and resumed training.": "完整列出 ACT、SmolVLA、XVLA、RDT 和 OpenPI 的训练命令，以及数据转换、smoke test 和恢复训练。",
+  "Open training guide ↗": "打开训练指南 ↗",
+  "Use the README evaluation commands for all five model paths, check each parameter, and prepare ID/OOD scenes with the reference images.": "按 README 原命令运行五类模型评测，逐项核对参数，并结合参考图准备 ID/OOD 场景。",
+  "Documentation for building, calibrating, collecting data, training models and evaluating a BREE node.": "BREE 节点的搭建、标定、数据采集、模型训练与评测文档。"
+});
+
+// Complete guide entry cards and document titles.
+Object.assign(window.BREE_ZH, {
+  "Overview & prerequisites": "总览与前置条件",
+  "Bill of materials": "物料清单",
+  "Review the full workflow, daily startup steps, repository layout and output locations before you begin.": "开始前先了解完整操作流程、日常开机步骤、仓库目录与输出位置。",
+  "Prepare core hardware, frame materials, printed task objects and calibration fixtures.": "准备核心硬件、框架材料、任务打印件与标定夹具。",
+  "Open overview guide ↗": "打开总览指南 ↗",
+  "Open materials guide ↗": "查看物料清单 ↗",
+  "Prerequisites": "前置条件",
+  "Materials": "物料",
+  "Setup Guide · Overview & Prerequisites · BREE": "搭建指南 · 总览与前置条件 · BREE",
+  "Setup Guide · Installation & Startup · BREE": "搭建指南 · 安装与开机检查 · BREE",
+  "Setup Guide · System Calibration · BREE": "搭建指南 · 系统标定 · BREE",
+  "Setup Guide · Teleoperation & Data Collection · BREE": "搭建指南 · 遥操作与数据采集 · BREE",
+  "Setup Guide · Model Training · BREE": "搭建指南 · 模型训练 · BREE",
+  "Setup Guide · Running Evaluations · BREE": "搭建指南 · 运行评估 · BREE",
+  "Setup Guide · Troubleshooting & Checklists · BREE": "搭建指南 · 故障排查与检查清单 · BREE"
+});

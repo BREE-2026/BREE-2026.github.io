@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide · Model Training · BREE</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
+  <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
+  <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="docs docs-evaluation-page">
+
+<div class="docs-topbar">
+  <div class="docs-topbar-inner">
+    <a class="brand" href="../index.html">BREE</a>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></b></span>
+<div class="nav-actions">
+      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav">
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html" class="active"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
+  </aside>
+
+  <main class="docs-main">
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
+
+<h1><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></h1>
+
+<details class="guide-contents"><summary><span data-lang="en">On this page</span><span data-lang="zh">本页内容</span></summary><nav class="readme-page-toc" aria-label="本页内容"><ul><li><a href="#readme-10" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10. Model training</span><span data-lang="zh" lang="zh-CN">10. 模型训练</span></a></li><li><a href="#readme-10-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.1 ACT training</span><span data-lang="zh" lang="zh-CN">10.1 ACT 训练</span></a></li><li><a href="#readme-10-2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.2 SmolVLA training</span><span data-lang="zh" lang="zh-CN">10.2 SmolVLA 训练</span></a></li><li><a href="#readme-10-3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.3 XVLA training</span><span data-lang="zh" lang="zh-CN">10.3 XVLA 训练</span></a></li><li><a href="#readme-10-4" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.4 RDT and OpenPI training</span><span data-lang="zh" lang="zh-CN">10.4 RDT 与 OpenPI 训练</span></a></li><li><a href="#readme-10-4-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.4.1 OpenPI training</span><span data-lang="zh" lang="zh-CN">10.4.1 OpenPI 训练</span></a></li><li><a href="#readme-10-4-2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">10.4.2 RDT training</span><span data-lang="zh" lang="zh-CN">10.4.2 RDT 训练</span></a></li><li><a href="#model-training-readme-block-1" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">RDT / OpenPI · complete training instructions</span><span data-lang="zh" lang="zh-CN">RDT / OpenPI · 完整训练说明</span></a></li></ul></nav></details>
+
+<!-- readme-block:97:start -->
+<h2 data-readme-block="97" data-i18n-ignore lang="zh-CN" id="readme-10"><span data-lang="en" lang="en">10. Model training</span><span data-lang="zh" lang="zh-CN">10. 模型训练</span></h2>
+<!-- readme-block:97:end -->
+
+<!-- readme-block:98:start -->
+<p data-readme-block="98" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Run all commands below from <code>../lerobot</code>. Before training, replace <code>YOUR_NAME/YOUR_DATASET</code> and <code>YOUR_RUN</code>, and confirm that the new output directory does not already exist so that new results remain separate from previous training runs.</span><span data-lang="zh" lang="zh-CN">以下命令都从 <code>../lerobot</code> 运行。开始训练前需要修改 <code>YOUR_NAME/YOUR_DATASET</code> 和 <code>YOUR_RUN</code>，并确认新的输出目录不存在，避免与以前的训练结果混在一起。</span></p>
+<!-- readme-block:98:end -->
+
+<!-- readme-block:99:start -->
+<h3 data-readme-block="99" data-i18n-ignore lang="zh-CN" id="readme-10-1"><span data-lang="en" lang="en">10.1 ACT training</span><span data-lang="zh" lang="zh-CN">10.1 ACT 训练</span></h3>
+<!-- readme-block:99:end -->
+
+<!-- readme-block:100:start -->
+<p data-readme-block="100" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">ACT can directly read the current bimanual dataset's 12-dimensional states, 12-dimensional actions and three original camera keys. Camera keys do not need to be renamed.</span><span data-lang="zh" lang="zh-CN">ACT 可以直接读取当前双臂数据集中的 12 维状态、12 维动作以及三个原始相机键，不需要进行相机键重命名。</span></p>
+<!-- readme-block:100:end -->
+
+<!-- readme-block:101:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="101" data-i18n-ignore lang="zh-CN" data-readme-code="22">HF_HUB_DISABLE_XET=1 lerobot-train \
+  --dataset.repo_id=YOUR_NAME/YOUR_DATASET \
+  --dataset.video_backend=pyav \
+  --policy.type=act \
+  --policy.device=cuda \
+  --policy.use_amp=true \
+  --policy.push_to_hub=false \
+  --output_dir=outputs/train/ACT/YOUR_RUN \
+  --job_name=YOUR_RUN \
+  --batch_size=8 \
+  --num_workers=4 \
+  --steps=20000 \
+  --save_checkpoint=true \
+  --save_freq=5000 \
+  --log_freq=100 \
+  --tolerance_s=0.05 \
+  --wandb.enable=false
+</code></pre></div>
+<!-- readme-block:101:end -->
+
+<!-- readme-block:102:start -->
+<p data-readme-block="102" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">These are the main settings used by the existing models in <code>outputs/train/ACT/</code>: AMP, batch size 8, 4 data-loading workers, 20000 training steps and a checkpoint every 5000 steps. ACT uses 100-step action chunks by default. If you change this, also check the data length and the action-execution settings used for real-robot evaluation.</span><span data-lang="zh" lang="zh-CN">这与当前 <code>outputs/train/ACT/</code> 中已有模型使用的主要参数一致：AMP、batch size 8、4 个数据读取进程、训练 20000 步、每 5000 步保存一次。ACT 默认使用 100 步 action chunk；如需改变，必须同时确认数据长度和实机评估时的动作执行设置。</span></p>
+<!-- readme-block:102:end -->
+
+<!-- readme-block:103:start -->
+<p data-readme-block="103" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If the dataset is outside Hugging Face's default LeRobot cache location, you can also add:</span><span data-lang="zh" lang="zh-CN">如果数据集不在 Hugging Face 的默认 LeRobot 缓存位置，可以额外增加：</span></p>
+<!-- readme-block:103:end -->
+
+<!-- readme-block:104:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="104" data-i18n-ignore lang="zh-CN" data-readme-code="23">--dataset.root=/实际的数据集目录
+</code></pre></div>
+<!-- readme-block:104:end -->
+
+<!-- readme-block:105:start -->
+<h3 data-readme-block="105" data-i18n-ignore lang="zh-CN" id="readme-10-2"><span data-lang="en" lang="en">10.2 SmolVLA training</span><span data-lang="zh" lang="zh-CN">10.2 SmolVLA 训练</span></h3>
+<!-- readme-block:105:end -->
+
+<!-- readme-block:106:start -->
+<p data-readme-block="106" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The existing task01–task08 models were fine-tuned from the RoboTwin-pretrained <code>models/smolvla_robotwin</code>. The following command follows the <code>train_config.json</code> files saved with the existing models.</span><span data-lang="zh" lang="zh-CN">现有 task01～task08 模型是从 RoboTwin 预训练的 <code>models/smolvla_robotwin</code> 继续微调。以下命令按照现有模型保存的 <code>train_config.json</code> 整理。</span></p>
+<!-- readme-block:106:end -->
+
+<!-- readme-block:107:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="107" data-i18n-ignore lang="zh-CN" data-readme-code="24">HF_HUB_DISABLE_XET=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-train \
+  --config_path=BREE/configs/smolvla_train.json \
+  --dataset.repo_id=YOUR_NAME/YOUR_DATASET \
+  --dataset.video_backend=pyav \
+  --policy.path=models/smolvla_robotwin \
+  --policy.device=cuda \
+  --policy.use_amp=true \
+  --policy.push_to_hub=false \
+  --policy.chunk_size=50 \
+  --policy.n_action_steps=50 \
+  --policy.max_state_dim=32 \
+  --policy.max_action_dim=32 \
+  --policy.resize_imgs_with_padding='[512, 512]' \
+  --policy.freeze_vision_encoder=true \
+  --policy.train_expert_only=true \
+  --policy.train_state_proj=true \
+  --policy.optimizer_lr=0.0001 \
+  --policy.optimizer_weight_decay=1e-10 \
+  --policy.scheduler_warmup_steps=1000 \
+  --policy.scheduler_decay_steps=20000 \
+  --policy.scheduler_decay_lr=2.5e-6 \
+  --batch_size=12 \
+  --num_workers=4 \
+  --steps=30000 \
+  --save_checkpoint=true \
+  --save_freq=5000 \
+  --log_freq=500 \
+  --tolerance_s=0.05 \
+  --wandb.enable=false
+</code></pre></div>
+<!-- readme-block:107:end -->
+
+<!-- readme-block:108:start -->
+<p data-readme-block="108" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The existing SmolVLA task models share these settings: three cameras, 12-dimensional real actions, 50-step action chunks, maximum state and action dimensions of 32, images padded to 512×512, a frozen vision encoder, and training of the expert and state projection. The three-camera <code>rename_map</code> is already defined in <code>BREE/configs/smolvla_train.json</code>.</span><span data-lang="zh" lang="zh-CN">现有 SmolVLA 任务模型的共同配置为：三个相机、12 维真实动作、50 步 action chunk、状态和动作最大维度 32、图像 padding 到 512×512、冻结视觉编码器，并训练 expert 与 state projection。三个相机的 <code>rename_map</code> 已写在 <code>BREE/configs/smolvla_train.json</code> 中。</span></p>
+<!-- readme-block:108:end -->
+
+<!-- readme-block:109:start -->
+<p data-readme-block="109" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">You must use <code>--config_path</code> here: the command-line configuration parser used in this repository cannot correctly parse the top-level <code>--rename_map</code> dictionary or the optional path type of <code>--output_dir</code>; passing them directly on the command line causes parameter-type errors. Before training, replace <code>YOUR_NAME/YOUR_DATASET</code> in the command with the actual dataset, then open <code>BREE/configs/smolvla_train.json</code> and replace both occurrences of <code>YOUR_RUN</code> with the training-run name. The command-line <code>--dataset.repo_id</code> overrides the dataset placeholder in the configuration template.</span><span data-lang="zh" lang="zh-CN">这里必须使用 <code>--config_path</code>：当前仓库所用的命令行配置解析器不能正确解析顶层 <code>--rename_map</code> 字典以及可选路径类型的 <code>--output_dir</code>，直接在命令中传入会报参数类型错误。训练前需要修改两处：将命令中的 <code>YOUR_NAME/YOUR_DATASET</code> 换成真实数据集；将 <code>BREE/configs/smolvla_train.json</code> 中两处 <code>YOUR_RUN</code> 换成训练名称。命令中的 <code>--dataset.repo_id</code> 会覆盖配置模板里的数据集占位值。</span></p>
+<!-- readme-block:109:end -->
+
+<!-- readme-block:110:start -->
+<h3 data-readme-block="110" data-i18n-ignore lang="zh-CN" id="readme-10-3"><span data-lang="en" lang="en">10.3 XVLA training</span><span data-lang="zh" lang="zh-CN">10.3 XVLA 训练</span></h3>
+<!-- readme-block:110:end -->
+
+<!-- readme-block:111:start -->
+<p data-readme-block="111" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The XVLA base model uses <code>image</code>, <code>image2</code> and <code>image3</code> as its three visual-input keys, so the current dataset's global, left-wrist and right-wrist camera keys must be renamed. <code>action_mode=auto</code> automatically identifies the bimanual dataset's 12-dimensional real actions and applies padding and trimming within XVLA's 20-dimensional model action space.</span><span data-lang="zh" lang="zh-CN">XVLA 基础模型使用 <code>image</code>、<code>image2</code>、<code>image3</code> 作为三个视觉输入键，因此必须把当前数据集的全局、左腕和右腕相机键重命名。<code>action_mode=auto</code> 会根据双臂数据集自动识别真实的 12 维动作，并在 XVLA 的 20 维模型动作空间中完成填充和裁剪。</span></p>
+<!-- readme-block:111:end -->
+
+<!-- readme-block:112:start -->
+<p data-readme-block="112" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The settings below follow existing XVLA training results on this machine: 3 cameras, 30-step action chunks, bfloat16, batch size 2, and training of the policy transformer and soft prompts.</span><span data-lang="zh" lang="zh-CN">下面的参数根据本机已有 XVLA 训练结果整理：使用 3 个相机、30 步 action chunk、bfloat16、batch size 2，并训练 policy transformer 和 soft prompts。</span></p>
+<!-- readme-block:112:end -->
+
+<!-- readme-block:113:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="113" data-i18n-ignore lang="zh-CN" data-readme-code="25">HF_HUB_DISABLE_XET=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-train \
+  --dataset.repo_id=YOUR_NAME/YOUR_DATASET \
+  --dataset.video_backend=pyav \
+  --policy.path=lerobot/xvla-base \
+  --policy.device=cuda \
+  --policy.use_amp=true \
+  --policy.push_to_hub=false \
+  --policy.dtype=bfloat16 \
+  --policy.action_mode=auto \
+  --policy.max_state_dim=20 \
+  --policy.max_action_dim=20 \
+  --policy.chunk_size=30 \
+  --policy.n_action_steps=30 \
+  --policy.resize_imgs_with_padding='[224, 224]' \
+  --policy.num_image_views=3 \
+  --policy.freeze_vision_encoder=true \
+  --policy.freeze_language_encoder=true \
+  --policy.train_policy_transformer=true \
+  --policy.train_soft_prompts=true \
+  --rename_map='{
+    "observation.images.left_global": "observation.images.image",
+    "observation.images.left_wrist": "observation.images.image2",
+    "observation.images.right_wrist": "observation.images.image3"
+  }' \
+  --output_dir=outputs/train/XVLA/YOUR_RUN \
+  --job_name=YOUR_RUN \
+  --batch_size=2 \
+  --num_workers=2 \
+  --steps=30000 \
+  --save_checkpoint=true \
+  --save_freq=5000 \
+  --log_freq=500 \
+  --tolerance_s=0.05 \
+  --wandb.enable=false
+</code></pre></div>
+<!-- readme-block:113:end -->
+
+<!-- readme-block:114:start -->
+<p data-readme-block="114" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The current command freezes XVLA's vision and language encoders and trains only the policy Transformer and soft prompts, keeping GPU memory use relatively low. To fine-tune the full VLM, set both <code>freeze</code> parameters to <code>false</code>, but expect substantially higher memory use and training time.</span><span data-lang="zh" lang="zh-CN">当前命令冻结 XVLA 的视觉和语言编码器，只训练策略 Transformer 和 soft prompts，显存占用相对较低。如果需要完整微调 VLM，可以把两个 <code>freeze</code> 参数改成 <code>false</code>，但显存和训练时间都会明显增加。</span></p>
+<!-- readme-block:114:end -->
+
+<!-- readme-block:115:start -->
+<p data-readme-block="115" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Before the first training run, confirm that the XVLA extra dependencies are installed and that <code>lerobot/xvla-base</code> can be downloaded from Hugging Face or is already cached locally. The base model on the current machine is cached at:</span><span data-lang="zh" lang="zh-CN">首次训练前确认已安装 XVLA 额外依赖，并且 <code>lerobot/xvla-base</code> 可以从 Hugging Face 下载或已经存在于本机缓存中。当前机器的基础模型已经缓存在：</span></p>
+<!-- readme-block:115:end -->
+
+<!-- readme-block:116:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="116" data-i18n-ignore lang="zh-CN" data-readme-code="26">~/.cache/huggingface/hub/models--lerobot--xvla-base/
+</code></pre></div>
+<!-- readme-block:116:end -->
+
+<!-- readme-block:117:start -->
+<p data-readme-block="117" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If all models and data are cached and you need fully offline training, you can also set the following at the start of the command:</span><span data-lang="zh" lang="zh-CN">如果确认所有模型和数据都已缓存，需要完全离线训练时，可以在命令开头额外设置：</span></p>
+<!-- readme-block:117:end -->
+
+<!-- readme-block:118:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="118" data-i18n-ignore lang="zh-CN" data-readme-code="27">HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+</code></pre></div>
+<!-- readme-block:118:end -->
+
+<!-- readme-block:119:start -->
+<h3 data-readme-block="119" data-i18n-ignore lang="zh-CN" id="readme-10-4"><span data-lang="en" lang="en">10.4 RDT and OpenPI training</span><span data-lang="zh" lang="zh-CN">10.4 RDT 与 OpenPI 训练</span></h3>
+<!-- readme-block:119:end -->
+
+<!-- readme-block:120:start -->
+<p data-readme-block="120" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The RDT and OpenPI training functionality is organized under:</span><span data-lang="zh" lang="zh-CN">RDT 和 OpenPI 训练功能已经整理到：</span></p>
+<!-- readme-block:120:end -->
+
+<!-- readme-block:121:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="121" data-i18n-ignore lang="zh-CN" data-readme-code="28">BREE/model_training/
+</code></pre></div>
+<!-- readme-block:121:end -->
+
+<!-- readme-block:122:start -->
+<p data-readme-block="122" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">By default, training scripts read their dependencies from <code>models/</code> and <code>datasets/</code> in the current LeRobot repository and write checkpoints to <code>outputs/train/</code>.</span><span data-lang="zh" lang="zh-CN">训练脚本默认从当前 LeRobot 仓库下的 <code>models/</code> 和 <code>datasets/</code> 读取依赖，并将 checkpoint 写入 <code>outputs/train/</code>。</span></p>
+<!-- readme-block:122:end -->
+
+<!-- readme-block:123:start -->
+<h4 data-readme-block="123" data-i18n-ignore lang="zh-CN" id="readme-10-4-1"><span data-lang="en" lang="en">10.4.1 OpenPI training</span><span data-lang="zh" lang="zh-CN">10.4.1 OpenPI 训练</span></h4>
+<!-- readme-block:123:end -->
+
+<!-- readme-block:124:start -->
+<p data-readme-block="124" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">OpenPI reads data from <code>datasets/openpi/</code> and base weights from <code>models/openpi/pi05_base/params/</code> by default, and saves checkpoints to <code>outputs/train/OpenPI/</code>. For the first run, start with a 1-step smoke test:</span><span data-lang="zh" lang="zh-CN">OpenPI 默认读取 <code>datasets/openpi/</code> 下的数据和 <code>models/openpi/pi05_base/params/</code> 下的基础权重，并把 checkpoint 保存到 <code>outputs/train/OpenPI/</code>。第一次训练建议先执行 1 步 smoke test：</span></p>
+<!-- readme-block:124:end -->
+
+<!-- readme-block:125:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="125" data-i18n-ignore lang="zh-CN" data-readme-code="29">GPU_IDS=0,1 \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 smoke
+</code></pre></div>
+<!-- readme-block:125:end -->
+
+<!-- readme-block:126:start -->
+<p data-readme-block="126" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">After confirming that the data, weights, GPUs, FSDP and checkpoint writing work correctly, start a full training run:</span><span data-lang="zh" lang="zh-CN">确认数据、权重、GPU、FSDP 和 checkpoint 写入都正常后，再开始正式训练：</span></p>
+<!-- readme-block:126:end -->
+
+<!-- readme-block:127:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="127" data-i18n-ignore lang="zh-CN" data-readme-code="30">GPU_IDS=0,1 \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 train
+</code></pre></div>
+<!-- readme-block:127:end -->
+
+<!-- readme-block:128:start -->
+<p data-readme-block="128" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">To resume the same experiment from an existing checkpoint, <code>EXP_NAME</code> must match the original experiment name:</span><span data-lang="zh" lang="zh-CN">需要从已有 checkpoint 恢复同一个实验时，<code>EXP_NAME</code> 必须与原实验名称一致：</span></p>
+<!-- readme-block:128:end -->
+
+<!-- readme-block:129:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="129" data-i18n-ignore lang="zh-CN" data-readme-code="31">GPU_IDS=0,1 RESUME=1 EXP_NAME=my_test \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task03_switch_new train
+</code></pre></div>
+<!-- readme-block:129:end -->
+
+<!-- readme-block:130:start -->
+<p data-readme-block="130" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If you currently have only the HDF5 data used by RDT, first convert it to the LeRobot v2.1 format used by OpenPI, then compute normalization statistics:</span><span data-lang="zh" lang="zh-CN">如果当前只有 RDT 使用的 HDF5 数据，先转换成 OpenPI 使用的 LeRobot v2.1 数据，再计算归一化统计：</span></p>
+<!-- readme-block:130:end -->
+
+<!-- readme-block:131:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="131" data-i18n-ignore lang="zh-CN" data-readme-code="32">BREE/model_training/openpi/convert_from_rdt_hdf5.sh \
+  datasets/rdt_hdf5/task01_pickplace_big_50 \
+  yyyyyy0604/task01_pickplace_big_50
+
+BREE/model_training/openpi/compute_norm_stats.sh pi05_biso_task01
+</code></pre></div>
+<!-- readme-block:131:end -->
+
+<!-- readme-block:132:start -->
+<p data-readme-block="132" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Here, <code>GPU_IDS</code> selects the physical GPUs used for training; the first positional argument is the OpenPI training configuration name; <code>smoke</code> trains for only 1 step, while <code>train</code> starts full training; and <code>RESUME=1</code> resumes training. Standard tasks train for 30000 steps by default, while some long-prompt, wrist-swapped and switch variants default to 20000 steps. Override this with <code>TRAIN_STEPS=步数</code>.</span><span data-lang="zh" lang="zh-CN">其中 <code>GPU_IDS</code> 指定参与训练的物理 GPU；第一个位置参数是 OpenPI 训练配置名；<code>smoke</code> 只训练 1 步，<code>train</code> 执行正式训练；<code>RESUME=1</code> 表示恢复训练。标准任务默认训练 30000 步，部分 long-prompt、wrist-swapped 和 switch 变体默认训练 20000 步，可用 <code>TRAIN_STEPS=步数</code> 覆盖。</span></p>
+<!-- readme-block:132:end -->
+
+<!-- readme-block:133:start -->
+<h4 data-readme-block="133" data-i18n-ignore lang="zh-CN" id="readme-10-4-2"><span data-lang="en" lang="en">10.4.2 RDT training</span><span data-lang="zh" lang="zh-CN">10.4.2 RDT 训练</span></h4>
+<!-- readme-block:133:end -->
+
+<!-- readme-block:134:start -->
+<p data-readme-block="134" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">RDT reads data from <code>datasets/rdt_hdf5/</code> and the RDT, SigLIP and T5 weights from <code>models/rdt/</code> by default, and saves checkpoints to <code>outputs/train/RDT/</code>. If you currently have only LeRobot data, convert it first:</span><span data-lang="zh" lang="zh-CN">RDT 默认读取 <code>datasets/rdt_hdf5/</code> 下的数据和 <code>models/rdt/</code> 下的 RDT、SigLIP、T5 权重，并把 checkpoint 保存到 <code>outputs/train/RDT/</code>。如果目前只有 LeRobot 数据，先执行转换：</span></p>
+<!-- readme-block:134:end -->
+
+<!-- readme-block:135:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="135" data-i18n-ignore lang="zh-CN" data-readme-code="33">BREE/model_training/rdt/convert_dataset.sh \
+  yyyyyy0604/task08_cylinder_insertion_50
+</code></pre></div>
+<!-- readme-block:135:end -->
+
+<!-- readme-block:136:start -->
+<p data-readme-block="136" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Then start a full training run. <code>RDT_PYTHON</code> must point to a Python interpreter with the RDT dependencies installed. You can omit this variable if those dependencies are already installed correctly in the current environment:</span><span data-lang="zh" lang="zh-CN">然后执行正式训练。<code>RDT_PYTHON</code> 要指向已经安装 RDT 依赖的 Python；如果当前环境已经正确安装依赖，也可以省略这个变量：</span></p>
+<!-- readme-block:136:end -->
+
+<!-- readme-block:137:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="137" data-i18n-ignore lang="zh-CN" data-readme-code="34">GPU=0 \
+RDT_PYTHON=/实际的/rdt环境/bin/python \
+BREE/model_training/rdt/train_rdt.sh \
+  task08_insertion_170m \
+  task08_cylinder_insertion_50 \
+  "Pick up the red cylinder with the right arm, then place the blue cylinder onto the red cylinder with the left arm"
+</code></pre></div>
+<!-- readme-block:137:end -->
+
+<!-- readme-block:138:start -->
+<p data-readme-block="138" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Resume an existing training run:</span><span data-lang="zh" lang="zh-CN">恢复已有训练：</span></p>
+<!-- readme-block:138:end -->
+
+<!-- readme-block:139:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="139" data-i18n-ignore lang="zh-CN" data-readme-code="35">GPU=0 RESUME=1 \
+RDT_PYTHON=/实际的/rdt环境/bin/python \
+BREE/model_training/rdt/train_rdt.sh \
+  task08_insertion_170m \
+  task08_cylinder_insertion_50 \
+  "Pick up the red cylinder with the right arm, then place the blue cylinder onto the red cylinder with the left arm"
+</code></pre></div>
+<!-- readme-block:139:end -->
+
+<!-- readme-block:140:start -->
+<p data-readme-block="140" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The three positional arguments are, in order: the task profile, the data-directory name under <code>datasets/rdt_hdf5/</code>, and the task's language instruction. <code>GPU</code> selects the physical GPU, and <code>RESUME=1</code> resumes from an existing checkpoint in the output directory. By default, training runs for 25000 steps and saves a checkpoint every 5000 steps. Change these with <code>MAX_TRAIN_STEPS</code> and <code>CHECKPOINT_PERIOD</code>, respectively.</span><span data-lang="zh" lang="zh-CN">三个位置参数依次为：任务 profile、<code>datasets/rdt_hdf5/</code> 下的数据目录名、任务语言指令。<code>GPU</code> 指定物理 GPU，<code>RESUME=1</code> 表示从输出目录中的已有 checkpoint 恢复。默认训练 25000 步、每 5000 步保存一次，可分别用 <code>MAX_TRAIN_STEPS</code> 和 <code>CHECKPOINT_PERIOD</code> 修改。</span></p>
+<!-- readme-block:140:end -->
+
+<!-- readme-block:141:start -->
+<p data-readme-block="141" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The training code has been merged into BREE, but the code directory does not include the base models, training data or RDT Python environment. Before training, place them in the default directories above or use the environment variables supported by the training scripts to point to their actual locations.</span><span data-lang="zh" lang="zh-CN">训练代码已经合并进 BREE，但基础模型、训练数据和 RDT Python 环境没有包含在代码目录中；开始训练前必须把它们放入上述默认目录，或使用训练脚本支持的环境变量指向实际位置。</span></p>
+<!-- readme-block:141:end -->
+
+<!-- readme-block:142:start -->
+<p data-readme-block="142" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">For the complete list of configuration names, RDT profiles, installation dependencies and overridable paths, see:</span><span data-lang="zh" lang="zh-CN">完整的配置名称、RDT profile、安装依赖以及所有可覆盖路径见：</span></p>
+<!-- readme-block:142:end -->
+
+<!-- readme-block:143:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="143" data-i18n-ignore lang="zh-CN" data-readme-code="36">BREE/model_training/README.md
+</code></pre></div>
+<!-- readme-block:143:end -->
+
+<p><span data-lang="en">The complete contents of <code>BREE/model_training/README.md</code> follow.</span><span data-lang="zh">下方完整展开 <code>BREE/model_training/README.md</code> 的内容。</span></p>
+
+<!-- reference-block:model-training:1:start -->
+<h2 data-reference-source="model-training" data-reference-block="1" data-i18n-ignore lang="zh-CN" id="model-training-readme-block-1"><span data-lang="en" lang="en">BREE model training</span><span data-lang="zh" lang="zh-CN">BREE 模型训练</span></h2>
+<!-- reference-block:model-training:1:end -->
+
+<!-- reference-block:model-training:2:start -->
+<p data-reference-source="model-training" data-reference-block="2" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This directory contains only the RDT and OpenPI training entry points, task configurations and data-conversion tools. Runtime files, language embeddings and checkpoints generated during training are written to <code>outputs/</code> at the repository root, rather than to BREE.</span><span data-lang="zh" lang="zh-CN">本目录只保存 RDT 和 OpenPI 的训练入口、任务配置与数据转换工具。训练产生的 runtime、语言向量和 checkpoint 统一写入仓库根目录的 <code>outputs/</code>，不会写入 BREE。</span></p>
+<!-- reference-block:model-training:2:end -->
+
+<!-- reference-block:model-training:3:start -->
+<p data-reference-source="model-training" data-reference-block="3" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">All launch scripts locate the <code>/home/l/lerobot</code> repository root from their own location and do not depend on the original server's <code>/home/yanch/...</code> paths. Environment variables can override the default locations for models or data stored on external disks.</span><span data-lang="zh" lang="zh-CN">所有启动脚本都会根据自身位置查找 <code>/home/l/lerobot</code> 仓库根目录，不依赖原服务器的 <code>/home/yanch/...</code>。外部磁盘上的模型或数据可以通过环境变量覆盖默认位置。</span></p>
+<!-- reference-block:model-training:3:end -->
+
+<!-- reference-block:model-training:4:start -->
+<h3 data-reference-source="model-training" data-reference-block="4" data-i18n-ignore lang="zh-CN" id="model-training-readme-1"><span data-lang="en" lang="en">1. OpenPI training</span><span data-lang="zh" lang="zh-CN">1. OpenPI 训练</span></h3>
+<!-- reference-block:model-training:4:end -->
+
+<!-- reference-block:model-training:5:start -->
+<p data-reference-source="model-training" data-reference-block="5" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">OpenPI training reuses:</span><span data-lang="zh" lang="zh-CN">OpenPI 训练复用：</span></p>
+<!-- reference-block:model-training:5:end -->
+
+<!-- reference-block:model-training:6:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="6" data-i18n-ignore lang="zh-CN" data-reference-code="1">BREE/openpi_eval/openpi/
+</code></pre></div>
+<!-- reference-block:model-training:6:end -->
+
+<!-- reference-block:model-training:7:start -->
+<p data-reference-source="model-training" data-reference-block="7" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Both the downloaded code and the existing OpenPI code use commit <code>215abfb217dbac7d5f1273282331b9b1866c0479</code>. The following have been merged:</span><span data-lang="zh" lang="zh-CN">下载代码和现有 OpenPI 的 commit 都是 <code>215abfb217dbac7d5f1273282331b9b1866c0479</code>。已经合并：</span></p>
+<!-- reference-block:model-training:7:end -->
+
+<!-- reference-block:model-training:8:start -->
+<ul data-reference-source="model-training" data-reference-block="8" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">12 BiSO training configurations;</span><span data-lang="zh" lang="zh-CN">12 个 BiSO 训练配置；</span></li><li><span data-lang="en" lang="en">12 <code>norm_stats.json</code> files;</span><span data-lang="zh" lang="zh-CN">12 份 <code>norm_stats.json</code>；</span></li><li><span data-lang="en" lang="en">A fix for LeRobot <code>video_backend</code> loading;</span><span data-lang="zh" lang="zh-CN">LeRobot <code>video_backend</code> 加载修复；</span></li><li><span data-lang="en" lang="en">HDF5-to-OpenPI dataset conversion tools;</span><span data-lang="zh" lang="zh-CN">HDF5 到 OpenPI 数据集转换工具；</span></li><li><span data-lang="en" lang="en">Unified entry points for smoke tests, full training and resumed training.</span><span data-lang="zh" lang="zh-CN">统一的 smoke test、正式训练和恢复训练入口。</span></li></ul>
+<!-- reference-block:model-training:8:end -->
+
+<!-- reference-block:model-training:9:start -->
+<h4 data-reference-source="model-training" data-reference-block="9" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-1"><span data-lang="en" lang="en">1.1 Default directories</span><span data-lang="zh" lang="zh-CN">1.1 默认目录</span></h4>
+<!-- reference-block:model-training:9:end -->
+
+<!-- reference-block:model-training:10:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="10" data-i18n-ignore lang="zh-CN" data-reference-code="2">models/openpi/pi05_base/params/       OpenPI 基础权重
+datasets/openpi/&lt;用户&gt;/&lt;数据集&gt;/       OpenPI/LeRobot v2.1 训练数据
+outputs/train/OpenPI/                 新训练 checkpoint
+</code></pre></div>
+<!-- reference-block:model-training:10:end -->
+
+<!-- reference-block:model-training:11:start -->
+<p data-reference-source="model-training" data-reference-block="11" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Execution is offline by default; missing models or data will not be downloaded automatically.</span><span data-lang="zh" lang="zh-CN">默认离线运行，不会自动下载缺失的模型或数据。</span></p>
+<!-- reference-block:model-training:11:end -->
+
+<!-- reference-block:model-training:12:start -->
+<h4 data-reference-source="model-training" data-reference-block="12" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-2"><span data-lang="en" lang="en">1.2 Supported configurations</span><span data-lang="zh" lang="zh-CN">1.2 支持的配置</span></h4>
+<!-- reference-block:model-training:12:end -->
+
+<!-- reference-block:model-training:13:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="13" data-i18n-ignore lang="zh-CN" data-reference-code="3">pi05_biso_task01
+pi05_biso_task02
+pi05_biso_task02_long_prompt
+pi05_biso_task02_long_prompt_wrist_swapped
+pi05_biso_task03
+pi05_biso_task03_switch_new
+pi05_biso_task03_switch_right
+pi05_biso_task04
+pi05_biso_task05
+pi05_biso_task06
+pi05_biso_task07
+pi05_biso_task08
+</code></pre></div>
+<!-- reference-block:model-training:13:end -->
+
+<!-- reference-block:model-training:14:start -->
+<h4 data-reference-source="model-training" data-reference-block="14" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-3">1.3 Smoke test</h4>
+<!-- reference-block:model-training:14:end -->
+
+<!-- reference-block:model-training:15:start -->
+<p data-reference-source="model-training" data-reference-block="15" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The smoke test trains for only 1 step to verify the data, weights, GPUs, FSDP and checkpoint writing:</span><span data-lang="zh" lang="zh-CN">Smoke test 只训练 1 步，用于验证数据、权重、GPU、FSDP 和 checkpoint 写入：</span></p>
+<!-- reference-block:model-training:15:end -->
+
+<!-- reference-block:model-training:16:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="16" data-i18n-ignore lang="zh-CN" data-reference-code="4">GPU_IDS=0,1 \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 smoke
+</code></pre></div>
+<!-- reference-block:model-training:16:end -->
+
+<!-- reference-block:model-training:17:start -->
+<h4 data-reference-source="model-training" data-reference-block="17" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-4"><span data-lang="en" lang="en">1.4 Full training</span><span data-lang="zh" lang="zh-CN">1.4 正式训练</span></h4>
+<!-- reference-block:model-training:17:end -->
+
+<!-- reference-block:model-training:18:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="18" data-i18n-ignore lang="zh-CN" data-reference-code="5">GPU_IDS=0,1 \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task01 train
+</code></pre></div>
+<!-- reference-block:model-training:18:end -->
+
+<!-- reference-block:model-training:19:start -->
+<p data-reference-source="model-training" data-reference-block="19" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Standard tasks train for 30000 steps by default; long-prompt, wrist-swapped, switch-new and switch-right variants default to 20000 steps. Override this with <code>TRAIN_STEPS</code>:</span><span data-lang="zh" lang="zh-CN">标准任务默认训练 30000 步；long-prompt、wrist-swapped、switch-new 和 switch-right 默认训练 20000 步。可用 <code>TRAIN_STEPS</code> 覆盖：</span></p>
+<!-- reference-block:model-training:19:end -->
+
+<!-- reference-block:model-training:20:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="20" data-i18n-ignore lang="zh-CN" data-reference-code="6">GPU_IDS=0,1 TRAIN_STEPS=10000 EXP_NAME=my_test \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task03_switch_new train
+</code></pre></div>
+<!-- reference-block:model-training:20:end -->
+
+<!-- reference-block:model-training:21:start -->
+<p data-reference-source="model-training" data-reference-block="21" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Resume an existing training run:</span><span data-lang="zh" lang="zh-CN">恢复已有训练：</span></p>
+<!-- reference-block:model-training:21:end -->
+
+<!-- reference-block:model-training:22:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="22" data-i18n-ignore lang="zh-CN" data-reference-code="7">GPU_IDS=0,1 RESUME=1 EXP_NAME=my_test \
+BREE/model_training/openpi/train_openpi.sh pi05_biso_task03_switch_new train
+</code></pre></div>
+<!-- reference-block:model-training:22:end -->
+
+<!-- reference-block:model-training:23:start -->
+<h4 data-reference-source="model-training" data-reference-block="23" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-5"><span data-lang="en" lang="en">1.5 OpenPI data conversion and statistics</span><span data-lang="zh" lang="zh-CN">1.5 OpenPI 数据转换和统计</span></h4>
+<!-- reference-block:model-training:23:end -->
+
+<!-- reference-block:model-training:24:start -->
+<p data-reference-source="model-training" data-reference-block="24" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Convert existing RDT HDF5 data to the LeRobot v2.1 format used by OpenPI:</span><span data-lang="zh" lang="zh-CN">将已有 RDT HDF5 转为 OpenPI 使用的 LeRobot v2.1 数据：</span></p>
+<!-- reference-block:model-training:24:end -->
+
+<!-- reference-block:model-training:25:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="25" data-i18n-ignore lang="zh-CN" data-reference-code="8">BREE/model_training/openpi/convert_from_rdt_hdf5.sh \
+  datasets/rdt_hdf5/task01_pickplace_big_50 \
+  yyyyyy0604/task01_pickplace_big_50
+</code></pre></div>
+<!-- reference-block:model-training:25:end -->
+
+<!-- reference-block:model-training:26:start -->
+<p data-reference-source="model-training" data-reference-block="26" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Compute normalization statistics for a new dataset:</span><span data-lang="zh" lang="zh-CN">为新数据集计算归一化统计：</span></p>
+<!-- reference-block:model-training:26:end -->
+
+<!-- reference-block:model-training:27:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="27" data-i18n-ignore lang="zh-CN" data-reference-code="9">BREE/model_training/openpi/compute_norm_stats.sh pi05_biso_task01
+</code></pre></div>
+<!-- reference-block:model-training:27:end -->
+
+<!-- reference-block:model-training:28:start -->
+<h4 data-reference-source="model-training" data-reference-block="28" data-i18n-ignore lang="zh-CN" id="model-training-readme-1-6"><span data-lang="en" lang="en">1.6 OpenPI path overrides</span><span data-lang="zh" lang="zh-CN">1.6 OpenPI 可覆盖路径</span></h4>
+<!-- reference-block:model-training:28:end -->
+
+<!-- reference-block:model-training:29:start -->
+<div class="table-wrap" data-reference-source="model-training" data-reference-block="29" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Environment variable</span><span data-lang="zh" lang="zh-CN">环境变量</span></th><th><span data-lang="en" lang="en">Default value</span><span data-lang="zh" lang="zh-CN">默认值</span></th><th><span data-lang="en" lang="en">Purpose</span><span data-lang="zh" lang="zh-CN">作用</span></th></tr></thead><tbody><tr><td><code>OPENPI_ROOT</code></td><td><code>BREE/openpi_eval/openpi</code></td><td><span data-lang="en" lang="en">OpenPI source-code location</span><span data-lang="zh" lang="zh-CN">OpenPI 源码位置</span></td></tr><tr><td><code>OPENPI_DATASETS_ROOT</code></td><td><code>datasets/openpi</code></td><td><span data-lang="en" lang="en">Root directory for OpenPI training data</span><span data-lang="zh" lang="zh-CN">OpenPI 训练数据根目录</span></td></tr><tr><td><code>OPENPI_BASE_WEIGHTS</code></td><td><code>models/openpi/pi05_base/params</code></td><td><span data-lang="en" lang="en">π0.5 base weights</span><span data-lang="zh" lang="zh-CN">π0.5 基础权重</span></td></tr><tr><td><code>CHECKPOINT_ROOT</code></td><td><code>outputs/train/OpenPI</code></td><td><span data-lang="en" lang="en">Checkpoint root directory</span><span data-lang="zh" lang="zh-CN">checkpoint 根目录</span></td></tr><tr><td><code>GPU_IDS</code></td><td><code>0,1</code></td><td><span data-lang="en" lang="en">Physical GPUs participating in training</span><span data-lang="zh" lang="zh-CN">参与训练的物理 GPU</span></td></tr><tr><td><code>BATCH_SIZE</code></td><td><code>8</code></td><td><span data-lang="en" lang="en">Global batch size</span><span data-lang="zh" lang="zh-CN">全局 batch size</span></td></tr><tr><td><code>MIN_FREE_MIB</code></td><td><code>0</code></td><td><span data-lang="en" lang="en">Minimum free GPU memory required per GPU before launch; 0 disables the check</span><span data-lang="zh" lang="zh-CN">启动前要求的单卡最低空闲显存；0 表示不检查</span></td></tr><tr><td><code>HF_HUB_OFFLINE</code></td><td><code>1</code></td><td><span data-lang="en" lang="en">Whether to prohibit online downloads from Hugging Face</span><span data-lang="zh" lang="zh-CN">是否禁止 Hugging Face 在线下载</span></td></tr></tbody></table></div>
+<!-- reference-block:model-training:29:end -->
+
+<!-- reference-block:model-training:30:start -->
+<h3 data-reference-source="model-training" data-reference-block="30" data-i18n-ignore lang="zh-CN" id="model-training-readme-2"><span data-lang="en" lang="en">2. RDT training</span><span data-lang="zh" lang="zh-CN">2. RDT 训练</span></h3>
+<!-- reference-block:model-training:30:end -->
+
+<!-- reference-block:model-training:31:start -->
+<p data-reference-source="model-training" data-reference-block="31" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">RDT reuses the shared source code already in the repository:</span><span data-lang="zh" lang="zh-CN">RDT 复用仓库已有公共源码：</span></p>
+<!-- reference-block:model-training:31:end -->
+
+<!-- reference-block:model-training:32:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="32" data-i18n-ignore lang="zh-CN" data-reference-code="10">third_party/RoboticsDiffusionTransformer/
+</code></pre></div>
+<!-- reference-block:model-training:32:end -->
+
+<!-- reference-block:model-training:33:start -->
+<p data-reference-source="model-training" data-reference-block="33" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The shared code in all 13 runtime sets in the download package is identical, so only task-specific configurations are retained. Before training, an isolated working copy is created at <code>outputs/rdt_runtime/&lt;profile&gt;/</code>, leaving the shared source code unchanged.</span><span data-lang="zh" lang="zh-CN">下载包中的 13 套 runtime 公共代码完全相同，因此只保留各任务独有的配置。训练前会在 <code>outputs/rdt_runtime/&lt;profile&gt;/</code> 创建隔离工作副本，不会覆盖公共源码。</span></p>
+<!-- reference-block:model-training:33:end -->
+
+<!-- reference-block:model-training:34:start -->
+<h4 data-reference-source="model-training" data-reference-block="34" data-i18n-ignore lang="zh-CN" id="model-training-readme-2-1"><span data-lang="en" lang="en">2.1 Default directories</span><span data-lang="zh" lang="zh-CN">2.1 默认目录</span></h4>
+<!-- reference-block:model-training:34:end -->
+
+<!-- reference-block:model-training:35:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="35" data-i18n-ignore lang="zh-CN" data-reference-code="11">models/rdt/rdt-170m/                  RDT-170M 基础权重
+models/rdt/rdt-1b/                    RDT-1B 基础权重
+models/rdt/siglip-so400m-patch14-384/ 视觉编码器
+models/rdt/t5-v1_1-xxl/               T5 文本编码器
+datasets/lerobot/&lt;用户&gt;/&lt;数据集&gt;/       原始 LeRobot 数据
+datasets/rdt_hdf5/&lt;任务名&gt;/            转换后的 RDT HDF5 数据
+outputs/rdt_runtime/                  自动生成的隔离 runtime
+outputs/rdt_t5_offload/               T5 编码临时文件
+outputs/train/RDT/                    新训练 checkpoint
+</code></pre></div>
+<!-- reference-block:model-training:35:end -->
+
+<!-- reference-block:model-training:36:start -->
+<h4 data-reference-source="model-training" data-reference-block="36" data-i18n-ignore lang="zh-CN" id="model-training-readme-2-2"><span data-lang="en" lang="en">2.2 Data conversion</span><span data-lang="zh" lang="zh-CN">2.2 数据转换</span></h4>
+<!-- reference-block:model-training:36:end -->
+
+<!-- reference-block:model-training:37:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="37" data-i18n-ignore lang="zh-CN" data-reference-code="12">BREE/model_training/rdt/convert_dataset.sh \
+  yyyyyy0604/task08_cylinder_insertion_50
+</code></pre></div>
+<!-- reference-block:model-training:37:end -->
+
+<!-- reference-block:model-training:38:start -->
+<p data-reference-source="model-training" data-reference-block="38" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If the original data is outside the default location, pass its actual directory as the second argument:</span><span data-lang="zh" lang="zh-CN">如果原始数据不在默认位置，可以把实际目录作为第二个参数：</span></p>
+<!-- reference-block:model-training:38:end -->
+
+<!-- reference-block:model-training:39:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="39" data-i18n-ignore lang="zh-CN" data-reference-code="13">BREE/model_training/rdt/convert_dataset.sh \
+  yyyyyy0604/task08_cylinder_insertion_50 \
+  /实际的/LeRobot数据目录
+</code></pre></div>
+<!-- reference-block:model-training:39:end -->
+
+<!-- reference-block:model-training:40:start -->
+<h4 data-reference-source="model-training" data-reference-block="40" data-i18n-ignore lang="zh-CN" id="model-training-readme-2-3"><span data-lang="en" lang="en">2.3 Full training</span><span data-lang="zh" lang="zh-CN">2.3 正式训练</span></h4>
+<!-- reference-block:model-training:40:end -->
+
+<!-- reference-block:model-training:41:start -->
+<p data-reference-source="model-training" data-reference-block="41" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Before running, activate the RDT environment or use <code>RDT_PYTHON</code> to specify its Python interpreter:</span><span data-lang="zh" lang="zh-CN">运行前需要激活 RDT 环境，或者通过 <code>RDT_PYTHON</code> 指定该环境的 Python：</span></p>
+<!-- reference-block:model-training:41:end -->
+
+<!-- reference-block:model-training:42:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="42" data-i18n-ignore lang="zh-CN" data-reference-code="14">GPU=0 \
+RDT_PYTHON=/实际的/rdt环境/bin/python \
+BREE/model_training/rdt/train_rdt.sh \
+  task08_insertion_170m \
+  task08_cylinder_insertion_50 \
+  "Pick up the red cylinder with the right arm, then place the blue cylinder onto the red cylinder with the left arm"
+</code></pre></div>
+<!-- reference-block:model-training:42:end -->
+
+<!-- reference-block:model-training:43:start -->
+<p data-reference-source="model-training" data-reference-block="43" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The default parameters match the server's standard 170M training setup: 25000 steps, batch size 2, gradient accumulation of 4, global batch size 8, learning rate <code>1e-4</code>, and a checkpoint every 5000 steps.</span><span data-lang="zh" lang="zh-CN">默认参数与服务器标准 170M 训练一致：25000 步、batch size 2、梯度累积 4、全局 batch 8、学习率 <code>1e-4</code>、每 5000 步保存。</span></p>
+<!-- reference-block:model-training:43:end -->
+
+<!-- reference-block:model-training:44:start -->
+<p data-reference-source="model-training" data-reference-block="44" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Resume training:</span><span data-lang="zh" lang="zh-CN">恢复训练：</span></p>
+<!-- reference-block:model-training:44:end -->
+
+<!-- reference-block:model-training:45:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="45" data-i18n-ignore lang="zh-CN" data-reference-code="15">GPU=0 RESUME=1 \
+BREE/model_training/rdt/train_rdt.sh PROFILE TASK_NAME "INSTRUCTION"
+</code></pre></div>
+<!-- reference-block:model-training:45:end -->
+
+<!-- reference-block:model-training:46:start -->
+<h4 data-reference-source="model-training" data-reference-block="46" data-i18n-ignore lang="zh-CN" id="model-training-readme-2-4">2.4 RDT profile</h4>
+<!-- reference-block:model-training:46:end -->
+
+<!-- reference-block:model-training:47:start -->
+<p data-reference-source="model-training" data-reference-block="47" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Available profiles are located in <code>BREE/model_training/rdt/task_profiles/</code>:</span><span data-lang="zh" lang="zh-CN">可用 profile 位于 <code>BREE/model_training/rdt/task_profiles/</code>：</span></p>
+<!-- reference-block:model-training:47:end -->
+
+<!-- reference-block:model-training:48:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-reference-source="model-training" data-reference-block="48" data-i18n-ignore lang="zh-CN" data-reference-code="16">task01_02_170m
+task02_long_prompt_170m
+task02_long_prompt_wrist_swapped_170m
+task03_170m
+task03_switch_new_170m
+task03_switch_right_170m
+task04_1b
+task04_1b_visual_lr1e-5
+task04_masked_loss_repair_170m
+task06_170m
+task07_08_170m
+task08_insertion_170m
+task10_170m
+</code></pre></div>
+<!-- reference-block:model-training:48:end -->
+
+<!-- reference-block:model-training:49:start -->
+<p data-reference-source="model-training" data-reference-block="49" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The long-prompt, wrist-swapped, switch-new, switch-right and task04 masked-loss profiles use masked loss, so only the real robot action dimensions contribute to the loss; all other profiles use standard MSE. Profiles with <code>1b</code> in their names load <code>rdt-1b</code> by default; the others load <code>rdt-170m</code>.</span><span data-lang="zh" lang="zh-CN">其中 long-prompt、wrist-swapped、switch-new、switch-right 和 task04 masked-loss profile 使用 masked loss，只让真实机器人动作维度参与 loss；其余 profile 使用标准 MSE。名称包含 <code>1b</code> 的 profile 默认加载 <code>rdt-1b</code>，其他默认加载 <code>rdt-170m</code>。</span></p>
+<!-- reference-block:model-training:49:end -->
+
+<!-- reference-block:model-training:50:start -->
+<h4 data-reference-source="model-training" data-reference-block="50" data-i18n-ignore lang="zh-CN" id="model-training-readme-2-5"><span data-lang="en" lang="en">2.5 RDT parameter overrides</span><span data-lang="zh" lang="zh-CN">2.5 RDT 可覆盖参数</span></h4>
+<!-- reference-block:model-training:50:end -->
+
+<!-- reference-block:model-training:51:start -->
+<div class="table-wrap" data-reference-source="model-training" data-reference-block="51" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Environment variable</span><span data-lang="zh" lang="zh-CN">环境变量</span></th><th><span data-lang="en" lang="en">Default value</span><span data-lang="zh" lang="zh-CN">默认值</span></th><th><span data-lang="en" lang="en">Purpose</span><span data-lang="zh" lang="zh-CN">作用</span></th></tr></thead><tbody><tr><td><code>RDT_PYTHON</code></td><td><span data-lang="en" lang="en">Current <code>python</code></span><span data-lang="zh" lang="zh-CN">当前 <code>python</code></span></td><td><span data-lang="en" lang="en">RDT environment interpreter</span><span data-lang="zh" lang="zh-CN">RDT 环境解释器</span></td></tr><tr><td><code>RDT_MODEL_ROOT</code></td><td><code>models/rdt</code></td><td><span data-lang="en" lang="en">Root directory for the RDT, SigLIP and T5 models</span><span data-lang="zh" lang="zh-CN">RDT、SigLIP、T5 模型根目录</span></td></tr><tr><td><code>RDT_DATASETS_ROOT</code></td><td><code>datasets/rdt_hdf5</code></td><td><span data-lang="en" lang="en">Root directory for HDF5 training data</span><span data-lang="zh" lang="zh-CN">HDF5 训练数据根目录</span></td></tr><tr><td><code>RDT_WORK_ROOT</code></td><td><code>outputs/rdt_runtime</code></td><td><span data-lang="en" lang="en">Root directory for isolated runtimes</span><span data-lang="zh" lang="zh-CN">隔离 runtime 根目录</span></td></tr><tr><td><code>OUTPUT_DIR</code></td><td><span data-lang="en" lang="en"><code>outputs/train/RDT/&lt;任务_profile&gt;</code></span><span data-lang="zh" lang="zh-CN"><code>outputs/train/RDT/&lt;任务_profile&gt;</code></span></td><td><span data-lang="en" lang="en">Checkpoint output directory</span><span data-lang="zh" lang="zh-CN">checkpoint 输出目录</span></td></tr><tr><td><code>GPU</code></td><td><code>0</code></td><td><span data-lang="en" lang="en">Physical GPU to use</span><span data-lang="zh" lang="zh-CN">使用的物理 GPU</span></td></tr><tr><td><code>MAX_TRAIN_STEPS</code></td><td><code>25000</code></td><td><span data-lang="en" lang="en">Number of training steps</span><span data-lang="zh" lang="zh-CN">训练步数</span></td></tr><tr><td><code>CHECKPOINT_PERIOD</code></td><td><code>5000</code></td><td><span data-lang="en" lang="en">Checkpoint save interval</span><span data-lang="zh" lang="zh-CN">checkpoint 保存间隔</span></td></tr><tr><td><code>TRAIN_BATCH_SIZE</code></td><td><code>2</code></td><td><span data-lang="en" lang="en">Batch size per step</span><span data-lang="zh" lang="zh-CN">单步 batch size</span></td></tr><tr><td><code>GRADIENT_ACCUMULATION_STEPS</code></td><td><code>4</code></td><td><span data-lang="en" lang="en">Number of gradient accumulation steps</span><span data-lang="zh" lang="zh-CN">梯度累积步数</span></td></tr><tr><td><code>LEARNING_RATE</code></td><td><code>1e-4</code></td><td><span data-lang="en" lang="en">Learning rate</span><span data-lang="zh" lang="zh-CN">学习率</span></td></tr><tr><td><code>LOADER_VARIANT</code></td><td><code>so</code></td><td><span data-lang="en" lang="en"><code>so</code> or <code>right_weighted</code> data loader</span><span data-lang="zh" lang="zh-CN"><code>so</code> 或 <code>right_weighted</code> 数据加载器</span></td></tr><tr><td><code>BASE_MODEL</code></td><td><span data-lang="en" lang="en">Selected automatically based on the profile</span><span data-lang="zh" lang="zh-CN">根据 profile 自动选择</span></td><td><span data-lang="en" lang="en">Explicitly specify the base RDT weights directory</span><span data-lang="zh" lang="zh-CN">显式指定基础 RDT 权重目录</span></td></tr></tbody></table></div>
+<!-- reference-block:model-training:51:end -->
+
+<!-- reference-block:model-training:52:start -->
+<h3 data-reference-source="model-training" data-reference-block="52" data-i18n-ignore lang="zh-CN" id="model-training-readme-3"><span data-lang="en" lang="en">3. Files not included</span><span data-lang="zh" lang="zh-CN">3. 未包含的文件</span></h3>
+<!-- reference-block:model-training:52:end -->
+
+<!-- reference-block:model-training:53:start -->
+<p data-reference-source="model-training" data-reference-block="53" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The server download package did not include the following, so this integration does not present them as already available:</span><span data-lang="zh" lang="zh-CN">服务器下载包没有携带以下内容，因此本次也没有把它们伪装成已经可用：</span></p>
+<!-- reference-block:model-training:53:end -->
+
+<!-- reference-block:model-training:54:start -->
+<ul data-reference-source="model-training" data-reference-block="54" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">RDT-170M, RDT-1B, SigLIP and T5 weights;</span><span data-lang="zh" lang="zh-CN">RDT-170M、RDT-1B、SigLIP、T5 权重；</span></li><li><span data-lang="en" lang="en">OpenPI π0.5 base weights;</span><span data-lang="zh" lang="zh-CN">OpenPI π0.5 基础权重；</span></li><li><span data-lang="en" lang="en">RDT/OpenPI training data;</span><span data-lang="zh" lang="zh-CN">RDT/OpenPI 训练数据；</span></li><li><span data-lang="en" lang="en">The RDT Conda environment;</span><span data-lang="zh" lang="zh-CN">RDT Conda 环境；</span></li><li><span data-lang="en" lang="en">Historical checkpoints from the server.</span><span data-lang="zh" lang="zh-CN">服务器上的历史 checkpoint。</span></li></ul>
+<!-- reference-block:model-training:54:end -->
+
+<!-- reference-block:model-training:55:start -->
+<p data-reference-source="model-training" data-reference-block="55" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The training scripts can run only after these files have been placed in the default directories above or their actual locations have been specified through environment variables.</span><span data-lang="zh" lang="zh-CN">把这些内容放入上述默认目录，或通过环境变量指向实际位置后，训练脚本才可以运行。</span></p>
+<!-- reference-block:model-training:55:end -->
+
+<div class="docs-pager">
+<a href="collection.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></div></a>
+<a href="evaluation.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div></a>
+</div>
+  </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
+</body>
+</html>

@@ -1,15 +1,18 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BREE Guidelines — Build, calibrate, evaluate</title><meta name="description" content="Documentation for building, calibrating, collecting data and evaluating a BREE node."><link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site-v2.css?v=20260924-public-tones2"><link rel="stylesheet" href="assets/css/i18n.css?v=20260924-i18n2"><script src="assets/js/i18n-zh.js?v=20261024-readme1"></script><script src="assets/js/i18n.js?v=20260928-default-en"></script></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BREE Guidelines — Build, calibrate, evaluate</title><meta name="description" content="Documentation for building, calibrating, collecting data, training models and evaluating a BREE node."><link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/site-v2.css?v=20260924-public-tones2"><link rel="stylesheet" href="assets/css/i18n.css?v=20260924-i18n2"><script src="assets/js/i18n-zh.js?v=20261024-bilingual2"></script><script src="assets/js/i18n.js?v=20260928-default-en"></script></head>
 <body class="guideline-page has-page-toc">
   <header class="site-nav"><a class="brand" href="index.html">BREE</a><span class="nav-meta">BIMANUAL ROBOTIC EMBODIMENT · 2026</span><nav aria-label="Primary navigation"><a href="index.html">Homepage</a><a href="assets.html">BREE Assets</a><a href="dataset.html">BREE Dataset</a><a class="active" href="guideline.html">Guideline / Documentation</a><a href="leaderboard.html">Leaderboard</a></nav></header>
   <aside class="page-toc" aria-label="On this page">
     <div class="page-toc__head"><span>ON THIS PAGE</span><i></i></div>
     <nav>
       <a class="active" href="#guideline-intro" data-toc-link>Overview</a>
+      <a href="#overview" data-toc-link>Prerequisites</a>
+      <a href="#materials" data-toc-link>Materials</a>
       <a href="#assembly" data-toc-link>Assembly</a>
       <a href="#software" data-toc-link>Software</a>
       <a href="#calibration" data-toc-link>Calibration</a>
       <a href="#data" data-toc-link>Data</a>
+      <a href="#training" data-toc-link>Training</a>
       <a href="#evaluation" data-toc-link>Evaluation</a>
       <a href="#tasks" data-toc-link>Tasks</a>
       <a href="#recovery" data-toc-link>Recovery</a>
@@ -18,16 +21,23 @@
   <main class="subpage"><div class="shell">
     <div class="subpage-head" id="guideline-intro">
       <div><p class="overline">Guideline / documentation</p><h1>Build a node.</h1></div>
-      <p class="lede">Assemble the hardware and install the software, then calibrate the arms and align the camera references. Use the task guides to prepare scenes before collecting episodes or evaluating a trained policy.</p>
+      <p class="lede">Assemble the hardware, prepare LeRobot and fetch BREE, then calibrate the arms and align the cameras. Follow the separate guides for teleoperation and data collection, model training, and evaluation.</p>
     </div>
-    <p class="motion-note"><a href="setup/index.html">Overview &amp; prerequisites ↗</a> · <a href="setup/bom.html">Bill of materials ↗</a></p>
     <div class="doc-grid">
+      <article class="doc-card" id="overview">
+        <div class="doc-card__body"><h2>Overview &amp; prerequisites</h2><p>Review the full workflow, daily startup steps, repository layout and output locations before you begin.</p></div>
+        <a href="setup/index.html">Open overview guide ↗</a>
+      </article>
+      <article class="doc-card" id="materials">
+        <div class="doc-card__body"><h2>Bill of materials</h2><p>Prepare core hardware, frame materials, printed task objects and calibration fixtures.</p></div>
+        <a href="setup/bom.html">Open materials guide ↗</a>
+      </article>
       <article class="doc-card" id="assembly">
         <div class="doc-card__body"><h2>Build the cell</h2><p>Build the 4040 frame with the dimensioned drawing and frame BOM, then mount the arms, cameras and lighting.</p></div>
         <a href="setup/assembly.html">Open assembly guide ↗</a>
       </article>
       <article class="doc-card" id="software">
-        <div class="doc-card__body"><h2>Install the stack</h2><p>Install the LeRobot fork and Feetech dependencies, identify serial ports and cameras, and configure device access.</p></div>
+        <div class="doc-card__body"><h2>Install the stack</h2><p>Clone LeRobot, fetch the BREE branch, prepare the lerobot environment, then check serial ports, cameras and permissions.</p></div>
         <a href="setup/software.html">Open software guide ↗</a>
       </article>
       <article class="doc-card" id="calibration">
@@ -35,11 +45,15 @@
         <a href="setup/calibration.html">Open calibration guide ↗</a>
       </article>
       <article class="doc-card" id="data">
-        <div class="doc-card__body"><h2>Collect and train</h2><p>Verify teleoperation, record synchronized arm and camera streams, then prepare a model-specific training run.</p></div>
+        <div class="doc-card__body"><h2>Collect data</h2><p>Run the complete teleoperation check, prepare task reference images, and record episodes with the README command.</p></div>
         <a href="setup/collection.html">Open collection guide ↗</a>
       </article>
+      <article class="doc-card" id="training">
+        <div class="doc-card__body"><h2>Train models</h2><p>Follow the complete ACT, SmolVLA, XVLA, RDT and OpenPI commands, including data conversion, smoke tests and resumed training.</p></div>
+        <a href="setup/training.html">Open training guide ↗</a>
+      </article>
       <article class="doc-card" id="evaluation">
-        <div class="doc-card__body"><h2>Run evaluations</h2><p>Browse real ID layouts and distribution guides, prepare OOD scenes, then evaluate with matched configurations.</p></div>
+        <div class="doc-card__body"><h2>Run evaluations</h2><p>Use the README evaluation commands for all five model paths, check each parameter, and prepare ID/OOD scenes with the reference images.</p></div>
         <a href="setup/evaluation.html">Open evaluation guide ↗</a>
       </article>
       <article class="doc-card" id="tasks">

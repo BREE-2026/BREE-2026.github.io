@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-fixture1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20261024-fixture1"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -20,10 +20,8 @@
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
     <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb">
-      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></b>
-    </span>
-    <div class="nav-actions">
+    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></b></span>
+<div class="nav-actions">
       <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en">EN</button>
@@ -37,72 +35,164 @@
 <div class="docs-layout">
   <aside class="docs-sidebar">
     <nav class="docs-nav">
-      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
-      <a href="calibration.html" class="active"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
-      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-    </nav>
+<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+<a href="calibration.html" class="active"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+<a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+</nav>
   </aside>
 
   <main class="docs-main">
-    <!-- Commands checked against BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
+<!-- Source: BREE-v1/BREE/README.md; commands and prose preserved verbatim. -->
 
 <h1><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></h1>
 <p class="lead"><span data-lang="en">Calibrate arms when hardware is first installed or changed. For daily startup, verify the H pose, restore the saved camera image controls and compare all three cameras with the existing reference images.</span><span data-lang="zh">首次安装或硬件变化后标定机械臂；日常开机则验证 H 位、恢复已保存的相机图像参数，并将三台相机与已有参考图对齐。</span></p>
-<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
+<span id="fixture-midpoint"></span>
 
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Keep the reference</span><span data-lang="zh">保留参考基准</span></div><p><span data-lang="en">Daily checks read the existing references. Run <span class="mono">save-reference</span> only when deliberately defining a new installation baseline; keep the previous baseline for comparison.</span><span data-lang="zh">日常检查读取已有参考文件。仅在需要重新定义安装基准时执行 <span class="mono">save-reference</span>，并保留原基准以便对照。</span></p>
-</div>
-<h2 id="fixture-midpoint"><span data-lang="en">1 · Fixture midpoint calibration</span><span data-lang="zh">1 · 限位夹具中点标定</span></h2>
-<p><span data-lang="en">Complete SO-101 motor numbering and assembly first. Secure one arm in the physical fixture, verify its port and leave space for preview motion. Repeat for each arm using the table.</span><span data-lang="zh">先完成 SO-101 舵机编号与装配。将一条机械臂固定到物理限位架，核对端口，并为预览运动留足空间。按表逐臂操作。</span></p>
+<!-- readme-block:37:start -->
+<h2 data-readme-block="37" data-i18n-ignore lang="zh-CN" id="readme-5"><span data-lang="en" lang="en">5. Arm calibration</span><span data-lang="zh" lang="zh-CN">5. 机械臂校准</span></h2>
+<!-- readme-block:37:end -->
+
+<!-- readme-block:38:start -->
+<p data-readme-block="38" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Perform this section only for the first installation, after replacing an arm or servo, after reassembling the mechanical structure, when calibration files are missing, or when the H pose is clearly incorrect. Calibration does not need to be repeated at normal startup.</span><span data-lang="zh" lang="zh-CN">只有在首次安装、机械臂或舵机更换、机械结构重新组装、校准文件丢失或 H 位明显异常时，才需要执行本节。正常开机无需重复校准。</span></p>
+<!-- readme-block:38:end -->
+
+<!-- readme-block:39:start -->
+<p data-readme-block="39" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The following conditions must be met before calibration:</span><span data-lang="zh" lang="zh-CN">校准前必须满足以下条件：</span></p>
+<!-- readme-block:39:end -->
+
+<!-- readme-block:40:start -->
+<ul data-readme-block="40" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">Servo ID assignment and assembly have been completed following the official SO-101 procedure.</span><span data-lang="zh" lang="zh-CN">已按 SO-101 官方流程完成舵机编号和组装。</span></li><li><span data-lang="en" lang="en">Only one arm is being operated, and its port and calibration ID are correctly matched.</span><span data-lang="zh" lang="zh-CN">当前只操作一条机械臂，端口和校准 ID 对应正确。</span></li><li><span data-lang="en" lang="en">The arm is correctly seated in the physical limit fixture.</span><span data-lang="zh" lang="zh-CN">机械臂已正确放入物理限位架。</span></li><li><span data-lang="en" lang="en">The motion range is clear of people, cables and other obstacles.</span><span data-lang="zh" lang="zh-CN">运动范围内没有人员、线缆或其他障碍物。</span></li></ul>
+<!-- readme-block:40:end -->
+
+<!-- readme-block:41:start -->
+<h3 data-readme-block="41" data-i18n-ignore lang="zh-CN" id="readme-5-1"><span data-lang="en" lang="en">5.1 Calibration with range preview</span><span data-lang="zh" lang="zh-CN">5.1 带范围预览的校准</span></h3>
+<!-- readme-block:41:end -->
+
 <div class="figure-row fixture-photos">
 <figure class="figure docs-figure"><a href="../assets/img/calibration/fixture-arm-side.jpg" target="_blank" rel="noopener"><img src="../assets/img/calibration/fixture-arm-side.jpg" alt="Side view of the arm seated in the midpoint calibration fixture" width="2304" height="1728" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Side view · Arm placement in the physical midpoint fixture.</span><span data-lang="zh">侧视 · 机械臂放入实体中点夹具后的摆放。</span></figcaption></figure>
 <figure class="figure docs-figure"><a href="../assets/img/calibration/fixture-arm-top.jpg" target="_blank" rel="noopener"><img src="../assets/img/calibration/fixture-arm-top.jpg" alt="Top view of the arm and gripper seated in the midpoint calibration fixture" width="1571" height="2320" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Top view · Joint and gripper placement in the fixture.</span><span data-lang="zh">俯视 · 夹具中各关节与夹爪的摆放。</span></figcaption></figure>
 </div>
-<p><span data-lang="en">Use both views to check that the arm is fully seated in the fixture before reading calibration values. Click either photo to inspect the original image.</span><span data-lang="zh">结合两张实拍图，确认机械臂各关节已在夹具中就位，再读取标定数值。点击图片可查看原图。</span></p>
-<p><span data-lang="en">To compute and inspect values without writing calibration, first run the command with <span class="mono">--dry-run</span> instead of <span class="mono">--preview-ranges</span>. Range preview temporarily writes calibration to the motors and moves joints: after computation, remove the fixture before accepting the preview prompt. The final save prompt is separate from permission to preview.</span><span data-lang="zh">仅计算并检查数值时，先将命令中的 <span class="mono">--preview-ranges</span> 替换为 <span class="mono">--dry-run</span>，此时不写入标定。范围预览会临时向舵机写入标定并移动关节；计算完成后，先取下夹具，再同意运动预览。最终保存确认与预览确认是两个步骤。</span></p>
 
-<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th><th><span data-lang="en">Device</span><span data-lang="zh">类型</span></th><th><span data-lang="en">Port</span><span data-lang="zh">端口</span></th><th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
-<tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
-<tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td><span class="mono">leader</span></td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
-<tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td><span class="mono">leader</span></td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr></tbody></table>
-</div>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
+<!-- readme-block:42:start -->
+<p data-readme-block="42" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Example for the left follower arm:</span><span data-lang="zh" lang="zh-CN">以左从臂为例：</span></p>
+<!-- readme-block:42:end -->
+
+<!-- readme-block:43:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="43" data-i18n-ignore lang="zh-CN" data-readme-code="6">python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
   --device follower \
   --port /dev/ttyACM0 \
   --id follower_arm_left \
-  --preview-ranges</code></pre>
-</div><p><span data-lang="en">Inspect the values and movement directions before answering <span class="mono">y</span> at the write prompt. The script backs up existing calibration as <span class="mono">.json.bak</span>. Follower files live under <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>; leader files under <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>.</span><span data-lang="zh">核对数值与运动方向后，在写入提示中输入 <span class="mono">y</span>。已有标定会备份为 <span class="mono">.json.bak</span>。从臂文件位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>，主臂位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>。</span></p>
+  --preview-ranges
+</code></pre></div>
+<!-- readme-block:43:end -->
 
-<h3><span data-lang="en">Calibration without range preview</span><span data-lang="zh">不进行范围预览的标定</span></h3>
-<p><span data-lang="en">If mechanics and directions have already been verified, omit --preview-ranges. This still computes and writes a new calibration after confirmation; it is not a daily check. For a calculation-only check, add --dry-run to this command.</span><span data-lang="zh">已确认机械结构与运动方向时，可省略 --preview-ranges。此命令仍会在确认后重新计算并写入标定，不用于日常检查。仅计算、不写入时，在此命令末尾增加 --dry-run。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
+<!-- readme-block:44:start -->
+<p data-readme-block="44" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">When prompted to place the arm in the limit fixture, confirm that the arm is fully secured, then press <code>Enter</code>. The program calculates calibration values and moves the joints during the preview; leave enough clearance beforehand.</span><span data-lang="zh" lang="zh-CN">程序提示放入限位架时，确认机械臂完全固定，再按 <code>Enter</code>。程序会生成校准值，并在预览过程中移动关节；必须提前留出足够空间。</span></p>
+<!-- readme-block:44:end -->
+
+<!-- readme-block:45:start -->
+<p data-readme-block="45" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">When the following final prompt appears:</span><span data-lang="zh" lang="zh-CN">最后出现以下提示时：</span></p>
+<!-- readme-block:45:end -->
+
+<!-- readme-block:46:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="46" data-i18n-ignore lang="zh-CN" data-readme-code="7">Write this calibration to the motors and save it? [y/N]
+</code></pre></div>
+<!-- readme-block:46:end -->
+
+<!-- readme-block:47:start -->
+<p data-readme-block="47" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">After checking the values and motion directions, enter <code>y</code>. If you are unsure, press <code>Enter</code> or enter <code>n</code>; the program will not save the new calibration.</span><span data-lang="zh" lang="zh-CN">确认数值和运动方向无误后输入 <code>y</code>。如果不确认，直接按 <code>Enter</code> 或输入 <code>n</code>，程序不会保存新校准。</span></p>
+<!-- readme-block:47:end -->
+
+<!-- readme-block:48:start -->
+<p data-readme-block="48" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">For the other arms, replace the command arguments with the <code>device</code>, port and ID from the table below:</span><span data-lang="zh" lang="zh-CN">其余机械臂使用下表中的 <code>device</code>、端口和 ID 替换命令参数：</span></p>
+<!-- readme-block:48:end -->
+
+<!-- readme-block:49:start -->
+<div class="table-wrap" data-readme-block="49" data-i18n-ignore lang="zh-CN"><table class="table"><thead><tr><th><span data-lang="en" lang="en">Arm</span><span data-lang="zh" lang="zh-CN">机械臂</span></th><th><code>--device</code></th><th><code>--port</code></th><th><code>--id</code></th></tr></thead><tbody><tr><td><span data-lang="en" lang="en">Left follower</span><span data-lang="zh" lang="zh-CN">左从臂</span></td><td><code>follower</code></td><td><code>/dev/ttyACM0</code></td><td><code>follower_arm_left</code></td></tr><tr><td><span data-lang="en" lang="en">Right follower</span><span data-lang="zh" lang="zh-CN">右从臂</span></td><td><code>follower</code></td><td><code>/dev/ttyACM1</code></td><td><code>follower_arm_right</code></td></tr><tr><td><span data-lang="en" lang="en">Left leader</span><span data-lang="zh" lang="zh-CN">左主臂</span></td><td><code>leader</code></td><td><code>/dev/ttyACM2</code></td><td><code>leader_arm_left</code></td></tr><tr><td><span data-lang="en" lang="en">Right leader</span><span data-lang="zh" lang="zh-CN">右主臂</span></td><td><code>leader</code></td><td><code>/dev/ttyACM3</code></td><td><code>leader_arm_right</code></td></tr></tbody></table></div>
+<!-- readme-block:49:end -->
+
+<!-- readme-block:50:start -->
+<h3 data-readme-block="50" data-i18n-ignore lang="zh-CN" id="readme-5-2"><span data-lang="en" lang="en">5.2 Calibration without range preview</span><span data-lang="zh" lang="zh-CN">5.2 不进行范围预览</span></h3>
+<!-- readme-block:50:end -->
+
+<!-- readme-block:51:start -->
+<p data-readme-block="51" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If you have already verified the mechanical structure and motion directions, you can omit <code>--preview-ranges</code>:</span><span data-lang="zh" lang="zh-CN">如果已经验证过机械结构和运动方向，可以省略 <code>--preview-ranges</code>：</span></p>
+<!-- readme-block:51:end -->
+
+<!-- readme-block:52:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="52" data-i18n-ignore lang="zh-CN" data-readme-code="8">python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
   --device follower \
   --port /dev/ttyACM0 \
-  --id follower_arm_left</code></pre></div><h3 id="wrist-roll"><span data-lang="en">Wrist-roll coordinates</span><span data-lang="zh">腕部滚转坐标说明</span></h3>
-<p><span data-lang="en">The fixture script uses an asymmetric <span class="mono">wrist_roll</span> range of <span class="mono">−270° … +45°</span> relative to the fixture pose. With the default 4096-count encoder, the saved range is approximately <span class="mono">0 … 3583</span> and the fixture pose is near <span class="mono">3071 ticks</span>. Do not replace this fixture position with the range midpoint. The default H-home wrist offset is <span class="mono">−180°</span> from the fixture; the printed LeRobot control angle uses a different coordinate origin.</span><span data-lang="zh">夹具脚本中，<span class="mono">wrist_roll</span> 相对夹具姿态采用 <span class="mono">−270° … +45°</span> 的非对称范围。默认 4096 计数编码器对应保存范围约 <span class="mono">0 … 3583</span>，夹具位置约 <span class="mono">3071 ticks</span>，不能用范围中点替代。H 位默认腕部偏移为相对夹具 <span class="mono">−180°</span>；日志中的 LeRobot 控制角度采用另一坐标原点。</span></p>
-<p><span data-lang="en">If the script reports <span class="mono">wrist_roll installation is out of range</span>, it aborts without writing calibration. Power off, adjust the installation by the direction and minimum angle reported, then reseat the arm in the fixture and retry.</span><span data-lang="zh">若提示 <span class="mono">wrist_roll installation is out of range</span>，脚本会终止且不写入标定。断电后按提示方向与最小角度调整安装齿位，再将机械臂放回夹具重新标定。</span></p>
+  --id follower_arm_left
+</code></pre></div>
+<!-- readme-block:52:end -->
 
-<h2><span data-lang="en">2 · Verify the H pose</span><span data-lang="zh">2 · 验证 H 位</span></h2>
+<!-- readme-block:53:start -->
+<p data-readme-block="53" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">This still recalculates and writes calibration, so it must not be used as a daily check command.</span><span data-lang="zh" lang="zh-CN">这仍然会重新计算并写入校准，因此不能把它当作日常检查命令。</span></p>
+<!-- readme-block:53:end -->
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/demo_bi_so_home.py \
+<!-- readme-block:54:start -->
+<h3 data-readme-block="54" data-i18n-ignore lang="zh-CN" id="readme-5-3"><span data-lang="en" lang="en">5.3 Calibration file locations</span><span data-lang="zh" lang="zh-CN">5.3 校准文件位置</span></h3>
+<!-- readme-block:54:end -->
+
+<!-- readme-block:55:start -->
+<p data-readme-block="55" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Follower calibration is usually saved to:</span><span data-lang="zh" lang="zh-CN">从臂校准通常保存到：</span></p>
+<!-- readme-block:55:end -->
+
+<!-- readme-block:56:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="56" data-i18n-ignore lang="zh-CN" data-readme-code="9">~/.cache/huggingface/lerobot/calibration/robots/so_follower/
+</code></pre></div>
+<!-- readme-block:56:end -->
+
+<!-- readme-block:57:start -->
+<p data-readme-block="57" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Leader calibration is usually saved to:</span><span data-lang="zh" lang="zh-CN">主臂校准通常保存到：</span></p>
+<!-- readme-block:57:end -->
+
+<!-- readme-block:58:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="58" data-i18n-ignore lang="zh-CN" data-readme-code="10">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/
+</code></pre></div>
+<!-- readme-block:58:end -->
+
+<!-- readme-block:59:start -->
+<p data-readme-block="59" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If calibration with the same name already exists, the script first creates a <code>.bak</code> backup. For example:</span><span data-lang="zh" lang="zh-CN">如果同名校准已经存在，脚本会先生成 <code>.bak</code> 备份。例如：</span></p>
+<!-- readme-block:59:end -->
+
+<!-- readme-block:60:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="60" data-i18n-ignore lang="zh-CN" data-readme-code="11">follower_arm_left.json.bak
+</code></pre></div>
+<!-- readme-block:60:end -->
+
+<!-- readme-block:61:start -->
+<h2 data-readme-block="61" data-i18n-ignore lang="zh-CN" id="readme-5-4"><span data-lang="en" lang="en">5.4 H-pose verification for both follower arms</span><span data-lang="zh" lang="zh-CN">5.4 双从臂 H 位验证</span></h2>
+<!-- readme-block:61:end -->
+
+<!-- readme-block:62:start -->
+<p data-readme-block="62" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">After calibrating the left and right follower arms, ensure the workspace is safe, then run:</span><span data-lang="zh" lang="zh-CN">完成左右从臂校准后，在确保工作空间安全的情况下运行：</span></p>
+<!-- readme-block:62:end -->
+
+<!-- readme-block:63:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="63" data-i18n-ignore lang="zh-CN" data-readme-code="12">python BREE/robot_calibration/demo_bi_so_home.py \
   --left-port /dev/ttyACM0 \
   --right-port /dev/ttyACM1 \
   --id follower_arm \
-  --duration-s 6</code></pre>
-</div>
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">This command moves both followers. Confirm a clear workspace first. If joint direction, center or range is wrong, correct the installation or calibration before recording.</span><span data-lang="zh">此命令会移动两条从臂，运行前先清空运动范围。若关节方向、中点或范围异常，应先修正安装与标定，再开始录制。</span></p>
-</div>
-<h2 id="camera-settings"><span data-lang="en">3 · Standardize camera parameters</span><span data-lang="zh">3 · 相机参数统一</span></h2>
+  --duration-s 6
+</code></pre></div>
+<!-- readme-block:63:end -->
+
+<!-- readme-block:64:start -->
+<p data-readme-block="64" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">If a joint direction, center or range is abnormal, stop further data collection and real-robot evaluation. First check the calibration files, servo installation orientation and port mapping.</span><span data-lang="zh" lang="zh-CN">如果某个关节方向、中心或范围异常，应停止后续数据采集和实机评估，先检查校准文件、舵机安装方向和端口映射。</span></p>
+<!-- readme-block:64:end -->
+
+<h2 id="camera-settings"><span data-lang="en">Supplement · Standardize camera parameters</span><span data-lang="zh">补充 · 相机参数统一</span></h2>
 <p><span data-lang="en">Use the same capture format for the global, left-wrist and right-wrist cameras, then tune each camera under the fixed experiment lighting for consistent color and brightness. Retain each camera’s settings for collection and evaluation.</span><span data-lang="zh">全局、左腕、右腕相机使用统一的采集格式，再在固定实验光照下逐台调节，使三路画面的色彩与亮度一致。采集和评测均沿用各相机保存的参数。</span></p>
 <div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Parameter</span><span data-lang="zh">参数</span></th><th><span data-lang="en">Target / procedure</span><span data-lang="zh">统一要求 / 操作</span></th></tr></thead><tbody>
 <tr><td><span data-lang="en">Capture format</span><span data-lang="zh">采集格式</span></td><td><span class="mono">640 × 480 · 30 fps · MJPG</span></td></tr>
@@ -138,9 +228,30 @@ done</code></pre></div>
 <p><span data-lang="en">The restore script disables dynamic frame rate when supported, skips unsupported controls and limits saved <span class="mono">exposure_time_absolute</span> values to <span class="mono">300</span> by default to help preserve 30 fps. This is a driver control value. Review any clamp messages, then check brightness and actual stream cadence. Some cameras reset controls when streaming starts: check again after opening the intended stream and reapply from another terminal if needed.</span><span data-lang="zh">恢复脚本会在设备支持时关闭动态帧率，跳过不支持的控制项，并默认将保存的 <span class="mono">exposure_time_absolute</span> 上限设为 <span class="mono">300</span>，以帮助维持 30 fps；这是驱动控制值。若出现限幅提示，需重新检查亮度与实际出帧速度。部分相机在启动视频流时会重置参数：打开目标视频流后再次核对，必要时从另一终端重新应用。</span></p>
 <div class="admonition admonition-note"><div class="admonition-title"><span data-lang="en">Check the saved baseline</span><span data-lang="zh">检查保存的基准</span></div><p><span data-lang="en">The repository’s root <span class="mono">camera_image_controls.json</span> contains example values with automatic exposure enabled on all three cameras and automatic white balance enabled on the global camera. Tune and save your own baseline. After reconnecting, update device-path keys if the camera mapping changed. Continue with reference-image alignment once image controls are stable.</span><span data-lang="zh">仓库根目录的 <span class="mono">camera_image_controls.json</span> 是示例配置，其中三台相机仍开启自动曝光，全局相机还开启自动白平衡。请调节并保存本机基准；重连后若相机映射变化，应同步更新 JSON 中的设备路径。参数稳定后，再继续参考图对齐。</span></p></div>
 
-<h2><span data-lang="en">4 · Align the global camera</span><span data-lang="zh">4 · 全局相机对齐</span></h2>
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/global_camera_reference_calibrate.py check \
+
+<!-- readme-block:65:start -->
+<h2 data-readme-block="65" data-i18n-ignore lang="zh-CN" id="readme-6"><span data-lang="en" lang="en">6. Camera adjustment and installation-position checks</span><span data-lang="zh" lang="zh-CN">6. 相机调整与安装位置检查</span></h2>
+<!-- readme-block:65:end -->
+
+<!-- readme-block:66:start -->
+<h3 data-readme-block="66" data-i18n-ignore lang="zh-CN" id="readme-6-1"><span data-lang="en" lang="en">6.1 Daily check sequence</span><span data-lang="zh" lang="zh-CN">6.1 日常检查顺序</span></h3>
+<!-- readme-block:66:end -->
+
+<!-- readme-block:67:start -->
+<ol data-readme-block="67" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">First run <code>lerobot-find-cameras opencv</code> to confirm the three camera indices.</span><span data-lang="zh" lang="zh-CN">先运行 <code>lerobot-find-cameras opencv</code> 确认三个相机编号。</span></li><li><span data-lang="en" lang="en">Check the global camera position.</span><span data-lang="zh" lang="zh-CN">检查全局相机位置。</span></li><li><span data-lang="en" lang="en">Check the left wrist camera position.</span><span data-lang="zh" lang="zh-CN">检查左腕相机位置。</span></li><li><span data-lang="en" lang="en">Check the right wrist camera position.</span><span data-lang="zh" lang="zh-CN">检查右腕相机位置。</span></li><li><span data-lang="en" lang="en">Proceed with data collection or evaluation only after all three views are aligned.</span><span data-lang="zh" lang="zh-CN">三个画面都对齐后，再进行数据采集或评估。</span></li></ol>
+<!-- readme-block:67:end -->
+
+<!-- readme-block:68:start -->
+<h2 data-readme-block="68" data-i18n-ignore lang="zh-CN" id="readme-6-2"><span data-lang="en" lang="en">6.2 Global camera check</span><span data-lang="zh" lang="zh-CN">6.2 全局相机检查</span></h2>
+<!-- readme-block:68:end -->
+
+<!-- readme-block:69:start -->
+<p data-readme-block="69" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The following command reads the existing reference image without overwriting the reference files:</span><span data-lang="zh" lang="zh-CN">以下命令读取已有参考图，不会覆盖参考文件：</span></p>
+<!-- readme-block:69:end -->
+
+<!-- readme-block:70:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="70" data-i18n-ignore lang="zh-CN" data-readme-code="13">python BREE/camera_calibration/global_camera_reference_calibrate.py check \
   --camera /dev/video0 \
   --width 640 \
   --height 480 \
@@ -154,15 +265,47 @@ done</code></pre></div>
   --max-angle-deg 12 \
   --min-length-ratio 0.35 \
   --reference BREE/camera_reference/global_image/reference.json \
-  --output-dir outputs/camera_check/global_image</code></pre>
-</div><p><span data-lang="en">Open <span class="mono">http://127.0.0.1:8092</span>. Match the beam, arm bases, table edges and fixed screws in the 50/50 overlay. The command normally homes both followers first; add <span class="mono">--skip-robot-home</span> to inspect the camera without connecting the arms. Close this check before starting the right-wrist preview on the same port.</span><span data-lang="zh">打开 <span class="mono">http://127.0.0.1:8092</span>，在 50/50 叠加画面中对齐横梁、机械臂底座、桌边和固定螺丝。默认会先将两条从臂移动到 H 位；仅检查相机、不连接机械臂时增加 <span class="mono">--skip-robot-home</span>。右腕预览使用同一端口，启动前先关闭全局检查。</span></p>
+  --output-dir outputs/camera_check/global_image
+</code></pre></div>
+<!-- readme-block:70:end -->
+
+<!-- readme-block:71:start -->
+<p data-readme-block="71" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">By default, this script connects to both follower arms and first moves them to the H pose. To check only the camera without connecting to the arms, add:</span><span data-lang="zh" lang="zh-CN">默认情况下，该脚本会连接左右从臂并先移动到 H 位。只想检查相机、不希望连接机械臂时增加：</span></p>
+<!-- readme-block:71:end -->
+
+<!-- readme-block:72:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="72" data-i18n-ignore lang="zh-CN" data-readme-code="14">--skip-robot-home
+</code></pre></div>
+<!-- readme-block:72:end -->
+
+<!-- readme-block:73:start -->
+<p data-readme-block="73" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Open in a browser:</span><span data-lang="zh" lang="zh-CN">浏览器打开：</span></p>
+<!-- readme-block:73:end -->
+
+<!-- readme-block:74:start -->
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="74" data-i18n-ignore lang="zh-CN" data-readme-code="15">http://127.0.0.1:8092
+</code></pre></div>
+<!-- readme-block:74:end -->
+
+<!-- readme-block:75:start -->
+<p data-readme-block="75" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">The reference image and live view each contribute 50%. Adjust the camera until double images of fixed structures are minimized. Pay particular attention to:</span><span data-lang="zh" lang="zh-CN">参考图和实时画面各占 50%。调整相机，直到固定结构的双影尽量消失。重点观察：</span></p>
+<!-- readme-block:75:end -->
+
+<!-- readme-block:76:start -->
+<ul data-readme-block="76" data-i18n-ignore lang="zh-CN"><li><span data-lang="en" lang="en">The fixed metal crossbar at the top.</span><span data-lang="zh" lang="zh-CN">顶部固定金属横梁。</span></li><li><span data-lang="en" lang="en">The outer contours of both arm bases.</span><span data-lang="zh" lang="zh-CN">两个机械臂底座的外轮廓。</span></li><li><span data-lang="en" lang="en">The workbench edges.</span><span data-lang="zh" lang="zh-CN">工作台边缘。</span></li><li><span data-lang="en" lang="en">Fixed screws and fixed markers.</span><span data-lang="zh" lang="zh-CN">固定螺丝和固定标记。</span></li><li><span data-lang="en" lang="en">Fixed structures around the edges of the image.</span><span data-lang="zh" lang="zh-CN">画面四周的固定结构。</span></li></ul>
+<!-- readme-block:76:end -->
+
 <figure class="figure docs-figure"><img src="../assets/img/calibration/reference-global.jpg" alt="Saved global camera installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved global camera installation reference</span><span data-lang="zh">已保存的全局相机安装参考</span></figcaption>
 </figure>
 
-<h2><span data-lang="en">5 · Align both wrist cameras</span><span data-lang="zh">5 · 两台腕部相机对齐</span></h2>
-<p><span data-lang="en">Place the arms at the reference pose before using camera-only mode. It does not move or lock an arm. Verify indices from live views, then run each check separately.</span><span data-lang="zh">在纯相机模式下先将机械臂置于参考姿态；此模式不会移动或锁定机械臂。按实时画面核对编号后，分别运行以下检查。</span></p>
+<h2 id="wrist-cameras"><span data-lang="en">Align both wrist cameras</span><span data-lang="zh">两台腕部相机对齐</span></h2>
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
+<!-- readme-block:77:start -->
+<h3 data-readme-block="77" data-i18n-ignore lang="zh-CN" id="readme-6-3"><span data-lang="en" lang="en">6.3 Left wrist camera check</span><span data-lang="zh" lang="zh-CN">6.3 左腕相机检查</span></h3>
+<!-- readme-block:77:end -->
+
+<!-- readme-block:78:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="78" data-i18n-ignore lang="zh-CN" data-readme-code="16">python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
   --camera-only \
   --camera /dev/video2 \
   --width 640 \
@@ -176,10 +319,22 @@ done</code></pre></div>
   --web-host 127.0.0.1 \
   --web-port 8091 \
   --preview-fps 15 \
-  --overlay-alpha 0.5</code></pre>
-</div><p><span data-lang="en">Left wrist preview: <span class="mono">http://127.0.0.1:8091</span>. Align the gripper and fixed structures to the saved image.</span><span data-lang="zh">左腕预览地址：<span class="mono">http://127.0.0.1:8091</span>。对齐夹爪与固定结构。</span></p>
+  --overlay-alpha 0.5
+</code></pre></div>
+<!-- readme-block:78:end -->
 
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
+<!-- readme-block:79:start -->
+<p data-readme-block="79" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Open <code>http://127.0.0.1:8091</code> in a browser and use the reference image to adjust the position of the camera relative to the gripper.</span><span data-lang="zh" lang="zh-CN">浏览器打开 <code>http://127.0.0.1:8091</code>，根据参考图调整相机与夹爪的相对位置。</span></p>
+<!-- readme-block:79:end -->
+
+
+
+<!-- readme-block:80:start -->
+<h3 data-readme-block="80" data-i18n-ignore lang="zh-CN" id="readme-6-4"><span data-lang="en" lang="en">6.4 Right wrist camera check</span><span data-lang="zh" lang="zh-CN">6.4 右腕相机检查</span></h3>
+<!-- readme-block:80:end -->
+
+<!-- readme-block:81:start -->
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code data-readme-block="81" data-i18n-ignore lang="zh-CN" data-readme-code="17">python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
   --camera-only \
   --camera /dev/video4 \
   --width 640 \
@@ -193,40 +348,25 @@ done</code></pre></div>
   --web-host 127.0.0.1 \
   --web-port 8092 \
   --preview-fps 15 \
-  --overlay-alpha 0.5</code></pre>
-</div><p><span data-lang="en">Right wrist preview: <span class="mono">http://127.0.0.1:8092</span>. Camera mounts and lighting should remain stable between sessions.</span><span data-lang="zh">右腕预览地址：<span class="mono">http://127.0.0.1:8092</span>。每次实验之间保持相机支架与光照稳定。</span></p>
-<div class="figure-row"><figure class="figure docs-figure"><img src="../assets/img/calibration/reference-left-wrist.jpg" alt="Saved left wrist installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved left wrist installation reference</span><span data-lang="zh">已保存的左腕相机安装参考</span></figcaption>
+  --overlay-alpha 0.5
+</code></pre></div>
+<!-- readme-block:81:end -->
+
+<!-- readme-block:82:start -->
+<p data-readme-block="82" data-i18n-ignore lang="zh-CN"><span data-lang="en" lang="en">Open <code>http://127.0.0.1:8092</code> in a browser. If the actual left and right wrist camera indices are reversed relative to the example, swap the <code>--camera</code> arguments.</span><span data-lang="zh" lang="zh-CN">浏览器打开 <code>http://127.0.0.1:8092</code>。如果左右腕相机实际编号与示例相反，应交换 <code>--camera</code> 参数。</span></p>
+<!-- readme-block:82:end -->
+
+<div class="figure-row wrist-references">
+<figure class="figure docs-figure"><img src="../assets/img/calibration/reference-left-wrist.jpg" alt="Saved left wrist installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved left wrist installation reference</span><span data-lang="zh">已保存的左腕相机安装参考</span></figcaption>
 </figure>
 <figure class="figure docs-figure"><img src="../assets/img/calibration/reference-right-wrist.jpg" alt="Saved right wrist installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved right wrist installation reference</span><span data-lang="zh">已保存的右腕相机安装参考</span></figcaption>
 </figure>
 </div>
-<h2><span data-lang="en">6 · Review and retain the evidence</span><span data-lang="zh">6 · 复核并保存检查结果</span></h2>
-<p><span data-lang="en">Check results belong in <span class="mono">outputs/camera_check/</span>. The scripts provide image comparisons and alignment JSON when a comparison is saved. Inspect feature matching failures and residual overlay errors before proceeding.</span><span data-lang="zh">检查结果写入 <span class="mono">outputs/camera_check/</span>。保存对比时，脚本会输出对比图与对齐 JSON。开始实验前，应检查特征匹配失败和残余双影。</span></p>
-
-<div class="admonition admonition-note">
-<div class="admonition-title"><span data-lang="en">Current check behavior</span><span data-lang="zh">当前检查行为</span></div><p><span data-lang="en">Use image overlays and feature matching to check camera alignment. Inspect fixed structures for ghosting and review the saved comparison images and alignment JSON.</span><span data-lang="zh">通过参考图叠加与特征匹配检查相机对齐。检查固定结构是否存在双影，并复核保存的对比图与对齐 JSON。</span></p>
-</div><ul><li><span data-lang="en">Four calibration IDs match the connected arms, and the H pose has been checked.</span><span data-lang="zh">四个标定 ID 与实际机械臂对应，H 位已验证。</span></li>
-<li><span data-lang="en">All three cameras use 640 × 480, 30 fps and MJPG; the saved per-camera image controls are applied and manual modes verified.</span><span data-lang="zh">三台相机均使用 640 × 480、30 fps 与 MJPG；各路已应用保存的图像参数，并核对手动模式。</span></li>
-<li><span data-lang="en">All three live views align with their saved references at the same arm pose.</span><span data-lang="zh">三路实时画面均在相同机械臂姿态下与已有参考图对齐。</span></li>
-<li><span data-lang="en">Reference files remain unchanged; save generated check evidence under outputs/.</span><span data-lang="zh">参考文件保持不变，生成的检查证据保存在 outputs/。</span></li></ul>
-
-<h2 id="replacement-arm"><span data-lang="en">Optional · Check a replacement arm</span><span data-lang="zh">可选 · 更换机械臂后的检查</span></h2>
-<p><span data-lang="en">The repository provides <span class="mono">BREE/robot_calibration/validate_replacement_arm_calibration.py</span>. Its <span class="mono">compare-files</span> mode compares two calibration files without hardware. Replace both paths below with retained original and replacement calibration files; a file comparison does not establish physical pose equivalence.</span><span data-lang="zh">仓库提供 <span class="mono">BREE/robot_calibration/validate_replacement_arm_calibration.py</span>。其中 <span class="mono">compare-files</span> 可在不连接硬件时比较两份标定文件。将下方路径替换为保留的原臂与替换臂标定文件；文件比较不能直接证明实际姿态一致。</span></p>
-<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/validate_replacement_arm_calibration.py compare-files \
-  --reference-calibration PATH_TO_ORIGINAL.json \
-  --candidate-calibration PATH_TO_REPLACEMENT.json</code></pre></div>
-<p><span data-lang="en">For pose profiles, fixture checks and physical validation, follow the replacement-arm section in <span class="mono">BREE/docs/README.md</span>. Preserve the original calibration and reference profile before swapping hardware.</span><span data-lang="zh">参考姿态记录、夹具检查与实物验证见 <span class="mono">BREE/docs/README.md</span> 的替换机械臂章节。更换硬件前先保留原标定与参考姿态文件。</span></p>
 
 <div class="docs-pager">
-      <a href="software.html">
-        <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
-        <div class="title"><span data-lang="en">3 · Software Installation</span><span data-lang="zh">3 · 软件安装</span></div>
-      </a>
-      <a class="next" href="collection.html">
-        <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
-        <div class="title"><span data-lang="en">5 · Data Collection</span><span data-lang="zh">5 · 数据采集</span></div>
-      </a>
-    </div>
+<a href="software.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></div></a>
+<a href="collection.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></div></a>
+</div>
   </main>
 </div>
 
