@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -43,6 +43,7 @@
       <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html" class="active"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -50,90 +51,37 @@
   </aside>
 
   <main class="docs-main">
-    <div class="time-badge">⏱
-      <span data-lang="en">Reading time · 3 min</span><span data-lang="zh">阅读时间 · 3 分钟</span>
-    </div>
-    <h1>
-      <span data-lang="en">Troubleshooting &amp; Checklists</span>
-      <span data-lang="zh">故障排查与检查清单</span>
-    </h1>
-    <p class="lead">
-      <span data-lang="en">Common failure points and the pre-flight checks to run before every session. When in doubt: re-run the calibration checks — they are designed to catch exactly these problems.</span>
-      <span data-lang="zh">常见故障点，以及每次实验前的飞行前检查。拿不准时：重新运行标定检查——它们就是为捕获这些问题而设计的。</span>
-    </p>
+    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
 
-    <h2><span data-lang="en">Common failure points</span><span data-lang="zh">常见故障点</span></h2>
-    <div class="table-wrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><span data-lang="en">Symptom</span><span data-lang="zh">现象</span></th>
-            <th><span data-lang="en">Likely cause</span><span data-lang="zh">可能原因</span></th>
-            <th><span data-lang="en">Fix</span><span data-lang="zh">解决办法</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span data-lang="en">Arm not found / <span class="mono">Permission denied</span></span><span data-lang="zh">找不到机械臂 / <span class="mono">Permission denied</span></span></td>
-            <td><span data-lang="en">Permissions lost after power cycle or re-plug; arms plugged in wrong order</span><span data-lang="zh">断电或重插后权限丢失；插入顺序不对</span></td>
-            <td><span data-lang="en">Re-run <span class="mono">chmod 666 /dev/ttyACM*</span>; re-plug arms in 0→3 order</span><span data-lang="zh">重新执行 <span class="mono">chmod 666 /dev/ttyACM*</span>；按 0→3 顺序重插</span></td>
-          </tr>
-          <tr>
-            <td><span data-lang="en">Cameras on wrong indices</span><span data-lang="zh">相机编号错乱</span></td>
-            <td><span data-lang="en">Cameras re-plugged in a different order</span><span data-lang="zh">相机重插顺序变化</span></td>
-            <td><span data-lang="en">Run <span class="mono">lerobot-find-cameras opencv</span> and re-identify each camera by its view</span><span data-lang="zh">运行 <span class="mono">lerobot-find-cameras opencv</span>，按画面重新辨认</span></td>
-          </tr>
-          <tr>
-            <td><span data-lang="en">AprilTag check fails / unreliable detection</span><span data-lang="zh">AprilTag 检查失败 / 检测不稳定</span></td>
-            <td><span data-lang="en">Wrinkled or curved tag; bad lighting; tag moved</span><span data-lang="zh">标签褶皱或弯曲；光照不佳；标签被移动</span></td>
-            <td><span data-lang="en">Re-print flat at 100% scale, fix lighting, restore tag position, re-run check</span><span data-lang="zh">按 100% 比例重新平整打印，改善光照，恢复标签位置后重检</span></td>
-          </tr>
-          <tr>
-            <td><span data-lang="en">Ghosting in overlay view</span><span data-lang="zh">叠加画面出现双影</span></td>
-            <td><span data-lang="en">Camera mount bumped / rotated slightly</span><span data-lang="zh">相机支架被碰动或轻微转动</span></td>
-            <td><span data-lang="en">Re-adjust until ghosting disappears, then re-run the AprilTag check</span><span data-lang="zh">重新调整至双影消失，然后重跑 AprilTag 检查</span></td>
-          </tr>
-          <tr>
-            <td><span data-lang="en">Erratic arm motion during auto-calibration</span><span data-lang="zh">自动校准过程中机械臂动作异常</span></td>
-            <td><span data-lang="en">Arm not firmly clamped</span><span data-lang="zh">机械臂未牢牢固定</span></td>
-            <td><span data-lang="en">Clamp the arm to the table edge and redo the fixture calibration</span><span data-lang="zh">将机械臂固定在桌边后重做夹具标定</span></td>
-          </tr>
-          <tr>
-            <td><span data-lang="en">Old calibration silently replaced</span><span data-lang="zh">旧标定被静默覆盖</span></td>
-            <td><span data-lang="en">Expected behavior — but recoverable</span><span data-lang="zh">这是预期行为——但可恢复</span></td>
-            <td><span data-lang="en">Previous file is kept as <span class="mono">.json.bak</span> next to the new one</span><span data-lang="zh">旧文件会以 <span class="mono">.json.bak</span> 形式保留在新文件旁</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<h1><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></h1>
+<p class="lead"><span data-lang="en">Start with device mapping, the H pose and saved camera overlays. Keep the existing calibration and reference files available while diagnosing drift.</span><span data-lang="zh">从设备映射、H 位与相机参考图叠加开始排查，并保留已有标定与参考文件。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
-    <h2><span data-lang="en">Consolidated pre-flight checklist</span><span data-lang="zh">统一的飞行前检查清单</span></h2>
-    <ul class="checklist">
-      <li><span data-lang="en">All four arms on the expected ports (ACM0–ACM3), permissions granted.</span>
-      <span data-lang="zh">四条臂都在预期端口（ACM0–ACM3），权限已放开。</span></li>
-      <li><span data-lang="en">All three cameras live on indices 0 / 2 / 4.</span>
-      <span data-lang="zh">三台相机分别在 0 / 2 / 4 编号上出图。</span></li>
-      <li><span data-lang="en">Global camera overlay shows no ghosting.</span>
-      <span data-lang="zh">全局相机叠加画面无双影。</span></li>
-      <li><span data-lang="en">All three AprilTag checks report <span class="mono">within_tolerance = true</span>.</span>
-      <span data-lang="zh">三路 AprilTag 检查全部报告 <span class="mono">within_tolerance = true</span>。</span></li>
-      <li><span data-lang="en">Lighting and background unchanged since calibration.</span>
-      <span data-lang="zh">标定后光照与背景未发生变化。</span></li>
-      <li><span data-lang="en">Scene arranged to match the task reference image exactly.</span>
-      <span data-lang="zh">场景已按任务参考图精确摆放。</span></li>
-      <li><span data-lang="en">Correct checkpoint path and task instruction passed to <span class="mono">lerobot-record</span>.</span>
-      <span data-lang="zh"><span class="mono">lerobot-record</span> 传入了正确的检查点路径与任务指令。</span></li>
-    </ul>
 
-    <div class="admonition admonition-tip">
-      <div class="admonition-title"><span data-lang="en">Golden rule</span><span data-lang="zh">黄金法则</span></div>
-      <p>
-        <span data-lang="en">Policy evaluation only begins after the live scene matches the reference — and the calibration gates say so, not your eyes.</span>
-        <span data-lang="zh">只有当实时场景与参考一致时才开始策略评测——而且要以标定门槛的判定为准，而不是你的眼睛。</span>
-      </p>
-    </div>
+<h2><span data-lang="en">Common failure points</span><span data-lang="zh">常见故障点</span></h2>
 
-    <div class="docs-pager">
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Symptom</span><span data-lang="zh">现象</span></th><th><span data-lang="en">Action</span><span data-lang="zh">处理方式</span></th></tr></thead><tbody><tr><td><span data-lang="en">Serial permission denied or wrong arm</span><span data-lang="zh">串口权限不足或机械臂对应错误</span></td><td><span data-lang="en">Run lerobot-find-port, verify each arm, then grant access to the verified ports after reconnecting.</span><span data-lang="zh">运行 lerobot-find-port 逐臂核对，重连后对实际使用的串口重新赋权。</span></td></tr>
+<tr><td><span data-lang="en">Left and right wrist views swapped</span><span data-lang="zh">左右腕画面颠倒</span></td><td><span data-lang="en">Identify each view live and edit index_or_path. ACT/SmolVLA templates use 0/4/2; XVLA uses 0/2/4.</span><span data-lang="zh">按实时画面辨认并修改 index_or_path。ACT/SmolVLA 模板为 0/4/2，XVLA 为 0/2/4。</span></td></tr>
+<tr><td><span data-lang="en">H pose differs between arms</span><span data-lang="zh">机械臂 H 位不一致</span></td><td><span data-lang="en">Check calibration IDs, motor mounting and port mapping. Recalibrate the affected arm with the fixture if needed.</span><span data-lang="zh">核对标定 ID、舵机安装与端口映射，必要时对异常机械臂重新做夹具标定。</span></td></tr>
+<tr><td><span data-lang="en">Camera overlay has ghosting</span><span data-lang="zh">相机叠加出现双影</span></td><td><span data-lang="en">Restore the arm reference pose, lighting and camera mount; rerun the appropriate image-overlay check.</span><span data-lang="zh">恢复机械臂参考姿态、光照和相机安装位置，再运行对应叠加检查。</span></td></tr>
+<tr><td><span data-lang="en">Not enough visual features</span><span data-lang="zh">视觉特征不足</span></td><td><span data-lang="en">Improve lighting and visible fixed texture, verify the reference image and inspect alignment output before recording.</span><span data-lang="zh">改善光照与固定纹理可见性，确认参考图，并在录制前检查对齐输出。</span></td></tr>
+<tr><td><span data-lang="en">Scene image or checkpoint not found</span><span data-lang="zh">找不到场景图或模型权重</span></td><td><span data-lang="en">The template paths are local experiment examples. Prepare the images/weights and update the run JSON. Directory references require picN image names.</span><span data-lang="zh">模板路径是本地实验示例。准备图片与权重后修改运行 JSON；参考图目录需要使用 picN 文件名。</span></td></tr>
+<tr><td><span data-lang="en">Configuration parser errors</span><span data-lang="zh">配置解析错误</span></td><td><span data-lang="en">Keep dataset.rename_map, scene_reference and evaluation_seed in JSON and pass --config_path.</span><span data-lang="zh">将 dataset.rename_map、scene_reference 与 evaluation_seed 放入 JSON，通过 --config_path 加载。</span></td></tr>
+<tr><td><span data-lang="en">OpenCV GUI unavailable</span><span data-lang="zh">OpenCV 图形界面不可用</span></td><td><span data-lang="en">The scene recorder uses GUI windows. Check display access and the installed OpenCV build; a headless build does not provide those windows.</span><span data-lang="zh">场景录制器使用 GUI 窗口。检查显示访问和 OpenCV 安装版本，headless 版本不提供此类窗口。</span></td></tr>
+<tr><td><span data-lang="en">Preview port already in use</span><span data-lang="zh">预览端口被占用</span></td><td><span data-lang="en">Global and right-wrist examples both use 8092. Stop the previous check or select another web port.</span><span data-lang="zh">全局与右腕示例都使用 8092，先停止前一检查或指定其他预览端口。</span></td></tr></tbody></table>
+</div>
+<h2><span data-lang="en">Before every session</span><span data-lang="zh">每次实验前</span></h2>
+<ul><li><span data-lang="en">Confirm all four serial ports and three camera views after reconnecting.</span><span data-lang="zh">重连后确认四个串口与三路相机画面。</span></li>
+<li><span data-lang="en">Verify the H pose and the existing global/left-wrist/right-wrist reference overlays.</span><span data-lang="zh">验证 H 位及已有的全局、左腕、右腕参考图叠加。</span></li>
+<li><span data-lang="en">Keep lighting, mounts, background and task scene references consistent.</span><span data-lang="zh">保持光照、支架、背景及任务场景参考一致。</span></li>
+<li><span data-lang="en">Match the selected checkpoint, task prompt, action units and model camera mapping.</span><span data-lang="zh">匹配所选权重、任务指令、动作单位与模型相机映射。</span></li>
+<li><span data-lang="en">Use a new dataset name for each run and retain configuration and check evidence.</span><span data-lang="zh">每次运行使用新的数据集名，并保留配置与检查证据。</span></li></ul>
+
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">Reuse the existing arm calibration and camera references for daily checks. Recalibrate after hardware changes or abnormal H poses; regenerate references only when defining a new installation baseline.</span><span data-lang="zh">日常检查复用已有机械臂标定与相机参考。硬件变化或 H 位异常时重新标定；仅在重新定义安装基准时生成参考图。</span></p>
+</div>
+
+<div class="docs-pager">
       <a href="tasks.html">
         <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
         <div class="title"><span data-lang="en">6 · Task Reference</span><span data-lang="zh">6 · 任务参考</span></div>

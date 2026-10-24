@@ -1,0 +1,260 @@
+{
+  "source_repository": "YyyYyy0604/BREE-v1",
+  "source_revision": "e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb",
+  "source_root": "outputs/id_ood_benchmark_pairs",
+  "ood_reference_sets_in_revision": 0,
+  "reference_sets": [
+    {
+      "site_task_id": "01",
+      "repository_folder": "task01_pickplace",
+      "dataset_repo_id": "yyyyyy0604/task01_pickplace_pic1+3_A_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task01_pickplace/ID/pic1.jpg",
+          "episode_index": 32
+        },
+        {
+          "image": "task01_pickplace/ID/pic2.jpg",
+          "episode_index": 27
+        },
+        {
+          "image": "task01_pickplace/ID/pic3.jpg",
+          "episode_index": 14
+        },
+        {
+          "image": "task01_pickplace/ID/pic4.jpg",
+          "episode_index": 29
+        },
+        {
+          "image": "task01_pickplace/ID/pic5.jpg",
+          "episode_index": 13
+        }
+      ]
+    },
+    {
+      "site_task_id": "02",
+      "repository_folder": "task03_switch",
+      "dataset_repo_id": "yyyyyy0604/task03_switch_right_50",
+      "selection_method": "uniform random sampling without replacement",
+      "images": [
+        {
+          "image": "task03_switch/ID/pic1.jpg",
+          "episode_index": 13
+        },
+        {
+          "image": "task03_switch/ID/pic2.jpg",
+          "episode_index": 23
+        },
+        {
+          "image": "task03_switch/ID/pic3.jpg",
+          "episode_index": 39
+        },
+        {
+          "image": "task03_switch/ID/pic4.jpg",
+          "episode_index": 44
+        },
+        {
+          "image": "task03_switch/ID/pic5.jpg",
+          "episode_index": 2
+        }
+      ]
+    },
+    {
+      "site_task_id": "02",
+      "repository_folder": "task03_switch_new",
+      "dataset_repo_id": "yyyyyy0604/task03_switch_new_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task03_switch_new/ID/pic1.jpg",
+          "episode_index": 15
+        },
+        {
+          "image": "task03_switch_new/ID/pic2.jpg",
+          "episode_index": 25
+        },
+        {
+          "image": "task03_switch_new/ID/pic3.jpg",
+          "episode_index": 6
+        },
+        {
+          "image": "task03_switch_new/ID/pic4.jpg",
+          "episode_index": 31
+        },
+        {
+          "image": "task03_switch_new/ID/pic5.jpg",
+          "episode_index": 3
+        }
+      ]
+    },
+    {
+      "site_task_id": "03",
+      "repository_folder": "task05_trajectory",
+      "dataset_repo_id": "yyyyyy0604/task05_trajectory",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task05_trajectory/ID/pic1.jpg",
+          "episode_index": 8
+        },
+        {
+          "image": "task05_trajectory/ID/pic2.jpg",
+          "episode_index": 18
+        },
+        {
+          "image": "task05_trajectory/ID/pic3.jpg",
+          "episode_index": 17
+        },
+        {
+          "image": "task05_trajectory/ID/pic4.jpg",
+          "episode_index": 31
+        },
+        {
+          "image": "task05_trajectory/ID/pic5.jpg",
+          "episode_index": 27
+        }
+      ]
+    },
+    {
+      "site_task_id": "04",
+      "repository_folder": "task06_plate",
+      "dataset_repo_id": "yyyyyy0604/task06_plate_A_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task06_plate/ID/pic1.jpg",
+          "episode_index": 13
+        },
+        {
+          "image": "task06_plate/ID/pic2.jpg",
+          "episode_index": 46
+        },
+        {
+          "image": "task06_plate/ID/pic3.jpg",
+          "episode_index": 22
+        },
+        {
+          "image": "task06_plate/ID/pic4.jpg",
+          "episode_index": 31
+        },
+        {
+          "image": "task06_plate/ID/pic5.jpg",
+          "episode_index": 2
+        }
+      ]
+    },
+    {
+      "site_task_id": "05",
+      "repository_folder": "task07_cup",
+      "dataset_repo_id": "yyyyyy0604/task07_cup_A_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task07_cup/ID/pic1.jpg",
+          "episode_index": 29
+        },
+        {
+          "image": "task07_cup/ID/pic2.jpg",
+          "episode_index": 47
+        },
+        {
+          "image": "task07_cup/ID/pic3.jpg",
+          "episode_index": 45
+        },
+        {
+          "image": "task07_cup/ID/pic4.jpg",
+          "episode_index": 28
+        },
+        {
+          "image": "task07_cup/ID/pic5.jpg",
+          "episode_index": 18
+        }
+      ]
+    },
+    {
+      "site_task_id": "06",
+      "repository_folder": "task02_stacking",
+      "dataset_repo_id": "yyyyyy0604/task02_stacking_A_50_fixed",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task02_stacking/ID/pic1.jpg",
+          "episode_index": 32
+        },
+        {
+          "image": "task02_stacking/ID/pic2.jpg",
+          "episode_index": 27
+        },
+        {
+          "image": "task02_stacking/ID/pic3.jpg",
+          "episode_index": 1
+        },
+        {
+          "image": "task02_stacking/ID/pic4.jpg",
+          "episode_index": 39
+        },
+        {
+          "image": "task02_stacking/ID/pic5.jpg",
+          "episode_index": 36
+        }
+      ]
+    },
+    {
+      "site_task_id": "07",
+      "repository_folder": "task04_drawer",
+      "dataset_repo_id": "yyyyyy0604/task04_drawer_A_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task04_drawer/ID/pic1.jpg",
+          "episode_index": 40
+        },
+        {
+          "image": "task04_drawer/ID/pic2.jpg",
+          "episode_index": 0
+        },
+        {
+          "image": "task04_drawer/ID/pic3.jpg",
+          "episode_index": 41
+        },
+        {
+          "image": "task04_drawer/ID/pic4.jpg",
+          "episode_index": 33
+        },
+        {
+          "image": "task04_drawer/ID/pic5.jpg",
+          "episode_index": 22
+        }
+      ]
+    },
+    {
+      "site_task_id": "08",
+      "repository_folder": "task08_cylinder",
+      "dataset_repo_id": "yyyyyy0604/task08_cylinder_insertion_50",
+      "selection_method": "central medoid plus four greedy farthest-point layouts inside the per-coordinate 5-95% core and robust-radius 95% core",
+      "images": [
+        {
+          "image": "task08_cylinder/ID/pic1.jpg",
+          "episode_index": 1
+        },
+        {
+          "image": "task08_cylinder/ID/pic2.jpg",
+          "episode_index": 40
+        },
+        {
+          "image": "task08_cylinder/ID/pic3.jpg",
+          "episode_index": 45
+        },
+        {
+          "image": "task08_cylinder/ID/pic4.jpg",
+          "episode_index": 35
+        },
+        {
+          "image": "task08_cylinder/ID/pic5.jpg",
+          "episode_index": 8
+        }
+      ]
+    }
+  ]
+}

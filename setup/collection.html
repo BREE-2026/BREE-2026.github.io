@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide · Data Collection · BREE</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
+  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
+  <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+</head>
+<body class="docs docs-evaluation-page">
+
+<div class="docs-topbar">
+  <div class="docs-topbar-inner">
+    <a class="brand" href="../index.html">BREE</a>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
+    <span class="docs-crumb">
+      <span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></b>
+    </span>
+    <div class="nav-actions">
+      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">CN</button>
+      </div>
+      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav">
+      <div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
+      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+      <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
+      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html" class="active"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
+      <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </nav>
+  </aside>
+
+  <main class="docs-main">
+    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
+
+<h1><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></h1>
+<p class="lead"><span data-lang="en">Check the bimanual teleoperation loop, restore the task scene, then record synchronized arm and camera streams with lerobot-record.</span><span data-lang="zh">确认双臂遥操作链路，恢复任务场景，再通过 lerobot-record 录制同步的机械臂与相机数据。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
+
+
+<h2><span data-lang="en">1 · Prepare a scene reference</span><span data-lang="zh">1 · 准备场景参考图</span></h2>
+<p><span data-lang="en">Create your task reference directory before recording. In directory mode, use <span class="mono">pic1.jpg</span>, <span class="mono">pic2.jpg</span> and so on; a single image path can also be used. This directory is a suggested layout, not a bundled task asset.</span><span data-lang="zh">录制前创建本任务的参考图目录。目录模式使用 <span class="mono">pic1.jpg</span>、<span class="mono">pic2.jpg</span> 等连续命名，也可直接指定单张图片路径。下列结构是建议布局，并非仓库已附带的任务资源。</span></p>
+
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code>BREE/camera_reference/tasks/YOUR_TASK/
+├── pic1.jpg
+├── pic2.jpg
+└── pic3.jpg</code></pre>
+</div>
+<h2><span data-lang="en">2 · Verify teleoperation</span><span data-lang="zh">2 · 验证遥操作</span></h2>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-teleoperate \
+  --robot.type=bi_so_follower \
+  --robot.id=follower_arm \
+  --robot.left_arm_config.port=/dev/ttyACM0 \
+  --robot.right_arm_config.port=/dev/ttyACM1 \
+  --robot.left_arm_config.use_degrees=true \
+  --robot.right_arm_config.use_degrees=true \
+  --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
+  --teleop.type=bi_so_leader \
+  --teleop.id=leader_arm \
+  --teleop.left_arm_config.port=/dev/ttyACM2 \
+  --teleop.right_arm_config.port=/dev/ttyACM3 \
+  --teleop.left_arm_config.use_degrees=true \
+  --teleop.right_arm_config.use_degrees=true \
+  --fps=30 \
+  --display_data=true</code></pre>
+</div><p><span data-lang="en">Confirm both leader–follower pairs, joint directions, action units and all camera views. Stop this process before running the recorder.</span><span data-lang="zh">检查两组主从臂对应关系、关节方向、动作单位和所有相机画面。启动录制前先停止遥操作进程。</span></p>
+
+<h2><span data-lang="en">3 · Record episodes</span><span data-lang="zh">3 · 录制回合</span></h2>
+<p><span data-lang="en">Replace <span class="mono">YOUR_NAME/YOUR_DATASET</span>, <span class="mono">YOUR TASK DESCRIPTION</span> and <span class="mono">YOUR_TASK</span>. Choose episode count and timing for your task. Set camera indices from the live device check.</span><span data-lang="zh">替换 <span class="mono">YOUR_NAME/YOUR_DATASET</span>、<span class="mono">YOUR TASK DESCRIPTION</span> 与 <span class="mono">YOUR_TASK</span>。按任务设置回合数与时间，并根据设备检查结果填写相机编号。</span></p>
+
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">For this revision, keep path-valued scene options in a JSON configuration to avoid the command parser issue documented in the evaluation section. The following prepares a recording configuration from the repository’s hardware template, clears its policy, and uses the collection settings in the operating guide.</span><span data-lang="zh">本版本将场景路径选项放入 JSON 配置，以避开评测章节记录的命令解析问题。以下使用仓库中的硬件模板生成录制配置，清除策略，并采用操作指南的数据采集设置。</span></p>
+</div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python - &lt;&lt;'PY'
+import json
+from pathlib import Path
+
+config = json.loads(Path("BREE/configs/xvla_eval.json").read_text())
+config["policy"] = None
+config["teleop"] = {
+    "type": "bi_so_leader",
+    "id": "leader_arm",
+    "left_arm_config": {"port": "/dev/ttyACM2", "use_degrees": True},
+    "right_arm_config": {"port": "/dev/ttyACM3", "use_degrees": True},
+}
+config["dataset"].update({
+    "repo_id": "YOUR_NAME/YOUR_DATASET",
+    "single_task": "YOUR TASK DESCRIPTION",
+    "num_episodes": 50,
+    "episode_time_s": 60,
+    "reset_time_s": 40,
+    "push_to_hub": False,
+    "rename_map": {},
+})
+config.update({
+    "scene_reference": "BREE/camera_reference/tasks/YOUR_TASK",
+    "scene_reference_camera": "global",
+    "scene_overlay_alpha": 0.4,
+    "episodes_per_reference": 1,
+    "scene_reference_cycle": False,
+    "evaluation_seed": None,
+    "scene_home_requires_h": True,
+    "require_leader_home_alignment": True,
+    "leader_home_tolerance": 8,
+})
+Path("outputs/record").mkdir(parents=True, exist_ok=True)
+Path("outputs/record/collect.json").write_text(json.dumps(config, indent=2) + "\n")
+PY</code></pre>
+</div><p><span data-lang="en">Edit <span class="mono">outputs/record/collect.json</span> before running. It starts from global / left wrist / right wrist <span class="mono">0 / 2 / 4</span>; update all ports, camera indices, dataset name, task prompt and scene path. In directory mode, provide enough numbered images for the selected episode count or deliberately enable <span class="mono">scene_reference_cycle</span>.</span><span data-lang="zh">运行前编辑 <span class="mono">outputs/record/collect.json</span>，初始相机映射为全局 / 左腕 / 右腕 <span class="mono">0 / 2 / 4</span>。核对串口、相机编号、数据集名、任务指令与场景路径。目录模式需要准备足够的连续编号图片，或按实验设计启用 <span class="mono">scene_reference_cycle</span>。</span></p>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>HF_HUB_DISABLE_XET=1 lerobot-record \
+  --config_path=outputs/record/collect.json</code></pre>
+</div><p><span data-lang="en">The recorder shows a scene overlay before each episode. With this configuration, press <span class="mono">H</span> to return home before arranging the scene; <span class="mono">Enter</span> starts recording once home alignment is satisfied. Recordings remain local because <span class="mono">dataset.push_to_hub=false</span>.</span><span data-lang="zh">录制器会在每回合前显示场景叠加。此配置下，先按 <span class="mono">H</span> 回 H 位再整理场景，满足主从臂姿态对齐后按 <span class="mono">Enter</span> 开始。<span class="mono">dataset.push_to_hub=false</span> 表示录制数据仅保存在本地。</span></p>
+
+<h2><span data-lang="en">4 · Check the recorded data</span><span data-lang="zh">4 · 复核录制数据</span></h2>
+<ul><li><span data-lang="en">Check the recorded episode count, task text and synchronized videos before training.</span><span data-lang="zh">训练前核对已录回合数、任务文本与同步视频。</span></li>
+<li><span data-lang="en">The raw camera keys are observation.images.left_global, observation.images.left_wrist and observation.images.right_wrist.</span><span data-lang="zh">原始相机键为 observation.images.left_global、observation.images.left_wrist 与 observation.images.right_wrist。</span></li>
+<li><span data-lang="en">Keep degree-based states/actions consistent with training and inference. Retain the configuration, source revision and reference images.</span><span data-lang="zh">保持状态与动作的角度单位在采集、训练和推理间一致，并保存配置、源码版本和参考图。</span></li></ul>
+<p><span data-lang="en">For ACT, SmolVLA, XVLA, RDT and OpenPI training, use the model-specific recipes in <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#10-模型训练">the training guide</a>.</span><span data-lang="zh">ACT、SmolVLA、XVLA、RDT 与 OpenPI 训练流程见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#10-模型训练">模型训练指南</a>。</span></p>
+
+<div class="docs-pager"><a href="calibration.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div></a><a class="next" href="evaluation.html"><div class="dir"><span data-lang="en">Next step →</span><span data-lang="zh">下一步 →</span></div><div class="title"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div></a></div>
+  </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
+</body>
+</html>

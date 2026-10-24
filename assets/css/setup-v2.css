@@ -717,3 +717,8 @@ body.docs .docs-pager .title{margin-top:8px;color:var(--ink);font:700 17px/1.3 v
   body.docs .docs-pager{flex-direction:column}
   body.docs .docs-pager a{max-width:100%}
 }
+
+/* Repository paths must wrap within the mobile documentation column. */
+body.docs .docs-main p,
+body.docs .docs-main li{overflow-wrap:anywhere}
+body.docs .docs-main .figure img{height:auto}

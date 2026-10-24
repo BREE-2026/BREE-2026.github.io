@@ -1,0 +1,25 @@
+/* ID/OOD conceptual scene comparison, scoped to the evaluation page. */
+body.docs.docs-evaluation-page .docs-main .eval-condition-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+body.docs.docs-evaluation-page .docs-main .eval-condition-figure{min-width:0}
+body.docs.docs-evaluation-page .docs-main .eval-condition-figure__head{padding:14px 18px 0;font:700 18px/1.4 var(--guide-sans, sans-serif);letter-spacing:.08em;color:var(--ink)}
+body.docs.docs-evaluation-page .docs-main .eval-layout{display:block;width:100%;height:auto}
+body.docs.docs-evaluation-page .docs-main .eval-layout__label{fill:#263f4e;font:18px system-ui,sans-serif}
+body.docs.docs-evaluation-page .docs-main .eval-layout__number{fill:#fff;font:700 18px system-ui,sans-serif}
+body.docs.docs-evaluation-page .docs-main .eval-condition-figure figcaption{font-family:var(--guide-sans,sans-serif);font-size:14px;line-height:1.6}
+body.docs.docs-evaluation-page .docs-main h3{margin-top:30px}
+body.docs.docs-evaluation-page .docs-main ol{padding-left:24px;line-height:1.75}
+body.docs.docs-evaluation-page .docs-main ol li+li{margin-top:12px}
+@media(max-width:700px){body.docs.docs-evaluation-page .docs-main .eval-condition-grid{grid-template-columns:1fr}}
+
+/* Original repository images, grouped by the website's task numbering. */
+body.docs.docs-evaluation-page .docs-main .eval-reference-set{margin:14px 0;border:1px solid var(--paper-line);border-radius:12px;background:#fff;overflow:hidden}
+body.docs.docs-evaluation-page .docs-main .eval-reference-set summary{padding:16px 18px;color:var(--ink);font-weight:600;cursor:pointer}
+body.docs.docs-evaluation-page .docs-main .eval-reference-set summary:focus-visible{outline:3px solid var(--signal);outline-offset:-3px}
+body.docs.docs-evaluation-page .docs-main .eval-reference-set__body{padding:0 18px 18px}
+body.docs.docs-evaluation-page .docs-main .eval-reference-set__body>p{font-size:14px;line-height:1.6}
+body.docs.docs-evaluation-page .docs-main .eval-reference-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body.docs.docs-evaluation-page .docs-main .eval-reference-grid .figure{margin:0;min-width:0}
+body.docs.docs-evaluation-page .docs-main .eval-reference-grid .figure a{display:block}
+body.docs.docs-evaluation-page .docs-main .eval-reference-grid img{display:block;height:auto}
+body.docs.docs-evaluation-page .docs-main .eval-reference-grid figcaption{font-family:var(--guide-sans,sans-serif);font-size:13px;line-height:1.5}
+@media(max-width:700px){body.docs.docs-evaluation-page .docs-main .eval-reference-grid{grid-template-columns:1fr}}

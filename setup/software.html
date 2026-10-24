@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -43,6 +43,7 @@
       <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html" class="active"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -50,91 +51,66 @@
   </aside>
 
   <main class="docs-main">
-    <div class="time-badge">⏱
-      <span data-lang="en">Reading time · 4 min</span><span data-lang="zh">阅读时间 · 4 分钟</span>
-    </div>
-    <h1>
-      <span data-lang="en">Software Installation</span>
-      <span data-lang="zh">软件安装</span>
-    </h1>
-    <p class="lead">
-      <span data-lang="en">BREE ships as a pinned LeRobot fork with all calibration and evaluation scripts included. Two install paths are supported — Docker (recommended) or a local environment.</span>
-      <span data-lang="zh">BREE 以固定版本的 LeRobot 分支发布，内置全部标定与评测脚本。支持两种安装方式——Docker（推荐）或本地环境。</span>
-    </p>
+    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
 
-    <h2><span data-lang="en">Option A · Docker (recommended)</span><span data-lang="zh">方式 A · Docker（推荐）</span></h2>
-    <p>
-      <span data-lang="en">The user image ships the full BREE toolchain with pinned dependencies. Build it from the repository root:</span>
-      <span data-lang="zh">用户镜像包含完整 BREE 工具链与固定版本的依赖。在仓库根目录构建：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>git clone &lt;repository-url&gt; bree
-cd bree
-docker build -f docker/Dockerfile.user -t bree:latest .</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">Run it with the arms and cameras passed through:</span>
-      <span data-lang="zh">运行时将机械臂与相机透传进容器：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>docker run -it --privileged \
-  --device /dev/ttyACM0 --device /dev/ttyACM1 \
-  --device /dev/ttyACM2 --device /dev/ttyACM3 \
-  --device /dev/video0  --device /dev/video2  --device /dev/video4 \
-  -v ~/.cache/huggingface:/root/.cache/huggingface \
-  bree:latest bash</code></pre>
-    </div>
+<h1><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></h1>
+<p class="lead"><span data-lang="en">Install the BREE-v1 LeRobot fork, then identify four serial ports and three cameras. A local Linux environment is the direct path for the hardware workflow.</span><span data-lang="zh">安装 BREE-v1 的 LeRobot 分支，再确认四个串口与三台相机。本地 Linux 环境可直接运行硬件操作流程。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
-    <h2><span data-lang="en">Option B · Local environment</span><span data-lang="zh">方式 B · 本地环境</span></h2>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>git clone &lt;repository-url&gt; bree
-cd bree
+
+<h2><span data-lang="en">1 · Clone and install</span><span data-lang="zh">1 · 克隆与安装</span></h2>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>git clone https://github.com/YyyYyy0604/BREE-v1.git
+cd BREE-v1
+git checkout e97d1b6e76f29ea91dc4500a3dff76feb2b77bdb
 conda create -n bree python=3.10 -y
 conda activate bree
-pip install -e .</code></pre>
-    </div>
-    <div class="admonition admonition-note">
-      <div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div>
-      <p>
-        <span data-lang="en">Hardware extras (e.g. <span class="mono">pip install -e ".[so101]"</span>) follow the standard LeRobot installation documentation. The exact repository URL will be published on the <a href="../index.html">project page</a>.</span>
-        <span data-lang="zh">硬件附加依赖（如 <span class="mono">pip install -e ".[so101]"</span>）请遵循 LeRobot 官方安装文档。仓库确切链接将在<a href="../index.html">项目主页</a>公布。</span>
-      </p>
-    </div>
+conda install ffmpeg=7.1.1 -c conda-forge -y
+python -m pip install -e ".[feetech]"
+python -c "import lerobot; print(lerobot.__file__)"
+lerobot-info</code></pre>
+</div><p><span data-lang="en">The revision above is the documentation baseline. The SO-101 motor extra is <span class="mono">feetech</span>. Install model-specific extras for the policy you use; see <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/pyproject.toml">pyproject.toml</a>.</span><span data-lang="zh">上面的版本是本指南的对照基线。SO-101 的舵机附加依赖为 <span class="mono">feetech</span>。按所用策略安装模型依赖，具体见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/pyproject.toml">pyproject.toml</a>。</span></p>
 
-    <h2><span data-lang="en">Grant device permissions</span><span data-lang="zh">赋予设备权限</span></h2>
-    <p>
-      <span data-lang="en">Serial devices need relaxed permissions. This must be re-run after <b>every</b> power cycle or re-plug:</span>
-      <span data-lang="zh">串口设备需要放开权限。<b>每次</b>断电或重插后都必须重新执行：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>sudo chmod 666 /dev/ttyACM0 /dev/ttyACM1 /dev/ttyACM2 /dev/ttyACM3</code></pre>
-    </div>
+<h2><span data-lang="en">2 · Identify devices and grant access</span><span data-lang="zh">2 · 确认设备并赋予权限</span></h2>
 
-    <h2><span data-lang="en">Find your device indices</span><span data-lang="zh">确认设备编号</span></h2>
-    <h3><span data-lang="en">Arms</span><span data-lang="zh">机械臂</span></h3>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>lerobot-find-port</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">With the BREE reference machine the mapping is fixed (left follower = ACM0 … right leader = ACM3, plugged in order 0→3). If your machine assigns different ports, adapt the commands in this guide accordingly.</span>
-      <span data-lang="zh">在 BREE 参考主机上映射是固定的（左从臂 = ACM0 …… 右主臂 = ACM3，按 0→3 顺序插入）。如果你的主机分配了不同端口，请相应调整本指南中的命令。</span>
-    </p>
-    <h3><span data-lang="en">Cameras</span><span data-lang="zh">相机</span></h3>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>lerobot-find-cameras opencv</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">Identify each camera by what it currently sees, and note its index. Reference machine: global = <span class="mono">/dev/video0</span>, left wrist = <span class="mono">/dev/video2</span>, right wrist = <span class="mono">/dev/video4</span>.</span>
-      <span data-lang="zh">根据每台相机当前拍到的画面辨认并记录编号。参考主机：全局 = <span class="mono">/dev/video0</span>、左腕 = <span class="mono">/dev/video2</span>、右腕 = <span class="mono">/dev/video4</span>。</span>
-    </p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-find-port
+sudo chmod 666 /dev/ttyACM0 /dev/ttyACM1 /dev/ttyACM2 /dev/ttyACM3
+lerobot-find-cameras opencv</code></pre>
+</div>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th><th><span data-lang="en">Example port</span><span data-lang="zh">示例端口</span></th><th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
+<tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
+<tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
+<tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr></tbody></table>
+</div><p><span data-lang="en">The operating guide uses global / left wrist / right wrist indices <span class="mono">0 / 2 / 4</span>. Check live views after every reconnect. ACT and SmolVLA evaluation JSON files instead contain <span class="mono">0 / 4 / 2</span>; XVLA contains <span class="mono">0 / 2 / 4</span>. Update the selected configuration to match your hardware.</span><span data-lang="zh">操作指南使用全局 / 左腕 / 右腕编号 <span class="mono">0 / 2 / 4</span>。每次重连都应按实时画面辨认。ACT 与 SmolVLA 评测 JSON 中则为 <span class="mono">0 / 4 / 2</span>，XVLA 为 <span class="mono">0 / 2 / 4</span>。请按实际接线修改所选配置。</span></p>
 
-    <div class="docs-pager">
+<h2><span data-lang="en">3 · Repository map</span><span data-lang="zh">3 · 仓库目录</span></h2>
+
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Path</span><span data-lang="zh">路径</span></th><th><span data-lang="en">Purpose</span><span data-lang="zh">用途</span></th></tr></thead><tbody><tr><td><span class="mono">BREE/robot_calibration/</span></td><td><span data-lang="en">Fixture calibration and H-pose checks</span><span data-lang="zh">夹具标定与 H 位验证</span></td></tr>
+<tr><td><span class="mono">BREE/camera_calibration/</span></td><td><span data-lang="en">Image-control tuning and restoration, global and wrist reference overlays</span><span data-lang="zh">图像参数调节与恢复、全局及腕部参考图叠加</span></td></tr>
+<tr><td><span class="mono">BREE/camera_reference/</span></td><td><span data-lang="en">Saved camera installation references</span><span data-lang="zh">相机安装参考文件</span></td></tr>
+<tr><td><span class="mono">BREE/configs/</span></td><td><span data-lang="en">Policy training and evaluation JSON</span><span data-lang="zh">策略训练与评测 JSON</span></td></tr>
+<tr><td><span class="mono">BREE/model_training/</span></td><td><span data-lang="en">RDT and OpenPI training entry points</span><span data-lang="zh">RDT 与 OpenPI 训练入口</span></td></tr>
+<tr><td><span class="mono">BREE/model_inference/</span></td><td><span data-lang="en">RDT evaluation client</span><span data-lang="zh">RDT 评测客户端</span></td></tr>
+<tr><td><span class="mono">BREE/openpi_eval/</span></td><td><span data-lang="en">OpenPI server and robot client</span><span data-lang="zh">OpenPI 服务端与机器人客户端</span></td></tr>
+<tr><td><span class="mono">outputs/</span></td><td><span data-lang="en">Generated results and ID benchmark references; prepare OOD scenes and model checkpoints separately</span><span data-lang="zh">生成结果与 ID 评测参考图；OOD 场景与模型权重需另行准备</span></td></tr></tbody></table>
+</div>
+<h2><span data-lang="en">Optional · Docker</span><span data-lang="zh">可选 · Docker</span></h2>
+<p><span data-lang="en">The repository includes <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/docker/Dockerfile.user">a general LeRobot user image</a>. It installs all extras and is not a frozen BREE-specific environment. Build from the checked-out root:</span><span data-lang="zh">仓库提供 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/docker/Dockerfile.user">通用 LeRobot 用户镜像</a>，会安装全部附加依赖；它并非冻结的 BREE 专用环境。在已检出的仓库根目录构建：</span></p>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>docker build -f docker/Dockerfile.user -t bree:local .
+docker run --rm -it \
+  --device /dev/ttyACM0 --device /dev/ttyACM1 \
+  --device /dev/ttyACM2 --device /dev/ttyACM3 \
+  --device /dev/video0 --device /dev/video2 --device /dev/video4 \
+  -p 8091:8091 -p 8092:8092 \
+  -v "$HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface" \
+  bree:local bash</code></pre>
+</div>
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">The image runs as <span class="mono">user_lerobot</span>. Ensure that user can access the mapped devices and cache. Browser previews in a container require <span class="mono">--web-host 0.0.0.0</span> with the matching published port. Live recording uses GUI windows; configure display access before using it in Docker. NVIDIA GPU access also requires host/container GPU setup.</span><span data-lang="zh">镜像以 <span class="mono">user_lerobot</span> 运行，需确保该用户可读写映射的设备与缓存。容器内浏览器预览需设置 <span class="mono">--web-host 0.0.0.0</span> 并发布对应端口。实时录制使用 GUI 窗口，在 Docker 中运行前需配置显示访问；NVIDIA GPU 还需配置主机与容器的 GPU 支持。</span></p>
+</div>
+
+<div class="docs-pager">
       <a href="assembly.html">
         <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
         <div class="title"><span data-lang="en">2 · Hardware Assembly</span><span data-lang="zh">2 · 硬件装配</span></div>

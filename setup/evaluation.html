@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align2">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-idrefs2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
+  <link rel="stylesheet" href="../assets/css/evaluation-guide.css?v=20261024-idrefs2">
 </head>
 <body class="docs docs-evaluation-page">
 
@@ -43,6 +44,7 @@
       <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html" class="active"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -50,114 +52,291 @@
   </aside>
 
   <main class="docs-main">
-    <div class="time-badge">⏱
-      <span data-lang="en">Reading time · 5 min</span><span data-lang="zh">阅读时间 · 5 分钟</span>
-    </div>
-    <h1>
-      <span data-lang="en">Running Evaluations</span>
-      <span data-lang="zh">运行评估</span>
-    </h1>
-    <p class="lead">
-      <span data-lang="en">Evaluation runs a trained policy on the calibrated rig through <span class="mono">lerobot-record</span> — fixed episode count, fixed time budget, fixed scene references. Because every BREE site is calibrated to the same reference, results are directly comparable.</span>
-      <span data-lang="zh">评测通过 <span class="mono">lerobot-record</span> 在已标定机架上运行训练好的策略——固定回合数、固定时间预算、固定场景参考。由于所有 BREE 站点都标定到同一参考，结果可直接互相比较。</span>
-    </p>
+    <!-- Commands: BREE-v1 b229178; ID images and selection records: e97d1b6. See assets/BREE-v1-NOTICE.md. -->
 
-    <div class="admonition admonition-warning">
-      <div class="admonition-title">
-        <span data-lang="en">⚠ Before you evaluate</span>
-        <span data-lang="zh">⚠ 评测之前</span>
-      </div>
-      <p>
-        <span data-lang="en">Re-run the AprilTag checks after any camera or arm movement. Evaluation only begins when all three cameras report <span class="mono">within_tolerance = true</span> and the live scene matches the task reference image.</span>
-        <span data-lang="zh">相机或机械臂有任何移动后，必须重新执行 AprilTag 检查。只有三台相机全部报告 <span class="mono">within_tolerance = true</span> 且实时场景与任务参考图一致时，才能开始评测。</span>
-      </p>
-    </div>
+<h1><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></h1>
+<p class="lead"><span data-lang="en">Use the policy-specific JSON configuration to record real-robot evaluation episodes. The current templates use 20 episodes, a 120-second limit and seeds grouped in sets of five saved episodes.</span><span data-lang="zh">使用策略对应的 JSON 配置录制真机评测回合。当前模板为 20 回合、每回合最长 120 秒，并以每 5 个已保存回合为一组设置 seed。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
-    <h2><span data-lang="en">1 · Sanity-check teleoperation</span><span data-lang="zh">1 · 遥操作自检</span></h2>
-    <p>
-      <span data-lang="en">Confirm the bimanual leader–follower loop and all three camera streams before touching policies:</span>
-      <span data-lang="zh">在运行策略之前，先确认双主从臂链路与三路相机画面正常：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>lerobot-teleoperate \
-  --robot.type=bi_so_follower --robot.id=follower_arm \
+
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Before you evaluate</span><span data-lang="zh">评测之前</span></div><p><span data-lang="en">Verify the H pose, all three reference overlays, camera order and action units first. These LeRobot evaluation commands can move the arms; they are not dry runs. Prepare the checkpoint and scene images before starting.</span><span data-lang="zh">先验证 H 位、三路参考图叠加、相机顺序与动作单位。以下 LeRobot 评测命令会驱动机械臂，并非 dry-run；启动前准备好模型权重与场景参考图。</span></p>
+</div>
+<h2><span data-lang="en">1 · Check teleoperation</span><span data-lang="zh">1 · 遥操作自检</span></h2>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>lerobot-teleoperate \
+  --robot.type=bi_so_follower \
+  --robot.id=follower_arm \
   --robot.left_arm_config.port=/dev/ttyACM0 \
   --robot.right_arm_config.port=/dev/ttyACM1 \
+  --robot.left_arm_config.use_degrees=true \
+  --robot.right_arm_config.use_degrees=true \
   --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
   --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
-  --teleop.type=bi_so_leader --teleop.id=leader_arm \
+  --teleop.type=bi_so_leader \
+  --teleop.id=leader_arm \
   --teleop.left_arm_config.port=/dev/ttyACM2 \
   --teleop.right_arm_config.port=/dev/ttyACM3 \
-  --fps=30 --display_data=true</code></pre>
-    </div>
+  --teleop.left_arm_config.use_degrees=true \
+  --teleop.right_arm_config.use_degrees=true \
+  --fps=30 \
+  --display_data=true</code></pre>
+</div><p><span data-lang="en">Stop teleoperation before starting policy evaluation so the serial ports and cameras are released. Pure policy evaluation does not require the leader arms.</span><span data-lang="zh">启动策略评测前先停止遥操作，释放串口和相机。纯策略评测不需要连接主臂。</span></p>
 
-    <h2><span data-lang="en">2 · Policy evaluation</span><span data-lang="zh">2 · 策略评测</span></h2>
-    <p>
-      <span data-lang="en">Example — evaluating a SmolVLA checkpoint on a stacking task. The same command records the evaluation episodes as a LeRobotDataset:</span>
-      <span data-lang="zh">示例——在某堆叠任务上评测 SmolVLA 检查点。同一条命令会把评测回合录制为 LeRobotDataset：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>HF_HUB_DISABLE_XET=1 lerobot-record \
-  --robot.type=bi_so_follower --robot.id=follower_arm \
-  --robot.left_arm_config.port=/dev/ttyACM0 \
-  --robot.right_arm_config.port=/dev/ttyACM1 \
-  --robot.left_arm_config.cameras="{global: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30, fourcc: MJPG}, wrist: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
-  --robot.right_arm_config.cameras="{wrist: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30, fourcc: MJPG}}" \
-  --teleop.type=bi_so_leader --teleop.id=leader_arm \
-  --teleop.left_arm_config.port=/dev/ttyACM2 \
-  --teleop.right_arm_config.port=/dev/ttyACM3 \
-  --policy.path=outputs/train/&lt;run&gt;/checkpoints/&lt;step&gt;/pretrained_model \
-  --policy.device=cuda --display_data=true \
-  --dataset.repo_id=&lt;your-org&gt;/eval_&lt;run&gt; \
-  --dataset.single_task="stack two blocks" \
-  --dataset.rename_map='{
-    "observation.images.left_global": "observation.images.camera1",
-    "observation.images.left_wrist": "observation.images.camera2",
-    "observation.images.right_wrist": "observation.images.camera3"
-  }' \
-  --dataset.num_episodes=10 \
-  --dataset.episode_time_s=40 \
-  --dataset.reset_time_s=40 \
-  --dataset.push_to_hub=false</code></pre>
-    </div>
+<h2><span data-lang="en">2 · Select and edit a configuration</span><span data-lang="zh">2 · 选择并编辑配置</span></h2>
 
-    <h2><span data-lang="en">3 · Key flags</span><span data-lang="zh">3 · 关键参数</span></h2>
-    <div class="table-wrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><span data-lang="en">Flag</span><span data-lang="zh">参数</span></th>
-            <th><span data-lang="en">Meaning</span><span data-lang="zh">含义</span></th>
-            <th><span data-lang="en">Standard value</span><span data-lang="zh">标准值</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><span class="mono">--policy.path</span></td><td><span data-lang="en">Path to the trained checkpoint's <span class="mono">pretrained_model</span></span><span data-lang="zh">训练检查点 <span class="mono">pretrained_model</span> 的路径</span></td><td>—</td></tr>
-          <tr><td><span class="mono">--dataset.single_task</span></td><td><span data-lang="en">Language instruction given to the policy</span><span data-lang="zh">提供给策略的语言指令</span></td><td><span data-lang="en">per task, see</span><span data-lang="zh">按任务而定，见</span> <a href="tasks.html">Task Reference</a></td></tr>
-          <tr><td><span class="mono">--dataset.num_episodes</span></td><td><span data-lang="en">Evaluation episodes per run</span><span data-lang="zh">每次评测的回合数</span></td><td class="num">10</td></tr>
-          <tr><td><span class="mono">--dataset.episode_time_s</span></td><td><span data-lang="en">Time budget per episode</span><span data-lang="zh">每回合时间预算</span></td><td class="num">40 s</td></tr>
-          <tr><td><span class="mono">--dataset.reset_time_s</span><span data-lang="zh">每回合重置时间</span></td><td><span data-lang="en">Time to reset the scene between episodes</span><span data-lang="zh">回合之间重置场景的时间</span></td><td class="num">40 s</td></tr>
-          <tr><td><span class="mono">--dataset.rename_map</span></td><td><span data-lang="en">Maps recorded streams to the training camera names</span><span data-lang="zh">将录制的相机流映射为训练时的相机名</span></td><td><span class="mono">camera1/2/3</span></td></tr>
-        </tbody>
-      </table>
-    </div>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Policy</span><span data-lang="zh">策略</span></th><th><span data-lang="en">Repository template</span><span data-lang="zh">仓库模板</span></th><th><span data-lang="en">Model camera names</span><span data-lang="zh">模型相机名</span></th><th><span data-lang="en">Global / left wrist / right wrist</span><span data-lang="zh">全局 / 左腕 / 右腕</span></th></tr></thead><tbody><tr><td>ACT</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/configs/act_eval.json">act_eval.json</a></td><td><span class="mono">left_global / left_wrist / right_wrist</span></td><td><span class="mono">0 / 4 / 2</span></td></tr>
+<tr><td>SmolVLA</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/configs/smolvla_eval.json">smolvla_eval.json</a></td><td><span class="mono">camera1 / camera2 / camera3</span></td><td><span class="mono">0 / 4 / 2</span></td></tr>
+<tr><td>XVLA</td><td><a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/configs/xvla_eval.json">xvla_eval.json</a></td><td><span class="mono">image / image2 / image3</span></td><td><span class="mono">0 / 2 / 4</span></td></tr></tbody></table>
+</div><p><span data-lang="en">Copy the template to a new run configuration. Edit <span class="mono">robot.*_arm_config.port</span>, camera <span class="mono">index_or_path</span>, <span class="mono">dataset.repo_id</span>, <span class="mono">dataset.single_task</span> and <span class="mono">scene_reference</span>. The checked-in paths point to local experiments; prepare the model weights and the ID/OOD scene sets described in <a href="#id-ood">step 3</a>.</span><span data-lang="zh">将模板复制为本次实验的独立配置，修改 <span class="mono">robot.*_arm_config.port</span>、相机 <span class="mono">index_or_path</span>、<span class="mono">dataset.repo_id</span>、<span class="mono">dataset.single_task</span> 与 <span class="mono">scene_reference</span>。仓库模板中的路径对应本地实验；需准备模型权重和<a href="#id-ood">第 3 节</a>说明的 ID/OOD 场景集。</span></p>
 
-    <h2><span data-lang="en">4 · Success criteria &amp; reporting</span><span data-lang="zh">4 · 成功判据与结果上报</span></h2>
-    <ul>
-      <li><span data-lang="en">An episode is a success only if it satisfies the task's measurable criterion (see <a href="tasks.html">Task Reference</a>).</span>
-      <span data-lang="zh">只有满足任务的可度量判据（见<a href="tasks.html">任务参考</a>）才算该回合成功。</span></li>
-      <li><span data-lang="en">Log success / failure per episode; report success rate over all episodes, with the checkpoint ID and date.</span>
-      <span data-lang="zh">逐回合记录成功 / 失败；汇报全部回合的成功率，并附检查点 ID 与日期。</span></li>
-      <li><span data-lang="en">Leaderboard submission details will be announced with the paper release.</span>
-      <span data-lang="zh">排行榜提交细节将随论文发布公布。</span></li>
-    </ul>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>mkdir -p outputs/eval
+cp BREE/configs/act_eval.json outputs/eval/act_run.json</code></pre>
+</div>
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">Keep <span class="mono">dataset.rename_map</span>, <span class="mono">scene_reference</span> and <span class="mono">evaluation_seed</span> in the JSON file. The operating guide reports parser errors when passing these directly on the command line. Keep <span class="mono">use_degrees=true</span> consistent with the training data.</span><span data-lang="zh">将 <span class="mono">dataset.rename_map</span>、<span class="mono">scene_reference</span> 与 <span class="mono">evaluation_seed</span> 保留在 JSON 中；操作指南记录了直接通过命令行传入时的解析问题。<span class="mono">use_degrees=true</span> 必须与训练数据的动作单位一致。</span></p>
+</div>
+<h2 id="id-ood"><span data-lang="en">3 · ID / OOD scenes and operation</span><span data-lang="zh">3 · ID / OOD 场景与操作</span></h2>
+<p><span data-lang="en"><strong>ID (in-distribution)</strong> evaluates scenes drawn from the conditions covered by training. <strong>OOD (out-of-distribution)</strong> evaluates a specified held-out condition. The diagrams below illustrate a change in starting position while the task and target stay the same.</span><span data-lang="zh"><strong>ID（分布内）</strong>评测训练数据覆盖的场景条件，<strong>OOD（分布外）</strong>评测指定的未见条件。下图以初始摆放位置变化为例，任务与目标位置保持一致。</span></p>
+<div class="figure-row eval-condition-grid">
+<figure class="figure eval-condition-figure"><div class="eval-condition-figure__head">ID</div>
+<svg class="eval-layout" viewBox="0 0 460 290" role="img" aria-label="ID conceptual scene layout">
+<rect x="20" y="20" width="420" height="250" rx="16" fill="#f8fafb" stroke="#8e9fa5" stroke-width="2"/>
+<rect x="60" y="65" width="208" height="160" rx="12" fill="#e7f0f4" stroke="#436d81" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="78" y="93" class="eval-layout__label" data-lang="en">Training layouts</text>
+<text x="78" y="93" class="eval-layout__label" data-lang="zh">训练布局范围</text>
+<rect x="337" y="87" width="65" height="65" rx="8" fill="#fff" stroke="#40505c" stroke-width="3"/>
+<text x="369" y="126" text-anchor="middle" class="eval-layout__label">A</text>
+<text x="369" y="173" text-anchor="middle" class="eval-layout__label" data-lang="en">Target</text>
+<text x="369" y="173" text-anchor="middle" class="eval-layout__label" data-lang="zh">目标位置</text>
+<rect x="100" y="110" width="40" height="40" rx="5" fill="#b44b31" stroke="#152f40" stroke-width="1.5"/>
+<text x="120" y="136" text-anchor="middle" class="eval-layout__number">1</text>
+<rect x="182" y="125" width="40" height="40" rx="5" fill="#315d91" stroke="#152f40" stroke-width="1.5"/>
+<text x="202" y="151" text-anchor="middle" class="eval-layout__number">2</text>
+<text x="38" y="47" class="eval-layout__label" data-lang="en">Workspace · top view</text>
+<text x="38" y="47" class="eval-layout__label" data-lang="zh">工作区 · 俯视示意</text>
+</svg>
+<figcaption><span data-lang="en">ID · objects start within the training layout range.</span><span data-lang="zh">ID · 物体初始位置位于训练布局覆盖范围内。</span></figcaption></figure>
+<figure class="figure eval-condition-figure"><div class="eval-condition-figure__head">OOD</div>
+<svg class="eval-layout" viewBox="0 0 460 290" role="img" aria-label="OOD conceptual scene layout">
+<rect x="20" y="20" width="420" height="250" rx="16" fill="#f8fafb" stroke="#8e9fa5" stroke-width="2"/>
+<rect x="60" y="65" width="208" height="160" rx="12" fill="#e7f0f4" stroke="#436d81" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="78" y="93" class="eval-layout__label" data-lang="en">Training layouts</text>
+<text x="78" y="93" class="eval-layout__label" data-lang="zh">训练布局范围</text>
+<rect x="337" y="87" width="65" height="65" rx="8" fill="#fff" stroke="#40505c" stroke-width="3"/>
+<text x="369" y="126" text-anchor="middle" class="eval-layout__label">A</text>
+<text x="369" y="173" text-anchor="middle" class="eval-layout__label" data-lang="en">Target</text>
+<text x="369" y="173" text-anchor="middle" class="eval-layout__label" data-lang="zh">目标位置</text>
+<rect x="100" y="110" width="40" height="40" rx="5" fill="none" stroke="#b76045" stroke-width="2" stroke-dasharray="4 4"/>
+<path d="M 148 148 Q 190 212 272 201" fill="none" stroke="#b76045" stroke-width="2" stroke-dasharray="5 4"/>
+<path d="M 265 196 L 276 200 L 267 207" fill="none" stroke="#b76045" stroke-width="2"/>
+<rect x="284" y="180" width="40" height="40" rx="5" fill="#b44b31" stroke="#152f40" stroke-width="1.5"/>
+<text x="304" y="206" text-anchor="middle" class="eval-layout__number">1</text>
+<rect x="182" y="125" width="40" height="40" rx="5" fill="#315d91" stroke="#152f40" stroke-width="1.5"/>
+<text x="202" y="151" text-anchor="middle" class="eval-layout__number">2</text>
+<text x="38" y="47" class="eval-layout__label" data-lang="en">Workspace · top view</text>
+<text x="38" y="47" class="eval-layout__label" data-lang="zh">工作区 · 俯视示意</text>
+</svg>
+<figcaption><span data-lang="en">OOD · object 1 starts at a held-out position; object 2 and target A stay fixed.</span><span data-lang="zh">OOD · 物体 1 移至未见位置，物体 2 与目标 A 保持不变。</span></figcaption></figure>
+</div>
+<p><span data-lang="en"><strong>Conceptual diagrams, not benchmark reference images.</strong> The shaded dashed area represents training layout coverage; blocks 1 and 2 are the manipulated objects. These drawings do not specify official positions, distances or an OOD threshold. Use the designated task scene images for the actual evaluation conditions.</span><span data-lang="zh"><strong>以上为概念示意，并非评测实景参考图。</strong>虚线阴影区表示训练布局覆盖范围，色块 1、2 表示操作物体。图中未规定正式摆放坐标、距离或 OOD 阈值；实际评测条件以指定任务的场景图为准。</span></p>
+<div class="admonition admonition-note"><div class="admonition-title"><span data-lang="en">Available in this revision</span><span data-lang="zh">当前版本的场景图</span></div><p><span data-lang="en">Revision <span class="mono">e97d1b6</span> includes nine ID reference sets (eight tasks and an additional switch variant), each with five raw images, plus selection records and two distribution guides. It does not yet contain an <span class="mono">OOD/</span> image directory. ID evaluation can use the supplied files now; OOD evaluation requires the designated OOD images.</span><span data-lang="zh">版本 <span class="mono">e97d1b6</span> 已包含 9 组 ID 参考图（8 类任务及一个开关变体），每组 5 张原图，另附选择记录和 2 张分布标注图。目前尚无 <span class="mono">OOD/</span> 图片目录。ID 评测可直接使用这些文件；OOD 评测需准备指定的 OOD 图片。</span></p>
+</div>
+<h3 id="id-references"><span data-lang="en">A · Real ID references from the repository</span><span data-lang="zh">A · 仓库中的真实 ID 参考图</span></h3>
+<p><span data-lang="en">The reference sets below contain the first global-camera frames of real training episodes. Each set has five images. Task numbers follow this site’s 3DAssets numbering; repository folder names are shown alongside them. Open a task to inspect its five layouts, then click an image for the full-size file.</span><span data-lang="zh">下列参考图来自真实训练回合的全局相机首帧，每组 5 张。任务编号沿用本站 3DAssets 编号，同时标出仓库目录名。展开任务查看 5 种布局，点击图片可查看原图。</span></p>
+<p><span data-lang="en">Match the image set to the training dataset and checkpoint. The current switch set uses <span class="mono">yyyyyy0604/task03_switch_right_50</span>; the additional switch variant uses <span class="mono">yyyyyy0604/task03_switch_new_50</span>. Their layouts should be selected for the corresponding model variant.</span><span data-lang="zh">场景图应与训练数据集、模型权重对应。当前开关参考集来自 <span class="mono">yyyyyy0604/task03_switch_right_50</span>，另附的开关变体来自 <span class="mono">yyyyyy0604/task03_switch_new_50</span>，应按模型变体选择对应布局。</span></p>
+<details class="eval-reference-set" open><summary><span data-lang="en">Task 01 · Pick and Place</span><span data-lang="zh">任务 01 · 抓取与放置</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task01_pickplace/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task01_pickplace_pic1+3_A_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task01_pickplace/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task01_pickplace_pic1+3_A_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/ID/pic1.jpg" alt="Task 01 · Pick and Place: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 32</span><span data-lang="zh">回合索引 32</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/ID/pic2.jpg" alt="Task 01 · Pick and Place: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 27</span><span data-lang="zh">回合索引 27</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/ID/pic3.jpg" alt="Task 01 · Pick and Place: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 14</span><span data-lang="zh">回合索引 14</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/ID/pic4.jpg" alt="Task 01 · Pick and Place: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 29</span><span data-lang="zh">回合索引 29</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/ID/pic5.jpg" alt="Task 01 · Pick and Place: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 13</span><span data-lang="zh">回合索引 13</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 02 · Switch Pushing</span><span data-lang="zh">任务 02 · 拨动开关</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task03_switch/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task03_switch_right_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task03_switch/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task03_switch_right_50</span></span></p>
+<p><span data-lang="en">These five episodes were selected by uniform random sampling without replacement; the source is recorded in <span class="mono">random_selection_manifest.json</span>.</span><span data-lang="zh">此组 5 个回合采用不放回均匀随机抽样，来源记录见 <span class="mono">random_selection_manifest.json</span>。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch/ID/pic1.jpg" alt="Task 02 · Switch Pushing: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 13</span><span data-lang="zh">回合索引 13</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch/ID/pic2.jpg" alt="Task 02 · Switch Pushing: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 23</span><span data-lang="zh">回合索引 23</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch/ID/pic3.jpg" alt="Task 02 · Switch Pushing: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 39</span><span data-lang="zh">回合索引 39</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch/ID/pic4.jpg" alt="Task 02 · Switch Pushing: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 44</span><span data-lang="zh">回合索引 44</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch/ID/pic5.jpg" alt="Task 02 · Switch Pushing: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 2</span><span data-lang="zh">回合索引 2</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 02 · Switch Pushing · alternate switch dataset</span><span data-lang="zh">任务 02 · 拨动开关 · 开关数据集变体</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task03_switch_new/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task03_switch_new_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task03_switch_new/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task03_switch_new_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch_new/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch_new/ID/pic1.jpg" alt="Task 02 · Switch Pushing · alternate switch dataset: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 15</span><span data-lang="zh">回合索引 15</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch_new/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch_new/ID/pic2.jpg" alt="Task 02 · Switch Pushing · alternate switch dataset: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 25</span><span data-lang="zh">回合索引 25</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch_new/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch_new/ID/pic3.jpg" alt="Task 02 · Switch Pushing · alternate switch dataset: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 6</span><span data-lang="zh">回合索引 6</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch_new/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch_new/ID/pic4.jpg" alt="Task 02 · Switch Pushing · alternate switch dataset: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 31</span><span data-lang="zh">回合索引 31</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task03_switch_new/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task03_switch_new/ID/pic5.jpg" alt="Task 02 · Switch Pushing · alternate switch dataset: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 3</span><span data-lang="zh">回合索引 3</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 03 · Trajectory Pushing</span><span data-lang="zh">任务 03 · 轨迹推动</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task05_trajectory/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task05_trajectory</span></span><span data-lang="zh">仓库目录：<span class="mono">task05_trajectory/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task05_trajectory</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task05_trajectory/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task05_trajectory/ID/pic1.jpg" alt="Task 03 · Trajectory Pushing: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 8</span><span data-lang="zh">回合索引 8</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task05_trajectory/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task05_trajectory/ID/pic2.jpg" alt="Task 03 · Trajectory Pushing: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 18</span><span data-lang="zh">回合索引 18</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task05_trajectory/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task05_trajectory/ID/pic3.jpg" alt="Task 03 · Trajectory Pushing: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 17</span><span data-lang="zh">回合索引 17</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task05_trajectory/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task05_trajectory/ID/pic4.jpg" alt="Task 03 · Trajectory Pushing: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 31</span><span data-lang="zh">回合索引 31</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task05_trajectory/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task05_trajectory/ID/pic5.jpg" alt="Task 03 · Trajectory Pushing: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 27</span><span data-lang="zh">回合索引 27</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 04 · Plate Loading</span><span data-lang="zh">任务 04 · 托盘装载</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task06_plate/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task06_plate_A_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task06_plate/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task06_plate_A_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task06_plate/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task06_plate/ID/pic1.jpg" alt="Task 04 · Plate Loading: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 13</span><span data-lang="zh">回合索引 13</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task06_plate/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task06_plate/ID/pic2.jpg" alt="Task 04 · Plate Loading: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 46</span><span data-lang="zh">回合索引 46</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task06_plate/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task06_plate/ID/pic3.jpg" alt="Task 04 · Plate Loading: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 22</span><span data-lang="zh">回合索引 22</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task06_plate/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task06_plate/ID/pic4.jpg" alt="Task 04 · Plate Loading: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 31</span><span data-lang="zh">回合索引 31</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task06_plate/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task06_plate/ID/pic5.jpg" alt="Task 04 · Plate Loading: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 2</span><span data-lang="zh">回合索引 2</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 05 · Cup Hanging</span><span data-lang="zh">任务 05 · 挂杯</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task07_cup/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task07_cup_A_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task07_cup/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task07_cup_A_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task07_cup/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task07_cup/ID/pic1.jpg" alt="Task 05 · Cup Hanging: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 29</span><span data-lang="zh">回合索引 29</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task07_cup/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task07_cup/ID/pic2.jpg" alt="Task 05 · Cup Hanging: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 47</span><span data-lang="zh">回合索引 47</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task07_cup/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task07_cup/ID/pic3.jpg" alt="Task 05 · Cup Hanging: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 45</span><span data-lang="zh">回合索引 45</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task07_cup/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task07_cup/ID/pic4.jpg" alt="Task 05 · Cup Hanging: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 28</span><span data-lang="zh">回合索引 28</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task07_cup/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task07_cup/ID/pic5.jpg" alt="Task 05 · Cup Hanging: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 18</span><span data-lang="zh">回合索引 18</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 06 · Block Stacking</span><span data-lang="zh">任务 06 · 积木堆叠</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task02_stacking/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task02_stacking_A_50_fixed</span></span><span data-lang="zh">仓库目录：<span class="mono">task02_stacking/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task02_stacking_A_50_fixed</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/ID/pic1.jpg" alt="Task 06 · Block Stacking: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 32</span><span data-lang="zh">回合索引 32</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/ID/pic2.jpg" alt="Task 06 · Block Stacking: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 27</span><span data-lang="zh">回合索引 27</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/ID/pic3.jpg" alt="Task 06 · Block Stacking: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 1</span><span data-lang="zh">回合索引 1</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/ID/pic4.jpg" alt="Task 06 · Block Stacking: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 39</span><span data-lang="zh">回合索引 39</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/ID/pic5.jpg" alt="Task 06 · Block Stacking: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 36</span><span data-lang="zh">回合索引 36</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 07 · Drawer Placement</span><span data-lang="zh">任务 07 · 抽屉放置</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task04_drawer/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task04_drawer_A_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task04_drawer/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task04_drawer_A_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task04_drawer/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task04_drawer/ID/pic1.jpg" alt="Task 07 · Drawer Placement: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 40</span><span data-lang="zh">回合索引 40</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task04_drawer/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task04_drawer/ID/pic2.jpg" alt="Task 07 · Drawer Placement: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 0</span><span data-lang="zh">回合索引 0</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task04_drawer/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task04_drawer/ID/pic3.jpg" alt="Task 07 · Drawer Placement: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 41</span><span data-lang="zh">回合索引 41</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task04_drawer/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task04_drawer/ID/pic4.jpg" alt="Task 07 · Drawer Placement: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 33</span><span data-lang="zh">回合索引 33</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task04_drawer/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task04_drawer/ID/pic5.jpg" alt="Task 07 · Drawer Placement: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 22</span><span data-lang="zh">回合索引 22</span></figcaption></figure>
+</div></div></details>
+<details class="eval-reference-set"><summary><span data-lang="en">Task 08 · Cylinder Insertion</span><span data-lang="zh">任务 08 · 圆柱体插入</span></summary>
+<div class="eval-reference-set__body"><p><span data-lang="en">Repository folder: <span class="mono">task08_cylinder/ID/</span> · Dataset: <span class="mono">yyyyyy0604/task08_cylinder_insertion_50</span></span><span data-lang="zh">仓库目录：<span class="mono">task08_cylinder/ID/</span> · 数据集：<span class="mono">yyyyyy0604/task08_cylinder_insertion_50</span></span></p>
+<p><span data-lang="en">The selection manifest records a central representative layout and four additional layouts covering the non-outlier distribution.</span><span data-lang="zh">选择记录包含 1 个中心代表布局与 4 个覆盖非异常分布的布局。</span></p>
+<div class="eval-reference-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task08_cylinder/ID/pic1.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task08_cylinder/ID/pic1.jpg" alt="Task 08 · Cylinder Insertion: ID reference pic1" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic1</span> · <span data-lang="en">episode_index 1</span><span data-lang="zh">回合索引 1</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task08_cylinder/ID/pic2.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task08_cylinder/ID/pic2.jpg" alt="Task 08 · Cylinder Insertion: ID reference pic2" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic2</span> · <span data-lang="en">episode_index 40</span><span data-lang="zh">回合索引 40</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task08_cylinder/ID/pic3.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task08_cylinder/ID/pic3.jpg" alt="Task 08 · Cylinder Insertion: ID reference pic3" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic3</span> · <span data-lang="en">episode_index 45</span><span data-lang="zh">回合索引 45</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task08_cylinder/ID/pic4.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task08_cylinder/ID/pic4.jpg" alt="Task 08 · Cylinder Insertion: ID reference pic4" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic4</span> · <span data-lang="en">episode_index 35</span><span data-lang="zh">回合索引 35</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task08_cylinder/ID/pic5.jpg" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task08_cylinder/ID/pic5.jpg" alt="Task 08 · Cylinder Insertion: ID reference pic5" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span class="mono">pic5</span> · <span data-lang="en">episode_index 8</span><span data-lang="zh">回合索引 8</span></figcaption></figure>
+</div></div></details>
+<h3><span data-lang="en">Training-distribution annotations</span><span data-lang="zh">训练分布标注图</span></h3>
+<p><span data-lang="en">The repository also supplies distribution guides for Pick and Place and Block Stacking. These annotations show the training-layout distribution; they are not OOD reference scenes. Use the raw <span class="mono">ID/picN.jpg</span> images for the live scene overlay.</span><span data-lang="zh">仓库还提供了抓取与放置、积木堆叠的分布标注图。这些图说明训练布局分布，不是 OOD 场景参考。实时场景叠加应读取原始 <span class="mono">ID/picN.jpg</span> 图片。</span></p>
+<div class="figure-row eval-condition-grid">
+<figure class="figure"><a href="../assets/img/evaluation/id/task01_pickplace/distribution_guide.png" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task01_pickplace/distribution_guide.png" alt="Task 01 Pick and Place: training distribution guide" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Task 01 · Pick and Place · training distribution</span><span data-lang="zh">任务 01 · 抓取与放置 · 训练分布</span></figcaption></figure>
+<figure class="figure"><a href="../assets/img/evaluation/id/task02_stacking/distribution_guide.png" target="_blank" rel="noopener"><img src="../assets/img/evaluation/id/task02_stacking/distribution_guide.png" alt="Task 06 Block Stacking: training distribution guide" width="640" height="480" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Task 06 · Block Stacking · training distribution</span><span data-lang="zh">任务 06 · 积木堆叠 · 训练分布</span></figcaption></figure>
+</div>
+<h3><span data-lang="en">B · Prepare matched image sets</span><span data-lang="zh">B · 准备配对场景图</span></h3>
+<p><span data-lang="en">Use the supplied ID directory for the chosen task. When its OOD reference set is available, place those images in a sibling OOD directory and number each set <span class="mono">pic1</span>, <span class="mono">pic2</span>, and so on. The recorder accepts JPG, JPEG, PNG and WebP. Use the same numbered scene pairs for each policy comparison.</span><span data-lang="zh">使用所选任务随仓库提供的 ID 目录。取得对应 OOD 参考集后，将其放在同级 OOD 目录，并各自按 <span class="mono">pic1</span>、<span class="mono">pic2</span> 等连续编号。录制器支持 JPG、JPEG、PNG 和 WebP；不同策略的比较应使用同一组编号配对场景。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>text</span><button class="copy-btn" type="button">Copy</button></div><pre><code>outputs/id_ood_benchmark_pairs/YOUR_TASK/
+├── ID/
+│   ├── pic1.jpg
+│   ├── pic2.jpg
+│   └── ...
+└── OOD/
+    ├── pic1.jpg
+    ├── pic2.jpg
+    └── ...</code></pre></div>
+<p><span data-lang="en">Choose the OOD condition before running trials and record what changes relative to ID. For a position-only comparison, retain the same objects, colors, instruction, camera mounting, lighting and target definition. The actual ID/OOD split and image count belong to the task protocol.</span><span data-lang="zh">在试验前确定 OOD 条件，并记录相对 ID 改变了什么。若只评测位置变化，则保持物体、颜色、指令、相机安装、光照及目标定义一致。实际 ID/OOD 划分与图片数量由任务协议确定。</span></p>
+<h3><span data-lang="en">C · Create ID and optional OOD configurations</span><span data-lang="zh">C · 生成 ID 与可选 OOD 配置</span></h3>
+<p><span data-lang="en">Start from the edited <span class="mono">outputs/eval/act_run.json</span> in step 2. In the script below, replace <span class="mono">YOUR_TASK</span>, <span class="mono">YOUR_NAME</span> and <span class="mono">YOUR_RUN</span>. The script defaults to ID only. Once OOD images are ready, set <span class="mono">splits = ("ID", "OOD")</span> to generate the matched pair. It changes only <span class="mono">scene_reference</span> and <span class="mono">dataset.repo_id</span>.</span><span data-lang="zh">以上一步编辑好的 <span class="mono">outputs/eval/act_run.json</span> 为基础。替换下方脚本中的 <span class="mono">YOUR_TASK</span>、<span class="mono">YOUR_NAME</span> 与 <span class="mono">YOUR_RUN</span>。脚本默认仅生成 ID 配置。OOD 图片准备好后，将 <span class="mono">splits</span> 改为 <span class="mono">("ID", "OOD")</span>，即可生成配对配置。脚本仅更换 <span class="mono">scene_reference</span> 与 <span class="mono">dataset.repo_id</span>。</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python - &lt;&lt;&#x27;PY&#x27;
+import copy
+import json
+import re
+from pathlib import Path
 
-    <div class="docs-pager">
-      <a href="calibration.html">
+base = json.loads(Path(&quot;outputs/eval/act_run.json&quot;).read_text())
+scene_root = Path(&quot;outputs/id_ood_benchmark_pairs/YOUR_TASK&quot;)
+owner = &quot;YOUR_NAME&quot;
+run = &quot;YOUR_RUN&quot;
+splits = (&quot;ID&quot;,)
+
+counts = []
+for split in splits:
+    folder = scene_root / split
+    if not folder.is_dir():
+        raise FileNotFoundError(folder)
+    numbers = sorted(
+        int(match.group(1))
+        for image in folder.iterdir()
+        if image.is_file() and image.suffix.lower() in (&quot;.jpg&quot;, &quot;.jpeg&quot;, &quot;.png&quot;, &quot;.webp&quot;)
+        if (match := re.fullmatch(r&quot;pic(\d+)&quot;, image.stem))
+    )
+    if not numbers or numbers != list(range(1, len(numbers) + 1)):
+        raise ValueError(f&quot;{split}: expected one image per number, starting at pic1&quot;)
+    counts.append(len(numbers))
+if len(set(counts)) &gt; 1:
+    raise ValueError(&quot;ID and OOD must have matching numbered scene pairs&quot;)
+
+for split in splits:
+    config = copy.deepcopy(base)
+    config[&quot;scene_reference&quot;] = (scene_root / split).as_posix()
+    config[&quot;dataset&quot;][&quot;repo_id&quot;] = f&quot;{owner}/eval_{run}_{split.lower()}&quot;
+    output = Path(f&quot;outputs/eval/act_{split.lower()}.json&quot;)
+    output.write_text(json.dumps(config, indent=2) + &quot;\n&quot;)
+    print(output)
+PY</code></pre></div>
+<p><span data-lang="en">Use a new run name for each experiment. For SmolVLA or XVLA, begin with that policy’s edited configuration so its camera mapping is retained. Keep the checkpoint, timing, episode count and seed settings identical for the matched comparison.</span><span data-lang="zh">每次实验使用新的运行名称。SmolVLA 或 XVLA 应以各自编辑后的配置为基础，保留对应相机映射。配对比较使用相同模型权重、时间预算、回合数与 seed 设置。</span></p>
+<h3><span data-lang="en">D · Reset and confirm each scene</span><span data-lang="zh">D · 逐回合复位与确认场景</span></h3>
+<ol><li><span data-lang="en">Run the ID configuration first using step 4 below. The recorder shows the selected reference over the live global camera image. It requires a graphical desktop and a GUI-capable OpenCV installation.</span><span data-lang="zh">按下一节命令先运行 ID 配置。录制器将所选参考图叠加到全局相机实时画面上；此预览需要图形桌面与支持 GUI 的 OpenCV。</span></li>
+<li><span data-lang="en">Wait for the follower arms to reach the H pose, then arrange the objects to match the reference. The current evaluation templates home automatically; if scene_home_requires_h is true, press H first.</span><span data-lang="zh">等待从臂回到 H 位，再按参考图摆放物体。当前评测模板会自动回 H 位；若 scene_home_requires_h 为 true，则先按 H。</span></li>
+<li><span data-lang="en">Press Enter after the scene is aligned. The policy then runs until the episode limit or an early-end key. The recorder advances references according to saved episodes.</span><span data-lang="zh">场景对齐后按 Enter 开始。策略执行至回合时间上限或提前结束操作；录制器按已保存回合数推进参考图。</span></li>
+<li><span data-lang="en">Record task success or failure for every trial. A failed task still counts as an evaluation trial; keep it in the results. Use the left-arrow rerecord function for recording/setup errors and log the reason.</span><span data-lang="zh">每次试验都记录任务成功或失败。任务失败仍属于评测试验，应保留在结果中；录制或场景设置错误时使用左方向键重录，并记录原因。</span></li>
+<li><span data-lang="en">After the ID run exits and the OOD images are available, launch the OOD configuration with the same checkpoint. Restore each OOD scene from its reference and record results in the separate OOD dataset.</span><span data-lang="zh">ID 运行结束退出且 OOD 图片已齐备后，用同一模型启动 OOD 配置。逐回合按 OOD 参考图恢复场景，结果录入独立的 OOD 数据集。</span></li>
+</ol>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Key</span><span data-lang="zh">按键</span></th><th><span data-lang="en">Operation</span><span data-lang="zh">操作</span></th></tr></thead><tbody><tr><td><span class="mono">Enter</span></td><td><span data-lang="en">Confirm the preview and start the episode once home conditions are satisfied</span><span data-lang="zh">满足回 H 位条件后，确认预览并开始回合</span></td></tr><tr><td><span class="mono">H</span></td><td><span data-lang="en">Return home; during a recorded episode this ends recording before the unrecorded home movement</span><span data-lang="zh">返回 H 位；录制中按下会先结束录制，再执行不计入数据的回位动作</span></td></tr><tr><td><span class="mono">→</span></td><td><span data-lang="en">End the current episode early</span><span data-lang="zh">提前结束当前回合</span></td></tr><tr><td><span class="mono">←</span></td><td><span data-lang="en">Discard and rerecord the current episode with the same reference</span><span data-lang="zh">丢弃并按同一参考图重录当前回合</span></td></tr><tr><td><span class="mono">Esc</span></td><td><span data-lang="en">Stop the run</span><span data-lang="zh">停止本次运行</span></td></tr></tbody></table></div>
+<h3><span data-lang="en">E · Keep reference and seed schedules matched</span><span data-lang="zh">E · 保持场景与 seed 调度一致</span></h3>
+<p><span data-lang="en">For an example set of <strong>five reference images per condition</strong>, the current 20-episode template with <span class="mono">episodes_per_reference=1</span>, <span class="mono">scene_reference_cycle=true</span> and <span class="mono">episodes_per_seed=5</span> repeats the five scenes four times. This is a scheduling example; prepare the image count required by your actual protocol.</span><span data-lang="zh">若每个条件使用<strong>5 张参考图</strong>，当前 20 回合模板在 <span class="mono">episodes_per_reference=1</span>、<span class="mono">scene_reference_cycle=true</span>、<span class="mono">episodes_per_seed=5</span> 下会循环这 5 张图共 4 轮。这是调度示例，实际图片数量以所用协议为准。</span></p>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Saved episode numbers</span><span data-lang="zh">已保存回合编号</span></th><th><span data-lang="en">Reference sequence</span><span data-lang="zh">参考图顺序</span></th><th>Seed</th></tr></thead><tbody><tr><td>1–5</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>0</td></tr><tr><td>6–10</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>1</td></tr><tr><td>11–15</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>2</td></tr><tr><td>16–20</td><td>pic1 → pic2 → pic3 → pic4 → pic5</td><td>3</td></tr></tbody></table></div>
+<p><span data-lang="en">Seed groups follow saved episode count, not task-success count. Seed control affects policies that expose <span class="mono">inference_seed</span>; ACT is largely deterministic. Report ID and OOD success rates separately, including trial counts, the OOD change, reference-set version, checkpoint and the two run configurations.</span><span data-lang="zh">seed 分组按已保存回合数递增，不按任务成功次数递增。seed 控制作用于提供 <span class="mono">inference_seed</span> 的策略；ACT 通常基本确定。分别报告 ID 与 OOD 成功率，并附试验次数、OOD 改变因素、参考图版本、模型权重和两份运行配置。</span></p>
+
+<h2 id="run-evaluation"><span data-lang="en">4 · Run ID and OOD with the same checkpoint</span><span data-lang="zh">4 · 使用同一模型运行 ID 与 OOD</span></h2>
+<p><span data-lang="en">After preparing the ID configuration (and the OOD configuration when images are available), replace <span class="mono">YOUR_RUN</span> and <span class="mono">YOUR_STEP</span> with your actual checkpoint directory. It must contain the model configuration and weights.</span><span data-lang="zh">准备好 ID 配置后（OOD 图片齐备时再生成 OOD 配置），将 <span class="mono">YOUR_RUN</span> 与 <span class="mono">YOUR_STEP</span> 替换为实际模型目录；目录中需包含模型配置与权重。</span></p>
+
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>HF_HUB_DISABLE_XET=1 \
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+lerobot-record \
+  --config_path=outputs/eval/act_id.json \
+  --policy.path=outputs/train/ACT/YOUR_RUN/checkpoints/YOUR_STEP/pretrained_model \
+  --policy.device=cuda \
+  --policy.use_amp=true</code></pre>
+</div><p><span data-lang="en">Once ID completes and the OOD image set and configuration are ready, use the same command with <span class="mono">--config_path=outputs/eval/act_ood.json</span> and the unchanged <span class="mono">--policy.path</span> to run OOD.</span><span data-lang="zh">ID 完成且 OOD 场景图与配置均准备好后，将同一命令的配置参数改为 <span class="mono">--config_path=outputs/eval/act_ood.json</span>，保持 <span class="mono">--policy.path</span> 不变，运行 OOD。</span></p>
+<p><span data-lang="en">For SmolVLA or XVLA, copy and edit its own template and use a matching checkpoint. If all required weights and tokenizers are already cached, <span class="mono">HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1</span> can force offline loading.</span><span data-lang="zh">评测 SmolVLA 或 XVLA 时，应复制并修改各自模板，选择对应权重。所需模型与 tokenizer 均已缓存时，可用 <span class="mono">HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1</span> 强制离线加载。</span></p>
+
+<h2><span data-lang="en">5 · Record the protocol settings</span><span data-lang="zh">5 · 记录评测设置</span></h2>
+
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">JSON field</span><span data-lang="zh">JSON 字段</span></th><th><span data-lang="en">Current template value</span><span data-lang="zh">当前模板值</span></th><th><span data-lang="en">Meaning</span><span data-lang="zh">含义</span></th></tr></thead><tbody><tr><td><span class="mono">dataset.num_episodes</span></td><td><span class="mono">20</span></td><td><span data-lang="en">Recorded episodes</span><span data-lang="zh">录制回合数</span></td></tr>
+<tr><td><span class="mono">dataset.episode_time_s</span></td><td><span class="mono">120</span></td><td><span data-lang="en">Maximum seconds per episode</span><span data-lang="zh">每回合最长秒数</span></td></tr>
+<tr><td><span class="mono">dataset.reset_time_s</span></td><td><span class="mono">0</span></td><td><span data-lang="en">No extra fixed reset countdown</span><span data-lang="zh">无额外固定重置倒计时</span></td></tr>
+<tr><td><span class="mono">dataset.push_to_hub</span></td><td><span class="mono">false</span></td><td><span data-lang="en">Keep recordings local</span><span data-lang="zh">录制结果保存在本地</span></td></tr>
+<tr><td><span class="mono">episodes_per_reference</span></td><td><span class="mono">1</span></td><td><span data-lang="en">Advance reference after each saved episode</span><span data-lang="zh">每保存一回合切换参考图</span></td></tr>
+<tr><td><span class="mono">scene_reference_cycle</span></td><td><span class="mono">true</span></td><td><span data-lang="en">Cycle the scene images</span><span data-lang="zh">循环使用场景图</span></td></tr>
+<tr><td><span class="mono">evaluation_seed / episodes_per_seed</span></td><td><span class="mono">0 / 5</span></td><td><span data-lang="en">Start at seed 0, change after five saved episodes</span><span data-lang="zh">从 seed 0 开始，每 5 个已保存回合切换</span></td></tr></tbody></table>
+</div><p><span data-lang="en">These are executable template settings. Preserve the task-specific protocol for a comparison and report any changes. Match the task prompt and ID/OOD scene set to the chosen checkpoint. Record every trial’s success or failure together with the source revision, configuration, checkpoint and check evidence.</span><span data-lang="zh">以上为可执行模板的当前设置。比较实验应保持任务协议一致，并报告任何改动。任务指令、ID/OOD 场景集与所选模型需相互匹配；逐次记录成功或失败，同时保存源码版本、配置、模型与检查证据。</span></p>
+
+<h2><span data-lang="en">6 · RDT and OpenPI</span><span data-lang="zh">6 · RDT 与 OpenPI</span></h2>
+<p><span data-lang="en">RDT uses <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/model_inference/rdt_bi_so_inference.py">BREE/model_inference/rdt_bi_so_inference.py</a>; see the <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#112-rdt-评估">RDT example</a> and start with <span class="mono">--dry-run</span>. OpenPI uses a separate policy server and robot client; follow <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/openpi_eval/README.md">the OpenPI guide</a>. Its client is read-only by default and requires <span class="mono">--execute</span> to send actions. Check environment, tokenizer and checkpoint availability separately.</span><span data-lang="zh">RDT 使用 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/model_inference/rdt_bi_so_inference.py">BREE/model_inference/rdt_bi_so_inference.py</a>，参照 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/README.md#112-rdt-评估">RDT 示例</a> 并先保留 <span class="mono">--dry-run</span>。OpenPI 分为策略服务端与机器人客户端，见 <a href="https://github.com/YyyYyy0604/BREE-v1/blob/b2291786cf659641ddda7b964a1f1c60f970a09f/BREE/openpi_eval/README.md">OpenPI 指南</a>；客户端默认只读，需增加 <span class="mono">--execute</span> 才会发送动作。请单独核实环境、tokenizer 与权重是否齐全。</span></p>
+
+<div class="docs-pager">
+      <a href="collection.html">
         <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
-        <div class="title"><span data-lang="en">4 · System Calibration</span><span data-lang="zh">4 · 系统标定</span></div>
+        <div class="title"><span data-lang="en">5 · Data Collection</span><span data-lang="zh">5 · 数据采集</span></div>
       </a>
       <a class="next" href="tasks.html">
         <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>

@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-camera1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs">
@@ -43,6 +43,7 @@
       <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html" class="active"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -50,251 +51,158 @@
   </aside>
 
   <main class="docs-main">
-    <div class="time-badge">⏱
-      <span data-lang="en">Full procedure · 60–90 min</span><span data-lang="zh">完整流程 · 60–90 分钟</span>
-    </div>
-    <h1>
-      <span data-lang="en">System Calibration</span>
-      <span data-lang="zh">系统标定</span>
-    </h1>
-    <p class="lead">
-      <span data-lang="en">BREE calibrates mechanically (arms), visually (global camera overlay) and fiducially (AprilTag save / re-check). Every step has a quantitative gate — the environment is "calibrated" only when all gates pass.</span>
-      <span data-lang="zh">BREE 的标定分三层：机械（机械臂）、视觉（全局相机叠加）、基准标记（AprilTag 写入 / 复检）。每一步都有量化门槛——只有所有门槛全部通过，环境才算"已标定"。</span>
-    </p>
+    <!-- Commands checked against BREE-v1 revision e97d1b6; see assets/BREE-v1-NOTICE.md. -->
 
-    <div class="admonition admonition-warning">
-      <div class="admonition-title">
-        <span data-lang="en">⚠ Prerequisites</span>
-        <span data-lang="zh">⚠ 前置条件</span>
-      </div>
-      <ul>
-        <li><span data-lang="en">Arms are fully assembled with motors numbered per the SO-101 official procedure.</span>
-        <span data-lang="zh">机械臂已按 SO-101 官方流程完成舵机编号与组装。</span></li>
-        <li><span data-lang="en">Device permissions granted (<span class="mono">chmod 666 /dev/ttyACM*</span>) — re-run after every power cycle.</span>
-        <span data-lang="zh">设备权限已放开（<span class="mono">chmod 666 /dev/ttyACM*</span>）——每次断电后需重新执行。</span></li>
-      </ul>
-    </div>
+<h1><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></h1>
+<p class="lead"><span data-lang="en">Calibrate arms when hardware is first installed or changed. For daily startup, verify the H pose, restore the saved camera image controls and compare all three cameras with the existing reference images.</span><span data-lang="zh">首次安装或硬件变化后标定机械臂；日常开机则验证 H 位、恢复已保存的相机图像参数，并将三台相机与已有参考图对齐。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
-    <h2><span data-lang="en">1 · Arm calibration (fixture midpoint)</span><span data-lang="zh">1 · 机械臂标定（限位夹具中点法）</span></h2>
-    <p>
-      <span data-lang="en">Each of the four arms is calibrated separately with the fixture-based midpoint procedure. Adjust <span class="mono">--device</span>, <span class="mono">--port</span> and <span class="mono">--id</span> per the table below:</span>
-      <span data-lang="zh">四条臂逐一使用限位夹具中点流程标定。按下方表格调整 <span class="mono">--device</span>、<span class="mono">--port</span> 与 <span class="mono">--id</span>：</span>
-    </p>
-    <div class="table-wrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th>
-            <th><span data-lang="en">Type</span><span data-lang="zh">类型</span></th>
-            <th><span data-lang="en">Port</span><span data-lang="zh">端口</span></th>
-            <th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td>follower</td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
-          <tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td>follower</td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
-          <tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td>leader</td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
-          <tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td>leader</td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p><span data-lang="en">Example — left follower arm:</span><span data-lang="zh">示例——左从臂：</span></p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/fixture_midpoint_auto_calibrate.py \
+
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Keep the reference</span><span data-lang="zh">保留参考基准</span></div><p><span data-lang="en">Daily checks read the existing references. Run <span class="mono">save-reference</span> only when deliberately defining a new installation baseline; keep the previous baseline for comparison.</span><span data-lang="zh">日常检查读取已有参考文件。仅在需要重新定义安装基准时执行 <span class="mono">save-reference</span>，并保留原基准以便对照。</span></p>
+</div>
+<h2><span data-lang="en">1 · Fixture midpoint calibration</span><span data-lang="zh">1 · 限位夹具中点标定</span></h2>
+<p><span data-lang="en">Complete SO-101 motor numbering and assembly first. Secure one arm in the physical fixture, verify its port and leave space for preview motion. Repeat for each arm using the table.</span><span data-lang="zh">先完成 SO-101 舵机编号与装配。将一条机械臂固定到物理限位架，核对端口，并为预览运动留足空间。按表逐臂操作。</span></p>
+
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Arm</span><span data-lang="zh">机械臂</span></th><th><span data-lang="en">Device</span><span data-lang="zh">类型</span></th><th><span data-lang="en">Port</span><span data-lang="zh">端口</span></th><th><span data-lang="en">Calibration ID</span><span data-lang="zh">标定 ID</span></th></tr></thead><tbody><tr><td><span data-lang="en">Left follower</span><span data-lang="zh">左从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM0</span></td><td><span class="mono">follower_arm_left</span></td></tr>
+<tr><td><span data-lang="en">Right follower</span><span data-lang="zh">右从臂</span></td><td><span class="mono">follower</span></td><td><span class="mono">/dev/ttyACM1</span></td><td><span class="mono">follower_arm_right</span></td></tr>
+<tr><td><span data-lang="en">Left leader</span><span data-lang="zh">左主臂</span></td><td><span class="mono">leader</span></td><td><span class="mono">/dev/ttyACM2</span></td><td><span class="mono">leader_arm_left</span></td></tr>
+<tr><td><span data-lang="en">Right leader</span><span data-lang="zh">右主臂</span></td><td><span class="mono">leader</span></td><td><span class="mono">/dev/ttyACM3</span></td><td><span class="mono">leader_arm_right</span></td></tr></tbody></table>
+</div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/fixture_midpoint_auto_calibrate.py \
   --device follower \
   --port /dev/ttyACM0 \
   --id follower_arm_left \
   --preview-ranges</code></pre>
-    </div>
-    <ol>
-      <li><span data-lang="en">The script prompts: <span class="mono">Put the selected motor(s) into the midpoint fixture...</span> — seat the arm fully in the fixture and press <b>Enter</b>.</span>
-      <span data-lang="zh">脚本提示放入中点夹具（<span class="mono">Put the selected motor(s) into the midpoint fixture...</span>）：将机械臂完全放入限位架，确认固定后按 <b>Enter</b>。</span></li>
-      <li><span data-lang="en">Review the generated calibration and confirm with <span class="mono">y</span> + <b>Enter</b> when asked <span class="mono">Write this calibration to the motors and save it? [y/N]</span>.</span>
-      <span data-lang="zh">检查生成的标定结果，在询问 <span class="mono">Write this calibration to the motors and save it? [y/N]</span> 时确认无误输入 <span class="mono">y</span> 并按 <b>Enter</b>。</span></li>
-      <li><span data-lang="en">The arm then auto-calibrates with large movements — keep it firmly clamped to the table edge.</span>
-      <span data-lang="zh">随后机械臂自动校准，动作幅度较大——请确保其牢牢固定在桌边。</span></li>
-    </ol>
-    <div class="admonition admonition-tip">
-      <div class="admonition-title"><span data-lang="en">Automatic backup</span><span data-lang="zh">自动备份</span></div>
-      <p>
-        <span data-lang="en">If a previous calibration exists it is backed up automatically, e.g. <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/follower_arm_left.json.bak</span>; the new file is written next to it.</span>
-        <span data-lang="zh">若已有旧标定文件会自动备份，如 <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/follower_arm_left.json.bak</span>，新文件保存在同目录。</span>
-      </p>
-    </div>
+</div><p><span data-lang="en">Inspect the values and movement directions before answering <span class="mono">y</span> at the write prompt. The script backs up existing calibration as <span class="mono">.json.bak</span>. Follower files live under <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>; leader files under <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>.</span><span data-lang="zh">核对数值与运动方向后，在写入提示中输入 <span class="mono">y</span>。已有标定会备份为 <span class="mono">.json.bak</span>。从臂文件位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/robots/so_follower/</span>，主臂位于 <span class="mono">~/.cache/huggingface/lerobot/calibration/teleoperators/so_leader/</span>。</span></p>
 
-    <h2><span data-lang="en">2 · Global camera alignment (image overlay)</span><span data-lang="zh">2 · 全局相机对齐（参考图叠加）</span></h2>
-    <p>
-      <span data-lang="en">First time only — save the reference view that all rebuilds must reproduce:</span>
-      <span data-lang="zh">仅首次执行——保存所有重建都必须复现的参考画面：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/global_camera_reference_calibrate.py save-reference \
-  --mode image-overlay \
-  --camera /dev/video0 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --web-host 127.0.0.1 --web-port 8092 --preview-fps 15 \
-  --output-dir camera_reference/global_image</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">After re-mounting the camera, verify alignment in a browser at <span class="mono">http://127.0.0.1:8092</span> — the page blends 50% reference + 50% live image. Adjust the camera until fixed structures show no ghosting:</span>
-      <span data-lang="zh">重新安装相机后，在浏览器打开 <span class="mono">http://127.0.0.1:8092</span> 检查——页面以 50% 参考 + 50% 实时画面叠加显示。调整相机直到固定结构不再出现双影：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/global_camera_reference_calibrate.py check \
-  --mode image-overlay \
-  --camera /dev/video0 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --web-host 127.0.0.1 --web-port 8092 --preview-fps 15 \
-  --max-candidates 8 --max-angle-deg 12 --min-length-ratio 0.35 \
-  --reference camera_reference/global_image/reference.json \
-  --output-dir camera_check/global_image</code></pre>
-    </div>
-    <p>
-      <span data-lang="en"><b>Watch:</b> the fixed top beam, the arm base outlines, the table edge, mounting screws / markers, and structures along all four image borders.</span>
-      <span data-lang="zh"><b>重点观察：</b>顶部固定横梁、机械臂底座外轮廓、工作台边缘、固定螺丝或标记，以及画面四周的固定结构。</span>
-    </p>
+<h2><span data-lang="en">2 · Verify the H pose</span><span data-lang="zh">2 · 验证 H 位</span></h2>
 
-    <h2><span data-lang="en">3 · AprilTag reference — global camera</span><span data-lang="zh">3 · AprilTag 参考——全局相机</span></h2>
-    <p>
-      <span data-lang="en">Save the AprilTag (36h11, id 0, 80 mm) reference once:</span>
-      <span data-lang="zh">保存一次 AprilTag（36h11，0 号，80 mm）参考：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py save-reference \
-  --camera /dev/video0 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --dictionary DICT_APRILTAG_36h11 --tag-id 0 --tag-size-mm 80 \
-  --samples 50 --timeout-s 30 \
-  --output-dir camera_reference/standard/global</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">Re-check after any camera adjustment:</span>
-      <span data-lang="zh">任何相机调整之后执行复检：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py check \
-  --camera /dev/video0 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --samples 30 --timeout-s 20 \
-  --reference camera_reference/standard/global/reference.json \
-  --output-dir camera_check/current/global \
-  --center-tolerance-px 3 --scale-tolerance 0.01 --image-rotation-tolerance-deg 0.3</code></pre>
-    </div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/robot_calibration/demo_bi_so_home.py \
+  --left-port /dev/ttyACM0 \
+  --right-port /dev/ttyACM1 \
+  --id follower_arm \
+  --duration-s 6</code></pre>
+</div>
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">This command moves both followers. Confirm a clear workspace first. If joint direction, center or range is wrong, correct the installation or calibration before recording.</span><span data-lang="zh">此命令会移动两条从臂，运行前先清空运动范围。若关节方向、中点或范围异常，应先修正安装与标定，再开始录制。</span></p>
+</div>
+<h2 id="camera-settings"><span data-lang="en">3 · Standardize camera parameters</span><span data-lang="zh">3 · 相机参数统一</span></h2>
+<p><span data-lang="en">Use the same capture format for the global, left-wrist and right-wrist cameras, then tune each camera under the fixed experiment lighting for consistent color and brightness. Retain each camera’s settings for collection and evaluation.</span><span data-lang="zh">全局、左腕、右腕相机使用统一的采集格式，再在固定实验光照下逐台调节，使三路画面的色彩与亮度一致。采集和评测均沿用各相机保存的参数。</span></p>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Parameter</span><span data-lang="zh">参数</span></th><th><span data-lang="en">Target / procedure</span><span data-lang="zh">统一要求 / 操作</span></th></tr></thead><tbody>
+<tr><td><span data-lang="en">Capture format</span><span data-lang="zh">采集格式</span></td><td><span class="mono">640 × 480 · 30 fps · MJPG</span></td></tr>
+<tr><td><span data-lang="en">Device mapping</span><span data-lang="zh">设备映射</span></td><td><span data-lang="en">Example: global / left wrist / right wrist = <span class="mono">/dev/video0 / /dev/video2 / /dev/video4</span>. Verify live views after reconnecting.</span><span data-lang="zh">示例：全局 / 左腕 / 右腕 = <span class="mono">/dev/video0 / /dev/video2 / /dev/video4</span>。重连后按实时画面核对。</span></td></tr>
+<tr><td><span data-lang="en">White balance and exposure</span><span data-lang="zh">白平衡与曝光</span></td><td><span data-lang="en">Turn <span class="mono">AUTO WB</span> and <span class="mono">AUTO EXP</span> off after settling, then fine-tune and save the manual values.</span><span data-lang="zh">待画面稳定后，将 <span class="mono">AUTO WB</span> 与 <span class="mono">AUTO EXP</span> 关闭，再微调并保存手动值。</span></td></tr>
+<tr><td><span data-lang="en">Other image controls</span><span data-lang="zh">其他图像参数</span></td><td><span data-lang="en">Adjust supported brightness, contrast, saturation, gamma, gain and sharpness controls per camera. Match the appearance of the same reference object; values may differ between cameras.</span><span data-lang="zh">按各相机支持情况调节亮度、对比度、饱和度、伽马、增益和锐度。用同一参照物匹配画面效果，各相机数值可不同。</span></td></tr>
+</tbody></table></div>
+<h3><span data-lang="en">First setup · tune and save</span><span data-lang="zh">首次设置 · 调节并保存</span></h3>
+<p><span data-lang="en">The repository provides <span class="mono">BREE/camera_calibration/calibrate_three_camera_white_balance.py</span>, which opens a combined preview and one control window per camera. Run it on Linux with a desktop display and GUI-enabled OpenCV, in the installed BREE environment. Close other camera previews, recording and evaluation processes first. On Ubuntu / Debian, install the V4L2 utility if needed:</span><span data-lang="zh">仓库提供 <span class="mono">BREE/camera_calibration/calibrate_three_camera_white_balance.py</span>，可打开三路合并预览与各相机的参数窗口。在已安装 BREE 的 Linux 桌面环境运行，OpenCV 需支持 GUI。先关闭占用相机的其他预览、录制和评测进程。Ubuntu / Debian 如缺少 V4L2 工具，先安装：</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>sudo apt install v4l-utils
+python BREE/camera_calibration/calibrate_three_camera_white_balance.py \
+  --devices /dev/video0 /dev/video2 /dev/video4 \
+  --names GLOBAL LEFT_WRIST RIGHT_WRIST \
+  --width 640 \
+  --height 480 \
+  --fps 30 \
+  --output outputs/camera_check/camera_image_controls.json</code></pre></div>
+<ul>
+<li><span data-lang="en">Keep the lights and background fixed. Show the same neutral reference object to each camera and adjust <span class="mono">WB TEMP</span>, <span class="mono">EXPOSURE TIME</span> and the other available sliders until color and brightness are consistent, without washed-out highlights or motion blur.</span><span data-lang="zh">固定灯光与背景，让各相机拍到同一中性参照物。调节 <span class="mono">WB TEMP</span>、<span class="mono">EXPOSURE TIME</span> 及其他可用滑条，使色彩和亮度一致，避免高光过曝与运动拖影。</span></li>
+<li><span data-lang="en">Set both auto sliders to <span class="mono">0</span>. Only controls exposed by the driver appear. Focus the preview and press <span class="mono">S</span> to read back and save the current driver values; press <span class="mono">Q</span> or <span class="mono">Esc</span> to quit and release all cameras.</span><span data-lang="zh">将两个自动模式滑条设为 <span class="mono">0</span>；窗口仅显示驱动支持的控制项。聚焦预览窗口，按 <span class="mono">S</span> 读取并保存驱动当前值，按 <span class="mono">Q</span> 或 <span class="mono">Esc</span> 退出并释放相机。</span></li>
+<li><span data-lang="en">The saved JSON stores image controls keyed by device path. Resolution, frame rate and MJPG remain separate settings in preview, collection and evaluation commands or configurations.</span><span data-lang="zh">保存的 JSON 按设备路径记录图像控制参数。分辨率、帧率和 MJPG 仍需在预览、采集与评测命令或配置中分别保持一致。</span></li>
+</ul>
+<h3><span data-lang="en">Daily startup · restore and verify</span><span data-lang="zh">日常开机 · 恢复并核对</span></h3>
+<p><span data-lang="en">After verifying device mapping, restore the locally tuned file with <span class="mono">BREE/camera_calibration/apply_camera_image_controls.py</span>. Replace the path below if your baseline is stored elsewhere:</span><span data-lang="zh">核对设备映射后，用 <span class="mono">BREE/camera_calibration/apply_camera_image_controls.py</span> 恢复本机调好的配置。若基准保存在其他位置，替换下方文件路径：</span></p>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/apply_camera_image_controls.py \
+  outputs/camera_check/camera_image_controls.json \
+  --force-manual \
+  --max-exposure-time 300
 
-    <h2><span data-lang="en">4 · AprilTag reference — wrist cameras</span><span data-lang="zh">4 · AprilTag 参考——腕部相机</span></h2>
-    <p>
-      <span data-lang="en">Save references for both wrist cameras (left = tag 1, right = tag 2, both 50 mm):</span>
-      <span data-lang="zh">为两台腕部相机保存参考（左 = 1 号标签，右 = 2 号标签，均为 50 mm）：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash · left wrist</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py save-reference \
-  --camera /dev/video2 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --samples 50 --timeout-s 20 \
-  --dictionary DICT_APRILTAG_36h11 --tag-id 1 --tag-size-mm 50 \
-  --output-dir camera_reference/standard/left_wrist</code></pre>
-    </div>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash · right wrist</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py save-reference \
-  --camera /dev/video4 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --samples 50 --timeout-s 20 \
-  --dictionary DICT_APRILTAG_36h11 --tag-id 2 --tag-size-mm 50 \
-  --output-dir camera_reference/standard/right_wrist</code></pre>
-    </div>
-    <p>
-      <span data-lang="en">Verify both wrist cameras against their references:</span>
-      <span data-lang="zh">对两台腕部相机执行核对：</span>
-    </p>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash · left wrist</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py check \
-  --camera /dev/video2 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --samples 50 --timeout-s 20 \
-  --reference camera_reference/standard/left_wrist/reference.json \
-  --center-tolerance-px 5 --scale-tolerance 0.02 --image-rotation-tolerance-deg 0.5 \
-  --output-dir camera_check/left_wrist/run1</code></pre>
-    </div>
-    <div class="codeblock">
-      <div class="codeblock-head"><span>bash · right wrist</span><button class="copy-btn" type="button">Copy</button></div>
-      <pre><code>python examples/apriltag_camera_reference_calibrate.py check \
-  --camera /dev/video4 --width 640 --height 480 --fps 30 --fourcc MJPG \
-  --camera-warmup-s 2 --samples 50 --timeout-s 20 \
-  --reference camera_reference/standard/right_wrist/reference.json \
-  --center-tolerance-px 5 --scale-tolerance 0.02 --image-rotation-tolerance-deg 0.5 \
-  --output-dir camera_check/right_wrist/run1</code></pre>
-    </div>
+for camera in /dev/video0 /dev/video2 /dev/video4; do
+  v4l2-ctl -d "$camera" --get-fmt-video --get-parm --list-ctrls
+done</code></pre></div>
+<p><span data-lang="en">The restore script disables dynamic frame rate when supported, skips unsupported controls and limits saved <span class="mono">exposure_time_absolute</span> values to <span class="mono">300</span> by default to help preserve 30 fps. This is a driver control value. Review any clamp messages, then check brightness and actual stream cadence. Some cameras reset controls when streaming starts: check again after opening the intended stream and reapply from another terminal if needed.</span><span data-lang="zh">恢复脚本会在设备支持时关闭动态帧率，跳过不支持的控制项，并默认将保存的 <span class="mono">exposure_time_absolute</span> 上限设为 <span class="mono">300</span>，以帮助维持 30 fps；这是驱动控制值。若出现限幅提示，需重新检查亮度与实际出帧速度。部分相机在启动视频流时会重置参数：打开目标视频流后再次核对，必要时从另一终端重新应用。</span></p>
+<div class="admonition admonition-note"><div class="admonition-title"><span data-lang="en">Check the saved baseline</span><span data-lang="zh">检查保存的基准</span></div><p><span data-lang="en">The repository’s root <span class="mono">camera_image_controls.json</span> contains example values with automatic exposure enabled on all three cameras and automatic white balance enabled on the global camera. Tune and save your own baseline. After reconnecting, update device-path keys if the camera mapping changed. Continue with reference-image alignment once image controls are stable.</span><span data-lang="zh">仓库根目录的 <span class="mono">camera_image_controls.json</span> 是示例配置，其中三台相机仍开启自动曝光，全局相机还开启自动白平衡。请调节并保存本机基准；重连后若相机映射变化，应同步更新 JSON 中的设备路径。参数稳定后，再继续参考图对齐。</span></p></div>
 
-    <h2><span data-lang="en">5 · Reading the results</span><span data-lang="zh">5 · 读懂检查结果</span></h2>
-    <p>
-      <span data-lang="en">Each check writes <span class="mono">alignment.jpg</span> — <span style="color:var(--red);font-weight:700;">red box = saved reference</span>, <span style="color:var(--green);font-weight:700;">green box = current detection</span> — plus a machine-readable <span class="mono">alignment.json</span> with:</span>
-      <span data-lang="zh">每次检查都会生成 <span class="mono">alignment.jpg</span>——<span style="color:var(--red);font-weight:700;">红框 = 保存的参考</span>、<span style="color:var(--green);font-weight:700;">绿框 = 当前检测</span>——以及机器可读的 <span class="mono">alignment.json</span>，包含：</span>
-    </p>
-    <ul>
-      <li><span class="mono">center_error_px</span> — <span data-lang="en">tag center displacement</span><span data-lang="zh">标签中心位移</span></li>
-      <li><span class="mono">scale_ratio</span> — <span data-lang="en">distance / zoom change</span><span data-lang="zh">距离 / 缩放变化</span></li>
-      <li><span class="mono">image_rotation_error_deg</span> — <span data-lang="en">in-plane rotation error</span><span data-lang="zh">面内旋转误差</span></li>
-      <li><span class="mono">corner_rms_error_px</span> — <span data-lang="en">corner-wise RMS error</span><span data-lang="zh">角点 RMS 误差</span></li>
-      <li><span class="mono">within_tolerance</span> — <span data-lang="en">automated pass / fail verdict</span><span data-lang="zh">自动通过 / 失败判定</span></li>
-    </ul>
+<h2><span data-lang="en">4 · Align the global camera</span><span data-lang="zh">4 · 全局相机对齐</span></h2>
 
-    <h2><span data-lang="en">Acceptance thresholds</span><span data-lang="zh">验收阈值</span></h2>
-    <div class="table-wrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><span data-lang="en">Camera</span><span data-lang="zh">相机</span></th>
-            <th><span data-lang="en">Center error</span><span data-lang="zh">中心误差</span></th>
-            <th><span data-lang="en">Scale change</span><span data-lang="zh">尺度变化</span></th>
-            <th><span data-lang="en">Rotation error</span><span data-lang="zh">旋转误差</span></th>
-            <th><span data-lang="en">within_tolerance</span><span data-lang="zh">自动判定</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><span data-lang="en">Global (tag 0 · 80 mm)</span><span data-lang="zh">全局（0 号 · 80 mm）</span></td><td class="num good">≤ 3 px</td><td class="num good">≤ 1%</td><td class="num good">≤ 0.3°</td><td class="good">true</td></tr>
-          <tr><td><span data-lang="en">Left wrist (tag 1 · 50 mm)</span><span data-lang="zh">左腕（1 号 · 50 mm）</span></td><td class="num good">≤ 5 px</td><td class="num good">≤ 2%</td><td class="num good">≤ 0.5°</td><td class="good">true</td></tr>
-          <tr><td><span data-lang="en">Right wrist (tag 2 · 50 mm)</span><span data-lang="zh">右腕（2 号 · 50 mm）</span></td><td class="num good">≤ 5 px</td><td class="num good">≤ 2%</td><td class="num good">≤ 0.5°</td><td class="good">true</td></tr>
-        </tbody>
-      </table>
-    </div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/global_camera_reference_calibrate.py check \
+  --camera /dev/video0 \
+  --width 640 \
+  --height 480 \
+  --fps 30 \
+  --fourcc MJPG \
+  --camera-warmup-s 2 \
+  --web-host 127.0.0.1 \
+  --web-port 8092 \
+  --preview-fps 15 \
+  --max-candidates 8 \
+  --max-angle-deg 12 \
+  --min-length-ratio 0.35 \
+  --reference BREE/camera_reference/global_image/reference.json \
+  --output-dir outputs/camera_check/global_image</code></pre>
+</div><p><span data-lang="en">Open <span class="mono">http://127.0.0.1:8092</span>. Match the beam, arm bases, table edges and fixed screws in the 50/50 overlay. The command normally homes both followers first; add <span class="mono">--skip-robot-home</span> to inspect the camera without connecting the arms. Close this check before starting the right-wrist preview on the same port.</span><span data-lang="zh">打开 <span class="mono">http://127.0.0.1:8092</span>，在 50/50 叠加画面中对齐横梁、机械臂底座、桌边和固定螺丝。默认会先将两条从臂移动到 H 位；仅检查相机、不连接机械臂时增加 <span class="mono">--skip-robot-home</span>。右腕预览使用同一端口，启动前先关闭全局检查。</span></p>
+<figure class="figure docs-figure"><img src="../assets/img/calibration/reference-global.jpg" alt="Saved global camera installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved global camera installation reference</span><span data-lang="zh">已保存的全局相机安装参考</span></figcaption>
+</figure>
 
-    <figure class="figure docs-figure">
-      <img src="../assets/img/calib/global_ref.jpg" alt="AprilTag annotated global camera reference">
-      <figcaption><span data-lang="en">Saved global-camera AprilTag reference with detection annotation.</span><span data-lang="zh">带检测标注的全局相机 AprilTag 参考画面。</span></figcaption>
-    </figure>
+<h2><span data-lang="en">5 · Align both wrist cameras</span><span data-lang="zh">5 · 两台腕部相机对齐</span></h2>
+<p><span data-lang="en">Place the arms at the reference pose before using camera-only mode. It does not move or lock an arm. Verify indices from live views, then run each check separately.</span><span data-lang="zh">在纯相机模式下先将机械臂置于参考姿态；此模式不会移动或锁定机械臂。按实时画面核对编号后，分别运行以下检查。</span></p>
 
-    <h2><span data-lang="en">Final checklist</span><span data-lang="zh">最终检查清单</span></h2>
-    <ul class="checklist">
-      <li><span data-lang="en">All four arms calibrated via the midpoint fixture, fresh <span class="mono">.json</span> files written.</span>
-      <span data-lang="zh">四条臂均已通过限位夹具中点流程标定，新的 <span class="mono">.json</span> 文件已写入。</span></li>
-      <li><span data-lang="en">Global camera overlay check shows no ghosting on fixed structures.</span>
-      <span data-lang="zh">全局相机叠加检查中，固定结构无双影。</span></li>
-      <li><span data-lang="en">All three cameras report <span class="mono">within_tolerance = true</span>.</span>
-      <span data-lang="zh">三台相机全部报告 <span class="mono">within_tolerance = true</span>。</span></li>
-      <li><span data-lang="en">Reference files stored under <span class="mono">camera_reference/standard/</span> and kept under version control.</span>
-      <span data-lang="zh">参考文件保存在 <span class="mono">camera_reference/standard/</span> 并纳入版本管理。</span></li>
-    </ul>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
+  --camera-only \
+  --camera /dev/video2 \
+  --width 640 \
+  --height 480 \
+  --fps 30 \
+  --fourcc MJPG \
+  --camera-warmup-s 2 \
+  --reference BREE/camera_reference/overlay/left_wrist/reference.json \
+  --output-dir outputs/camera_check/overlay/left_wrist \
+  --live \
+  --web-host 127.0.0.1 \
+  --web-port 8091 \
+  --preview-fps 15 \
+  --overlay-alpha 0.5</code></pre>
+</div><p><span data-lang="en">Left wrist preview: <span class="mono">http://127.0.0.1:8091</span>. Align the gripper and fixed structures to the saved image.</span><span data-lang="zh">左腕预览地址：<span class="mono">http://127.0.0.1:8091</span>。对齐夹爪与固定结构。</span></p>
 
-    <div class="admonition admonition-tip">
-      <div class="admonition-title">
-        <span data-lang="en">🎉 Congrats!</span>
-        <span data-lang="zh">🎉 恭喜！</span>
-      </div>
-      <p>
-        <span data-lang="en">The environment is calibrated and identical to the reference site. You are ready to run evaluations.</span>
-        <span data-lang="zh">环境已完成标定，与参考站点完全一致。可以开始运行评估了。</span>
-      </p>
-    </div>
+<div class="codeblock"><div class="codeblock-head"><span>bash</span><button class="copy-btn" type="button">Copy</button></div><pre><code>python BREE/camera_calibration/wrist_camera_reference_calibrate.py check \
+  --camera-only \
+  --camera /dev/video4 \
+  --width 640 \
+  --height 480 \
+  --fps 30 \
+  --fourcc MJPG \
+  --camera-warmup-s 2 \
+  --reference BREE/camera_reference/overlay/right_wrist/reference.json \
+  --output-dir outputs/camera_check/overlay/right_wrist \
+  --live \
+  --web-host 127.0.0.1 \
+  --web-port 8092 \
+  --preview-fps 15 \
+  --overlay-alpha 0.5</code></pre>
+</div><p><span data-lang="en">Right wrist preview: <span class="mono">http://127.0.0.1:8092</span>. Camera mounts and lighting should remain stable between sessions.</span><span data-lang="zh">右腕预览地址：<span class="mono">http://127.0.0.1:8092</span>。每次实验之间保持相机支架与光照稳定。</span></p>
+<div class="figure-row"><figure class="figure docs-figure"><img src="../assets/img/calibration/reference-left-wrist.jpg" alt="Saved left wrist installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved left wrist installation reference</span><span data-lang="zh">已保存的左腕相机安装参考</span></figcaption>
+</figure>
+<figure class="figure docs-figure"><img src="../assets/img/calibration/reference-right-wrist.jpg" alt="Saved right wrist installation reference" loading="lazy" width="640" height="480"><figcaption><span data-lang="en">Saved right wrist installation reference</span><span data-lang="zh">已保存的右腕相机安装参考</span></figcaption>
+</figure>
+</div>
+<h2><span data-lang="en">6 · Review and retain the evidence</span><span data-lang="zh">6 · 复核并保存检查结果</span></h2>
+<p><span data-lang="en">Check results belong in <span class="mono">outputs/camera_check/</span>. The scripts provide image comparisons and alignment JSON when a comparison is saved. Inspect feature matching failures and residual overlay errors before proceeding.</span><span data-lang="zh">检查结果写入 <span class="mono">outputs/camera_check/</span>。保存对比时，脚本会输出对比图与对齐 JSON。开始实验前，应检查特征匹配失败和残余双影。</span></p>
 
-    <div class="docs-pager">
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Current check behavior</span><span data-lang="zh">当前检查行为</span></div><p><span data-lang="en">Use image overlays and feature matching to check camera alignment. Inspect fixed structures for ghosting and review the saved comparison images and alignment JSON.</span><span data-lang="zh">通过参考图叠加与特征匹配检查相机对齐。检查固定结构是否存在双影，并复核保存的对比图与对齐 JSON。</span></p>
+</div><ul><li><span data-lang="en">Four calibration IDs match the connected arms, and the H pose has been checked.</span><span data-lang="zh">四个标定 ID 与实际机械臂对应，H 位已验证。</span></li>
+<li><span data-lang="en">All three cameras use 640 × 480, 30 fps and MJPG; the saved per-camera image controls are applied and manual modes verified.</span><span data-lang="zh">三台相机均使用 640 × 480、30 fps 与 MJPG；各路已应用保存的图像参数，并核对手动模式。</span></li>
+<li><span data-lang="en">All three live views align with their saved references at the same arm pose.</span><span data-lang="zh">三路实时画面均在相同机械臂姿态下与已有参考图对齐。</span></li>
+<li><span data-lang="en">Reference files remain unchanged; save generated check evidence under outputs/.</span><span data-lang="zh">参考文件保持不变，生成的检查证据保存在 outputs/。</span></li></ul>
+
+<div class="docs-pager">
       <a href="software.html">
         <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
         <div class="title"><span data-lang="en">3 · Software Installation</span><span data-lang="zh">3 · 软件安装</span></div>
       </a>
-      <a class="next" href="evaluation.html">
+      <a class="next" href="collection.html">
         <div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div>
-        <div class="title"><span data-lang="en">5 · Running Evaluations</span><span data-lang="zh">5 · 运行评估</span></div>
+        <div class="title"><span data-lang="en">5 · Data Collection</span><span data-lang="zh">5 · 数据采集</span></div>
       </a>
     </div>
   </main>

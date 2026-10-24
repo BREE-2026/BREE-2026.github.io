@@ -241,7 +241,7 @@ footer{width:min(1180px,calc(100% - 72px));margin:0 auto;padding:68px 0}
 .dataset-page .dataset-intro-link{margin-top:24px}
 .dataset-page .dataset-intro-link a{display:inline-block;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:6px;font:500 14px/1.2 var(--sans);letter-spacing:.02em}
 .dataset-page .dataset-intro-link a:hover{color:var(--signal);border-color:var(--signal)}
-.dataset-page .dataset-status{color:var(--signal);font:500 12px/1.2 var(--mono);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;white-space:nowrap;pointer-events:none;cursor:default}
+.dataset-page .dataset-status{color:var(--signal);font:500 12px/1.2 var(--mono);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;white-space:nowrap;pointer-events:auto;cursor:pointer}
 @media(max-width:640px){.dataset-page .subpage-head h1{white-space:normal}.dataset-page .dataset-intro-link a{font-size:13px}}
 
 /* Dataset card: keep the heading and actions on one editorial row. */

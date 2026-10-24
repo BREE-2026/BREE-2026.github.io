@@ -9,12 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align1">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
+  <link rel="stylesheet" href="../assets/css/assembly-guide.css?v=20261024-frame1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-frame1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
-<body class="docs">
+<body class="docs docs-assembly-page">
 
 <div class="docs-topbar">
   <div class="docs-topbar-inner">
@@ -43,6 +44,7 @@
       <a href="assembly.html" class="active"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -51,27 +53,62 @@
 
   <main class="docs-main">
     <div class="time-badge">⏱
-      <span data-lang="en">Reading time · 5 min · half a day with the build</span>
-      <span data-lang="zh">阅读时间 · 5 分钟 · 实际装配约半天</span>
+      <span data-lang="en">Reading time · 8 min · half a day with the build</span>
+      <span data-lang="zh">阅读时间 · 8 分钟 · 实际装配约半天</span>
     </div>
-    <h1>
+
+<h1>
       <span data-lang="en">Hardware Assembly</span>
       <span data-lang="zh">硬件装配</span>
     </h1>
     <p class="lead">
-      <span data-lang="en">This page covers the workspace layout, arm placement with fixed USB assignment, the three-camera rig, and AprilTag placement. Careful, consistent assembly is what makes every BREE site identical.</span>
-      <span data-lang="zh">本页介绍工作区布局、机械臂的固定 USB 分配摆放、三相机机架，以及 AprilTag 标签的放置。认真一致的装配是所有 BREE 站点完全一致的基础。</span>
+      <span data-lang="en">Build the structural frame, then set up the workspace, four arms and three cameras. Verify the actual device mapping after assembly, then align the camera views with the saved installation references.</span>
+      <span data-lang="zh">先完成结构框架搭建，再布置工作区、四条机械臂与三台相机。装配后确认实际设备映射，再将相机画面与已有安装参考对齐。</span>
     </p>
 
-    <div class="admonition admonition-note">
-      <div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div>
+
+<div class="admonition admonition-note">
+
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div>
       <p>
-        <span data-lang="en">Assembly photos and dimensioned drawings are being prepared and will be added to this page. The saved reference images in <a href="calibration.html">System Calibration</a> already pin down the camera geometry — if your live view matches the reference, your rig is correctly assembled.</span>
-        <span data-lang="zh">装配照片与尺寸图正在准备中，稍后补充到本页。<a href="calibration.html">系统标定</a>中保存的参考画面已经锁定了相机几何——只要实时画面与参考一致，就说明机架装配正确。</span>
+        <span data-lang="en">See <a href="../assets.html">BREE Assets</a> for the rig and hardware references. Use <a href="calibration.html">System Calibration</a> to check H poses and camera overlays after assembly.</span>
+        <span data-lang="zh">机架与硬件参考见 <a href="../assets.html">BREE 资源</a>。装配完成后，通过<a href="calibration.html">系统标定</a>检查 H 位与相机叠加。</span>
       </p>
     </div>
 
-    <h2><span data-lang="en">1 · Workspace layout</span><span data-lang="zh">1 · 工作区布局</span></h2>
+
+<h2 id="frame-build"><span data-lang="en">1 · Frame construction</span><span data-lang="zh">1 · 框架搭建</span></h2>
+<!-- Frame cut list and quantities: assets/models/bree-rack-sldasm-manifest.json. Engineering drawing: G:/docs/so101/机械部分/铝架及整体装配/rack.pdf. -->
+<p><span data-lang="en">Build the 4040 aluminum frame first, then fit the panels, arm mounts, cameras and lighting. The assembled frame is <strong>1200 mm wide × 600 mm deep × 700 mm high</strong>. Dimensions in the drawing and the material table below are in millimeters.</span><span data-lang="zh">先搭建 4040 铝型材框架，再安装面板、机械臂底座、相机与照明。框架外形为<strong>宽 1200 × 深 600 × 高 700 mm</strong>。下方工程图与物料表中的尺寸单位均为毫米。</span></p>
+<figure class="figure docs-figure frame-drawing"><a href="../assets/img/assembly/frame-dimensions.png" target="_blank" rel="noopener"><img src="../assets/img/assembly/frame-dimensions.png" alt="Dimensioned BREE frame assembly drawing with orthographic and section views" width="3200" height="2261" loading="lazy" decoding="async"></a><figcaption><span data-lang="en">Frame dimensions, internal mounting locations and sections A–A / B–B. Click the drawing to view the full-size image.</span><span data-lang="zh">框架外形尺寸、内部安装位置及 A–A / B–B 剖面。点击图纸可查看大图。</span></figcaption></figure>
+<p class="frame-drawing-links"><a href="../assets/img/assembly/frame-dimensions.png" target="_blank" rel="noopener"><span data-lang="en">Open full-size drawing ↗</span><span data-lang="zh">查看原尺寸图 ↗</span></a> · <a href="../assets/drawings/bree-frame-drawing.pdf" download><span data-lang="en">Download dimensioned drawing (PDF) ↓</span><span data-lang="zh">下载尺寸工程图（PDF）↓</span></a></p>
+<h3 id="frame-bom"><span data-lang="en">Frame bill of materials</span><span data-lang="zh">框架物料清单</span></h3>
+<p><span data-lang="en">Material categories follow the <a href="../index.html#bom">homepage BOM</a>. Profile lengths, connector counts and panel sizes below follow the current frame assembly model. Purchase links are listed as <span class="mono">TBD</span>.</span><span data-lang="zh">材料类别与<a href="../index.html#bom">首页 BOM</a>一致；下表型材长度、角码数量与面板尺寸按当前框架装配模型列出。购买链接统一标为 <span class="mono">TBD</span>。</span></p>
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">Component</span><span data-lang="zh">材料 / 部件</span></th><th><span data-lang="en">Specification</span><span data-lang="zh">规格</span></th><th><span data-lang="en">Qty</span><span data-lang="zh">数量</span></th><th><span data-lang="en">Use</span><span data-lang="zh">用途</span></th><th><span data-lang="en">Purchase link</span><span data-lang="zh">购买链接</span></th></tr></thead><tbody>
+<tr><td><span data-lang="en">4040 aluminum profile</span><span data-lang="zh">4040 铝型材</span></td><td>40 × 40 × 1120 mm</td><td class="num">5</td><td><span data-lang="en">Long beams and central crossbeam</span><span data-lang="zh">长边横梁及中部横梁</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">4040 aluminum profile</span><span data-lang="zh">4040 铝型材</span></td><td>40 × 40 × 700 mm</td><td class="num">4</td><td><span data-lang="en">Vertical posts</span><span data-lang="zh">四角立柱</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">4040 aluminum profile</span><span data-lang="zh">4040 铝型材</span></td><td>40 × 40 × 520 mm</td><td class="num">4</td><td><span data-lang="en">Short beams of the two side frames</span><span data-lang="zh">两侧框架的短边横梁</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">4040 aluminum profile</span><span data-lang="zh">4040 铝型材</span></td><td>40 × 40 × 240 mm</td><td class="num">4</td><td><span data-lang="en">Internal mounting supports</span><span data-lang="zh">内部安装支撑</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Corner brackets</span><span data-lang="zh">角码</span></td><td>4040</td><td class="num">42</td><td><span data-lang="en">Join and reinforce the frame</span><span data-lang="zh">连接并加固框架</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Work / cover panels</span><span data-lang="zh">工作台板 / 顶板</span></td><td>1200 × 600 × 5 mm</td><td class="num">2</td><td><span data-lang="en">Frame work and cover surfaces</span><span data-lang="zh">框架工作面与覆盖面</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Side panels</span><span data-lang="zh">侧板</span></td><td>700 × 597.5 × 5 mm</td><td class="num">2</td><td><span data-lang="en">Side enclosures</span><span data-lang="zh">两侧封板</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Rear panel</span><span data-lang="zh">背板</span></td><td>1200 × 700 × 5 mm</td><td class="num">1</td><td><span data-lang="en">Rear enclosure</span><span data-lang="zh">后侧封板</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Screws, nuts and fasteners</span><span data-lang="zh">螺钉、螺母与紧固件</span></td><td><span data-lang="en">Compatible with the profile slots, brackets and panels</span><span data-lang="zh">与型材槽、角码及面板安装位置匹配</span></td><td class="num"><span data-lang="en">1 set</span><span data-lang="zh">1 套</span></td><td><span data-lang="en">Secure brackets, panels and mounts</span><span data-lang="zh">固定角码、面板与安装件</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Lighting system</span><span data-lang="zh">照明系统</span></td><td><span data-lang="en">LED strips, power supply and controller</span><span data-lang="zh">LED 灯带、电源与控制器</span></td><td class="num"><span data-lang="en">1 set</span><span data-lang="zh">1 套</span></td><td><span data-lang="en">Provide consistent workspace illumination</span><span data-lang="zh">提供稳定一致的工作区照明</span></td><td class="tbd">TBD</td></tr>
+<tr><td><span data-lang="en">Printed mounting parts</span><span data-lang="zh">安装用打印件</span></td><td><span data-lang="en">Arm pedestals, camera mounts and lamp brackets</span><span data-lang="zh">机械臂底座、相机支架与灯架</span></td><td class="num"><span data-lang="en">1 set</span><span data-lang="zh">1 套</span></td><td><span data-lang="en">Mount hardware; see the fixture and mounting list</span><span data-lang="zh">安装硬件，模型见标定夹具与安装部件清单</span></td><td class="tbd">TBD</td></tr>
+</tbody></table></div>
+<p><span data-lang="en">The profile cut list contains <strong>17 pieces</strong> with a total finished length of <strong>11.44 m</strong>; allow for cutting loss when ordering stock. Printed mount models are listed in <a href="bom.html#fixtures">Calibration fixtures and mounting hardware</a>.</span><span data-lang="zh">型材下料共 <strong>17 根</strong>，成品净长合计 <strong>11.44 m</strong>，采购原料时另计切割损耗。安装打印件模型见<a href="bom.html#fixtures">标定夹具与安装部件</a>。</span></p>
+<h3><span data-lang="en">Build sequence</span><span data-lang="zh">搭建顺序</span></h3>
+<ol>
+<li><span data-lang="en">Check the cut lengths and prepare the brackets, matching screws and slot nuts. Insert nuts needed inside closed frame sections before closing the joints.</span><span data-lang="zh">核对型材下料长度，准备角码、配套螺钉与槽内螺母。封闭连接前，先装入后续安装所需的槽内螺母。</span></li>
+<li><span data-lang="en">Build two side frames. Each uses two 700 mm posts and two 520 mm short beams. Keep the corners square and leave the bolts loose enough for alignment.</span><span data-lang="zh">先组装两个侧框，每个侧框使用 2 根 700 mm 立柱和 2 根 520 mm 短横梁。校正直角，先预紧连接螺栓。</span></li>
+<li><span data-lang="en">Connect the side frames using four 1120 mm long beams. Check the 1200 × 600 × 700 mm outside dimensions and compare the diagonals before tightening the outer frame.</span><span data-lang="zh">用 4 根 1120 mm 长横梁连接两个侧框。核对 1200 × 600 × 700 mm 外形尺寸并比较对角线，再拧紧外框。</span></li>
+<li><span data-lang="en">Install the remaining 1120 mm beam and four 240 mm supports at the locations in the drawing. Follow the drawing’s mounting dimensions when positioning arm bases and upper supports.</span><span data-lang="zh">按工程图位置安装剩余 1 根 1120 mm 横梁和 4 根 240 mm 支撑。机械臂底座与上部支撑的定位按图中安装尺寸执行。</span></li>
+<li><span data-lang="en">Fit the work / cover panels, side panels and rear panel. Secure the mounting parts and lighting, then route cables along the frame so they clear the shared workspace.</span><span data-lang="zh">安装工作台板 / 顶板、侧板与背板，再固定安装件和照明。沿框架整理线缆，留出共享工作区。</span></li>
+<li><span data-lang="en">Check that the frame stands level, the connectors are tight and the mounts do not shift. Continue with workspace layout, device assignment and camera alignment below.</span><span data-lang="zh">检查框架放置平稳、连接件紧固、安装件无松动，再继续下方工作区布局、设备分配与相机对齐流程。</span></li>
+</ol>
+
+<h2><span data-lang="en">2 · Workspace layout</span><span data-lang="zh">2 · 工作区布局</span></h2>
     <ul>
       <li><span data-lang="en">A fixed tabletop with a plain, consistent background; do not change lighting between sessions.</span>
       <span data-lang="zh">使用固定桌面与纯色一致的背景；会话之间不要改变光照。</span></li>
@@ -81,12 +118,14 @@
       <span data-lang="zh">两条主臂放在操作者旁边，便于双手遥操作。</span></li>
     </ul>
 
-    <h2><span data-lang="en">2 · Arm placement &amp; USB port assignment</span><span data-lang="zh">2 · 机械臂摆放与 USB 端口分配</span></h2>
+
+<h2><span data-lang="en">3 · Arm placement &amp; USB port assignment</span><span data-lang="zh">3 · 机械臂摆放与 USB 端口分配</span></h2>
     <p>
-      <span data-lang="en">BREE fixes which arm lives on which serial port. Plug the arms into the host in the order 0 → 1 → 2 → 3:</span>
-      <span data-lang="zh">BREE 固定了每条臂对应的串口。请按 0 → 1 → 2 → 3 的顺序将机械臂接入主机：</span>
+      <span data-lang="en">The operating guide uses the following example mapping. Verify it with lerobot-find-port after every reconnect; connection order alone does not guarantee device numbers.</span>
+      <span data-lang="zh">操作指南采用以下示例映射。每次重连后通过 lerobot-find-port 核对，插入顺序并不保证设备编号固定。</span>
     </p>
-    <div class="table-wrap">
+
+<div class="table-wrap">
       <table class="table">
         <thead>
           <tr>
@@ -105,12 +144,14 @@
       </table>
     </div>
 
-    <h2><span data-lang="en">3 · Camera rig</span><span data-lang="zh">3 · 相机机架</span></h2>
+
+<h2><span data-lang="en">4 · Camera rig</span><span data-lang="zh">4 · 相机机架</span></h2>
     <p>
-      <span data-lang="en">Three cameras, each with a fixed device index on the reference machine:</span>
-      <span data-lang="zh">三台相机，参考主机上的设备编号固定如下：</span>
+      <span data-lang="en">The operating guide uses the following example camera indices; confirm each live view before running commands:</span>
+      <span data-lang="zh">操作指南中的相机编号示例如下；运行命令前按实时画面确认：</span>
     </p>
-    <div class="table-wrap">
+
+<div class="table-wrap">
       <table class="table">
         <thead>
           <tr>
@@ -131,25 +172,21 @@
       <span data-lang="zh">所有相机以 640×480 @ 30 fps、MJPG 运行。安装后，相机的精确位姿会在<a href="calibration.html">系统标定</a>阶段锁定——现在先大致安装，之后再精确对齐。</span>
     </p>
 
-    <h2><span data-lang="en">4 · AprilTag placement</span><span data-lang="zh">4 · AprilTag 摆放</span></h2>
-    <ul>
-      <li><span data-lang="en"><b>Tag 0 (80 mm)</b> is fixed in the global camera's view — flat, wrinkle-free, permanently attached to the workspace.</span>
-      <span data-lang="zh"><b>0 号标签（80 mm）</b>固定在全局相机视野内——平整无褶皱，永久固定于工作区。</span></li>
-      <li><span data-lang="en"><b>Tags 1 &amp; 2 (50 mm)</b> are used at calibration time to lock the wrist camera poses; place them in the wrist cameras' view during the check procedure.</span>
-      <span data-lang="zh"><b>1、2 号标签（50 mm）</b>在校准时用于锁定腕部相机位姿；检查流程中将其置于腕部相机视野内。</span></li>
-      <li><span data-lang="en">Tags must be flat — a wrinkled or curved tag makes detection unreliable and will fail the tolerance gate.</span>
-      <span data-lang="zh">标签必须平整——褶皱或弯曲会导致检测不可靠，并使容差判定失败。</span></li>
-    </ul>
 
-    <h2><span data-lang="en">Before the next step, ensure that:</span><span data-lang="zh">进入下一步之前，请确认：</span></h2>
+<h2><span data-lang="en">5 · Preserve the installation reference</span><span data-lang="zh">5 · 保留安装参考</span></h2>
+<p><span data-lang="en">The camera workflow compares live views with saved reference images. Keep camera mounts, lighting and arm poses stable.</span><span data-lang="zh">相机流程将实时画面与已保存参考图对比。保持相机支架、光照与机械臂姿态稳定。</span></p>
+
+<h2><span data-lang="en">Before the next step, ensure that:</span><span data-lang="zh">进入下一步之前，请确认：</span></h2>
     <ul class="checklist">
+      <li><span data-lang="en">Frame dimensions match the drawing; brackets, panels and mounts are secure.</span><span data-lang="zh">框架尺寸与图纸一致，角码、面板和安装件已固定。</span></li>
       <li><span data-lang="en">All four arms power up and appear on ACM0–ACM3 in the assigned order.</span><span data-lang="zh">四条臂都能上电，并按分配顺序出现在 ACM0–ACM3。</span></li>
       <li><span data-lang="en">All three cameras produce a live image at the expected indices (0 / 2 / 4).</span><span data-lang="zh">三台相机在预期编号（0 / 2 / 4）上都能出图。</span></li>
-      <li><span data-lang="en">AprilTags are printed at 100% scale, flat, and placed as described.</span><span data-lang="zh">AprilTag 按 100% 比例打印、平整，并按上述要求摆放。</span></li>
+
       <li><span data-lang="en">Lighting and background are fixed — they must not change between sessions.</span><span data-lang="zh">光照与背景已固定——会话之间不得改变。</span></li>
     </ul>
 
-    <div class="docs-pager">
+
+<div class="docs-pager">
       <a href="bom.html">
         <div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div>
         <div class="title"><span data-lang="en">1 · Bill of Materials</span><span data-lang="zh">1 · 物料清单</span></div>

@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20260922-setup-align2">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-repo1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="../assets/js/i18n-zh.js?v=20260924-i18n2"></script>
+  <script src="../assets/js/i18n-zh.js?v=20261024-repo1"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
 </head>
 <body class="docs docs-overview-page">
@@ -44,6 +44,7 @@
       <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
       <a href="software.html"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></a>
       <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></a>
       <a href="evaluation.html"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
       <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
       <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
@@ -51,85 +52,38 @@
   </aside>
 
   <main class="docs-main">
-    <div class="time-badge">⏱
-      <span data-lang="en">Reading time · 3 min</span><span data-lang="zh">阅读时间 · 3 分钟</span>
-    </div>
-    <h1>
-      <span data-lang="en">BREE Setup Guide — Overview &amp; Prerequisites</span>
-      <span data-lang="zh">BREE 搭建指南 — 总览与前置条件</span>
-    </h1>
-    <p class="lead">
-      <span data-lang="en">BREE is a bimanual, rigorously-calibrated, low-cost real-world benchmark for evaluating vision-language-action (VLA) policies on tabletop manipulation tasks. This guide takes you from an empty table to calibrated, reproducible evaluations.</span>
-      <span data-lang="zh">BREE 是一个双臂、严谨标定、低成本的真机基准平台，用于在桌面操作任务上评测视觉-语言-动作（VLA）策略。本指南带你从一张空桌子开始，完成搭建、标定，直到可复现的评测。</span>
-    </p>
+    <!-- Commands synchronized with BREE-v1 revision b229178; see assets/BREE-v1-NOTICE.md. -->
 
-    <h2><span data-lang="en">Start here</span><span data-lang="zh">从这里开始</span></h2>
-    <p>
-      <span data-lang="en">Work through the pages in order — each page assumes the previous one is complete.</span>
-      <span data-lang="zh">请按顺序阅读——每一页都假定前一步已经完成。</span>
-    </p>
-    <div class="start-grid">
-      <a class="start-card" href="bom.html"><span class="n">1</span><div class="t"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></div><div class="d"><span data-lang="en">Arms, cameras, tags &amp; fixtures</span><span data-lang="zh">机械臂、相机、标签与夹具</span></div></a>
-      <a class="start-card" href="assembly.html"><span class="n">2</span><div class="t"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></div><div class="d"><span data-lang="en">Workspace, arms, cameras, tags</span><span data-lang="zh">工作区、机械臂、相机、标签</span></div></a>
-      <a class="start-card" href="software.html"><span class="n">3</span><div class="t"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></div><div class="d"><span data-lang="en">Docker or local env, device indices</span><span data-lang="zh">Docker 或本地环境、设备编号</span></div></a>
-      <a class="start-card" href="calibration.html"><span class="n">4</span><div class="t"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div><div class="d"><span data-lang="en">4 arms + 3 cameras, quantitative gates</span><span data-lang="zh">4 臂 + 3 相机，量化门槛</span></div></a>
-      <a class="start-card" href="evaluation.html"><span class="n">5</span><div class="t"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div><div class="d"><span data-lang="en">Teleop check, policy evaluation</span><span data-lang="zh">遥操作检查、策略评测</span></div></a>
-      <a class="start-card" href="tasks.html"><span class="n">6</span><div class="t"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div><div class="d"><span data-lang="en">Scene references &amp; success criteria</span><span data-lang="zh">场景参考与成功判据</span></div></a>
-      <a class="start-card" href="troubleshooting.html"><span class="n">7</span><div class="t"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></div><div class="d"><span data-lang="en">Common failures, pre-flight checks</span><span data-lang="zh">常见故障、飞行前检查</span></div></a>
-      <a class="start-card" href="../index.html"><span class="n">↩</span><div class="t"><span data-lang="en">Back to project page</span><span data-lang="zh">返回项目主页</span></div><div class="d"><span data-lang="en">Overview, results, citation</span><span data-lang="zh">概览、结果、引用</span></div></a>
-    </div>
+<h1><span data-lang="en">BREE Setup Guide</span><span data-lang="zh">BREE 搭建指南</span></h1>
+<p class="lead"><span data-lang="en">Build the SO-101 bimanual rig, install the BREE-v1 software, calibrate the arms and cameras, then collect data or evaluate a trained policy.</span><span data-lang="zh">搭建 SO-101 双臂机架，安装 BREE-v1 软件，完成机械臂与相机标定后，采集数据或评测训练好的策略。</span></p>
+<p><span data-lang="en">Run the commands below from the BREE-v1 repository root.</span><span data-lang="zh">以下命令均在 BREE-v1 仓库根目录运行。</span></p>
 
-    <h2><span data-lang="en">Overview &amp; prerequisites</span><span data-lang="zh">总览与前置条件</span></h2>
-    <ul>
-      <li>
-        <span data-lang="en"><b>Estimated time:</b> about 1–2 hours for software installation + system calibration once the hardware is assembled; budget a full afternoon for assembling four SO-101 arms and the camera rig.</span>
-        <span data-lang="zh"><b>预计时间：</b>硬件装配完成后，软件安装 + 系统标定约需 1–2 小时；装配四条 SO-101 机械臂与相机机架建议预留一个下午。</span>
-      </li>
-      <li>
-        <span data-lang="en"><b>Required background:</b> none. The guide is written for non-experts — every command is copy-pasteable.</span>
-        <span data-lang="zh"><b>背景要求：</b>无。本指南面向非专家撰写——所有命令均可直接复制粘贴。</span>
-      </li>
-      <li>
-        <span data-lang="en"><b>Host PC:</b> reference configuration to be synced. For real-time VLA inference (e.g. SmolVLA) a CUDA GPU is expected; 24&nbsp;GB+ VRAM is recommended for larger VLAs such as pi0-class models.</span>
-        <span data-lang="zh"><b>主机配置：</b>参考配置待同步。实时 VLA 推理（如 SmolVLA）需要 CUDA GPU；如运行 pi0 级别的大型 VLA，建议 24&nbsp;GB 以上显存。</span>
-      </li>
-      <li>
-        <span data-lang="en"><b>Software:</b> Ubuntu + a pinned LeRobot fork provided in this repository; Docker is the recommended path.</span>
-        <span data-lang="zh"><b>软件：</b>Ubuntu + 本仓库提供的固定版本 LeRobot 分支；推荐使用 Docker。</span>
-      </li>
-    </ul>
 
-    <h2><span data-lang="en">What is covered</span><span data-lang="zh">内容覆盖</span></h2>
-    <ul>
-      <li><span data-lang="en">Source the hardware, printed fiducials and calibration fixtures (<a href="bom.html">BOM</a>).</span>
-      <span data-lang="zh">采购硬件、打印基准标记与标定夹具（<a href="bom.html">物料清单</a>）。</span></li>
-      <li><span data-lang="en">Assemble the workspace: four arms with fixed USB assignment, three cameras, AprilTags (<a href="assembly.html">assembly</a>).</span>
-      <span data-lang="zh">装配工作区：四条臂固定 USB 分配、三台相机、AprilTag 标签（<a href="assembly.html">装配</a>）。</span></li>
-      <li><span data-lang="en">Install the software and identify device indices (<a href="software.html">software</a>).</span>
-      <span data-lang="zh">安装软件并确认设备编号（<a href="software.html">软件</a>）。</span></li>
-      <li><span data-lang="en">Calibrate all four arms with the midpoint fixture, then all three cameras with reference-save and AprilTag gates (<a href="calibration.html">calibration</a>).</span>
-      <span data-lang="zh">用限位夹具标定四条臂，再用参考写入与 AprilTag 门槛校验三台相机（<a href="calibration.html">标定</a>）。</span></li>
-      <li><span data-lang="en">Run evaluations and compare results on the leaderboard (<a href="evaluation.html">evaluation</a>).</span>
-      <span data-lang="zh">运行评测并在排行榜对比结果（<a href="evaluation.html">评估</a>）。</span></li>
-    </ul>
+<h2><span data-lang="en">Follow the workflow</span><span data-lang="zh">按流程开始</span></h2>
 
-    <h2><span data-lang="en">Quick notes</span><span data-lang="zh">快速提示</span></h2>
-    <div class="admonition admonition-tip">
-      <div class="admonition-title">
-        <span data-lang="en">Tip · Three rules of reproducibility</span>
-        <span data-lang="zh">提示 · 可复现三原则</span>
-      </div>
-      <ul>
-        <li><span data-lang="en">Keep lighting, camera angles and background <b>identical</b> across sessions — this is what the saved references enforce.</span>
-        <span data-lang="zh">保持光照、相机角度与背景在每次会话中<b>完全一致</b>——这正是保存的参考画面所强制的。</span></li>
-        <li><span data-lang="en">Never run an evaluation unless every calibration gate reports <span class="mono">within_tolerance = true</span>.</span>
-        <span data-lang="zh">任何标定门槛未报告 <span class="mono">within_tolerance = true</span> 之前，不要运行评测。</span></li>
-        <li><span data-lang="en">When arranging scenes, always follow the task reference images and checklists.</span>
-        <span data-lang="zh">摆放场景时，始终遵循任务参考图与检查清单。</span></li>
-      </ul>
-    </div>
+<div class="start-grid"><a class="start-card" href="bom.html"><span class="n">1</span><div class="t"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></div><div class="d"><span data-lang="en">Arms, cameras and fixtures</span><span data-lang="zh">机械臂、相机与夹具</span></div></a>
+<a class="start-card" href="assembly.html"><span class="n">2</span><div class="t"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></div><div class="d"><span data-lang="en">Frame build, arm mounts and camera supports</span><span data-lang="zh">框架搭建、机械臂安装与相机支架</span></div></a>
+<a class="start-card" href="software.html"><span class="n">3</span><div class="t"><span data-lang="en">Software Installation</span><span data-lang="zh">软件安装</span></div><div class="d"><span data-lang="en">Clone, dependencies and device mapping</span><span data-lang="zh">克隆、依赖与设备映射</span></div></a>
+<a class="start-card" href="calibration.html"><span class="n">4</span><div class="t"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></div><div class="d"><span data-lang="en">Fixture calibration, H pose, camera parameters and overlays</span><span data-lang="zh">夹具标定、H 位、相机参数统一与参考图叠加</span></div></a>
+<a class="start-card" href="collection.html"><span class="n">5</span><div class="t"><span data-lang="en">Data Collection</span><span data-lang="zh">数据采集</span></div><div class="d"><span data-lang="en">Teleoperation, task scenes and recording</span><span data-lang="zh">遥操作、任务场景与录制</span></div></a>
+<a class="start-card" href="evaluation.html"><span class="n">6</span><div class="t"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></div><div class="d"><span data-lang="en">Policy JSON, checkpoints and trial settings</span><span data-lang="zh">策略 JSON、权重与试验设置</span></div></a>
+<a class="start-card" href="tasks.html"><span class="n">7</span><div class="t"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div><div class="d"><span data-lang="en">Eight task IDs and scene references</span><span data-lang="zh">八类任务编号与场景参考</span></div></a>
+<a class="start-card" href="troubleshooting.html"><span class="n">8</span><div class="t"><span data-lang="en">Troubleshooting</span><span data-lang="zh">故障排查</span></div><div class="d"><span data-lang="en">Device, camera and configuration checks</span><span data-lang="zh">设备、相机与配置检查</span></div></a></div>
+<h2><span data-lang="en">Prerequisites</span><span data-lang="zh">前置条件</span></h2>
+<ul><li><span data-lang="en">Four assembled SO-101 arms: two leaders and two followers, plus a global and two wrist cameras.</span><span data-lang="zh">四条装配好的 SO-101 机械臂，包括两条主臂与两条从臂，以及一台全局和两台腕部相机。</span></li>
+<li><span data-lang="en">Linux hardware access, Python 3.10+ and the BREE-v1 LeRobot fork. Use the software page for the versioned installation command.</span><span data-lang="zh">Linux 硬件访问环境、Python 3.10 及以上版本和 BREE-v1 LeRobot 分支；具体版本安装命令见软件页面。</span></li>
+<li><span data-lang="en">A compatible inference device and model-specific dependencies. Confirm checkpoint files, tokenizer assets and task scene images separately.</span><span data-lang="zh">兼容的推理设备与模型依赖；单独核实模型权重、tokenizer 资源及任务场景图。</span></li></ul>
 
-    <div class="docs-pager">
+<h2><span data-lang="en">First installation and daily startup</span><span data-lang="zh">首次安装与日常开机</span></h2>
+
+<div class="table-wrap"><table class="table"><thead><tr><th><span data-lang="en">When</span><span data-lang="zh">时机</span></th><th><span data-lang="en">Steps</span><span data-lang="zh">步骤</span></th></tr></thead><tbody><tr><td><span data-lang="en">First installation / hardware changes</span><span data-lang="zh">首次安装 / 硬件变化</span></td><td><span data-lang="en">Verify devices → calibrate arms → verify H pose → tune and save camera parameters → align all camera references.</span><span data-lang="zh">确认设备 → 标定机械臂 → 验证 H 位 → 调节并保存相机参数 → 对齐三台相机参考。</span></td></tr>
+<tr><td><span data-lang="en">Daily startup</span><span data-lang="zh">日常开机</span></td><td><span data-lang="en">Grant device access → verify mapping → check H pose → restore camera parameters → compare existing camera overlays → collect or evaluate.</span><span data-lang="zh">赋予设备权限 → 核对映射 → 检查 H 位 → 恢复相机参数 → 对比已有相机叠加 → 采集或评测。</span></td></tr></tbody></table>
+</div>
+<div class="admonition admonition-note">
+<div class="admonition-title"><span data-lang="en">Note</span><span data-lang="zh">说明</span></div><p><span data-lang="en">The clone includes camera installation references, evaluation templates and ID task scene images. See the <a href="evaluation.html#id-references">ID reference gallery</a>. Model weights and OOD task scenes still need to be prepared separately. Save newly generated check and run artifacts under <span class="mono">outputs/</span>.</span><span data-lang="zh">克隆已包含相机安装参考、评测模板与 ID 任务场景图，见<a href="evaluation.html#id-references">ID 参考图库</a>。模型权重与 OOD 任务场景仍需另行准备。新生成的检查与运行产物保存在 <span class="mono">outputs/</span>。</span></p>
+</div>
+
+<div class="docs-pager">
       <a href="../index.html">
         <div class="dir"><span data-lang="en">← Back</span><span data-lang="zh">← 返回</span></div>
         <div class="title"><span data-lang="en">Project page</span><span data-lang="zh">项目主页</span></div>

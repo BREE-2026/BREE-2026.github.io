@@ -1,0 +1,8 @@
+/* Frame drawing, material table and steps on the assembly page. */
+body.docs.docs-assembly-page .docs-main .frame-drawing a{display:block;background:#fff}
+body.docs.docs-assembly-page .docs-main .frame-drawing img{display:block;width:100%;height:auto;filter:none}
+body.docs.docs-assembly-page .docs-main .frame-drawing-links{font-size:14px;line-height:1.8}
+body.docs.docs-assembly-page .docs-main .frame-drawing-links a{text-decoration:underline;text-underline-offset:4px}
+body.docs.docs-assembly-page .docs-main h3{margin-top:28px}
+body.docs.docs-assembly-page .docs-main ol{padding-left:24px;line-height:1.75}
+body.docs.docs-assembly-page .docs-main ol li+li{margin-top:12px}

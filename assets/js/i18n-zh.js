@@ -172,6 +172,7 @@ window.BREE_ZH = {
   ", making it ready for immediate use in policy training and": "，可直接用于策略训练和",
   "cross-platform transfer": "跨平台迁移",
   "Dataset repository · coming soon ↗": "数据集仓库 · 即将开放 ↗",
+  "Browse datasets ↗": "浏览数据集 ↗",
   "Task registry / current release shape": "任务目录 / 当前发布版本",
   "Task": "任务",
   "Coordination": "协作类型",
@@ -333,3 +334,90 @@ window.BREE_ZH = {
   "AprilTag id 2 50mm": "AprilTag 2 号，50 毫米",
   "AprilTag annotated global camera reference": "带 AprilTag 标注的全局相机参考图"
 };
+
+// Data collection subpage metadata.
+Object.assign(window.BREE_ZH, {
+  "Setup Guide · Data Collection · BREE": "搭建指南 · 数据采集 · BREE"
+});
+
+// Guideline summaries follow the completed setup subpages.
+Object.assign(window.BREE_ZH, {
+  "Assemble the hardware and install the software, then calibrate the arms and align the camera references. Use the task guides to prepare scenes before collecting episodes or evaluating a trained policy.": "装配硬件、安装软件后，完成机械臂标定与相机参考图对齐。按照任务指南准备场景，再采集回合或评测训练好的策略。",
+  "Overview & prerequisites ↗": "总览与前置条件 ↗",
+  "Bill of materials ↗": "物料清单 ↗",
+  "Tasks": "任务",
+  "Calibrate the system": "标定系统",
+  "Run evaluations": "运行评测",
+  "Prepare task scenes": "准备任务场景",
+  "Open collection guide ↗": "查看采集指南 ↗",
+  "Build the 4040 frame with the dimensioned drawing and frame BOM, then mount the arms, cameras and lighting.": "根据尺寸图与框架物料表搭建 4040 框架，再安装机械臂、相机和照明。",
+  "Install the LeRobot fork and Feetech dependencies, identify serial ports and cameras, and configure device access.": "安装 LeRobot 分支与 Feetech 依赖，辨认串口和相机，并配置设备访问权限。",
+  "Calibrate the arms, verify the H pose, standardize camera parameters, and align three live views with saved references.": "标定机械臂、验证 H 位、统一相机参数，并将三路实时画面与已有参考图对齐。",
+  "Check teleoperation, prepare task scene images, and record synchronized arm and camera streams with a saved configuration.": "检查遥操作、准备任务场景图，并使用保存的配置录制同步的机械臂与相机数据。",
+  "Browse real ID layouts and distribution guides, prepare OOD scenes, then evaluate with matched configurations.": "查看真实 ID 布局与分布标注图，准备 OOD 场景，再使用匹配的配置进行评测。",
+  "Check the eight task identifiers, match prompts to the selected model, and define scene references and success criteria.": "核对八类任务编号，将指令与所选模型匹配，并明确场景参考与成功判据。",
+  "Check port mapping, H poses, camera overlays and configuration fields when recording or evaluation fails.": "录制或评测失败时，检查端口映射、H 位、相机叠加和配置字段。",
+  "Repeatable results begin with checked hardware and consistent task scenes.": "可复现的结果始于经过检查的硬件与一致的任务场景。"
+});
+
+// Accessible names for the conceptual ID/OOD diagrams.
+Object.assign(window.BREE_ZH, {
+  "ID conceptual scene layout": "ID 分布内场景概念示意图",
+  "OOD conceptual scene layout": "OOD 分布外场景概念示意图"
+});
+
+// Repository ID reference image descriptions (e97d1b6).
+Object.assign(window.BREE_ZH, {
+  "Task 01 · Pick and Place: ID reference pic1": "任务 01 · 抓取与放置：ID 参考图 pic1",
+  "Task 01 · Pick and Place: ID reference pic2": "任务 01 · 抓取与放置：ID 参考图 pic2",
+  "Task 01 · Pick and Place: ID reference pic3": "任务 01 · 抓取与放置：ID 参考图 pic3",
+  "Task 01 · Pick and Place: ID reference pic4": "任务 01 · 抓取与放置：ID 参考图 pic4",
+  "Task 01 · Pick and Place: ID reference pic5": "任务 01 · 抓取与放置：ID 参考图 pic5",
+  "Task 02 · Switch Pushing: ID reference pic1": "任务 02 · 拨动开关：ID 参考图 pic1",
+  "Task 02 · Switch Pushing: ID reference pic2": "任务 02 · 拨动开关：ID 参考图 pic2",
+  "Task 02 · Switch Pushing: ID reference pic3": "任务 02 · 拨动开关：ID 参考图 pic3",
+  "Task 02 · Switch Pushing: ID reference pic4": "任务 02 · 拨动开关：ID 参考图 pic4",
+  "Task 02 · Switch Pushing: ID reference pic5": "任务 02 · 拨动开关：ID 参考图 pic5",
+  "Task 02 · Switch Pushing · alternate switch dataset: ID reference pic1": "任务 02 · 拨动开关 · 开关数据集变体：ID 参考图 pic1",
+  "Task 02 · Switch Pushing · alternate switch dataset: ID reference pic2": "任务 02 · 拨动开关 · 开关数据集变体：ID 参考图 pic2",
+  "Task 02 · Switch Pushing · alternate switch dataset: ID reference pic3": "任务 02 · 拨动开关 · 开关数据集变体：ID 参考图 pic3",
+  "Task 02 · Switch Pushing · alternate switch dataset: ID reference pic4": "任务 02 · 拨动开关 · 开关数据集变体：ID 参考图 pic4",
+  "Task 02 · Switch Pushing · alternate switch dataset: ID reference pic5": "任务 02 · 拨动开关 · 开关数据集变体：ID 参考图 pic5",
+  "Task 03 · Trajectory Pushing: ID reference pic1": "任务 03 · 轨迹推动：ID 参考图 pic1",
+  "Task 03 · Trajectory Pushing: ID reference pic2": "任务 03 · 轨迹推动：ID 参考图 pic2",
+  "Task 03 · Trajectory Pushing: ID reference pic3": "任务 03 · 轨迹推动：ID 参考图 pic3",
+  "Task 03 · Trajectory Pushing: ID reference pic4": "任务 03 · 轨迹推动：ID 参考图 pic4",
+  "Task 03 · Trajectory Pushing: ID reference pic5": "任务 03 · 轨迹推动：ID 参考图 pic5",
+  "Task 04 · Plate Loading: ID reference pic1": "任务 04 · 托盘装载：ID 参考图 pic1",
+  "Task 04 · Plate Loading: ID reference pic2": "任务 04 · 托盘装载：ID 参考图 pic2",
+  "Task 04 · Plate Loading: ID reference pic3": "任务 04 · 托盘装载：ID 参考图 pic3",
+  "Task 04 · Plate Loading: ID reference pic4": "任务 04 · 托盘装载：ID 参考图 pic4",
+  "Task 04 · Plate Loading: ID reference pic5": "任务 04 · 托盘装载：ID 参考图 pic5",
+  "Task 05 · Cup Hanging: ID reference pic1": "任务 05 · 挂杯：ID 参考图 pic1",
+  "Task 05 · Cup Hanging: ID reference pic2": "任务 05 · 挂杯：ID 参考图 pic2",
+  "Task 05 · Cup Hanging: ID reference pic3": "任务 05 · 挂杯：ID 参考图 pic3",
+  "Task 05 · Cup Hanging: ID reference pic4": "任务 05 · 挂杯：ID 参考图 pic4",
+  "Task 05 · Cup Hanging: ID reference pic5": "任务 05 · 挂杯：ID 参考图 pic5",
+  "Task 06 · Block Stacking: ID reference pic1": "任务 06 · 积木堆叠：ID 参考图 pic1",
+  "Task 06 · Block Stacking: ID reference pic2": "任务 06 · 积木堆叠：ID 参考图 pic2",
+  "Task 06 · Block Stacking: ID reference pic3": "任务 06 · 积木堆叠：ID 参考图 pic3",
+  "Task 06 · Block Stacking: ID reference pic4": "任务 06 · 积木堆叠：ID 参考图 pic4",
+  "Task 06 · Block Stacking: ID reference pic5": "任务 06 · 积木堆叠：ID 参考图 pic5",
+  "Task 07 · Drawer Placement: ID reference pic1": "任务 07 · 抽屉放置：ID 参考图 pic1",
+  "Task 07 · Drawer Placement: ID reference pic2": "任务 07 · 抽屉放置：ID 参考图 pic2",
+  "Task 07 · Drawer Placement: ID reference pic3": "任务 07 · 抽屉放置：ID 参考图 pic3",
+  "Task 07 · Drawer Placement: ID reference pic4": "任务 07 · 抽屉放置：ID 参考图 pic4",
+  "Task 07 · Drawer Placement: ID reference pic5": "任务 07 · 抽屉放置：ID 参考图 pic5",
+  "Task 08 · Cylinder Insertion: ID reference pic1": "任务 08 · 圆柱体插入：ID 参考图 pic1",
+  "Task 08 · Cylinder Insertion: ID reference pic2": "任务 08 · 圆柱体插入：ID 参考图 pic2",
+  "Task 08 · Cylinder Insertion: ID reference pic3": "任务 08 · 圆柱体插入：ID 参考图 pic3",
+  "Task 08 · Cylinder Insertion: ID reference pic4": "任务 08 · 圆柱体插入：ID 参考图 pic4",
+  "Task 08 · Cylinder Insertion: ID reference pic5": "任务 08 · 圆柱体插入：ID 参考图 pic5",
+  "Task 01 Pick and Place: training distribution guide": "任务 01 抓取与放置：训练分布标注图",
+  "Task 06 Block Stacking: training distribution guide": "任务 06 积木堆叠：训练分布标注图"
+});
+
+// Frame drawing accessibility.
+Object.assign(window.BREE_ZH, {
+  "Dimensioned BREE frame assembly drawing with orthographic and section views": "含正投影视图与剖面的 BREE 框架尺寸装配图"
+});
