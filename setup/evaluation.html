@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-bilingual2">
+  <link rel="stylesheet" href="../assets/css/setup-v2.css?v=20261024-nav1">
   <link rel="stylesheet" href="../assets/css/i18n.css?v=20260924-setup-type1">
   <script src="../assets/js/i18n-zh.js?v=20261024-bilingual2"></script>
   <script src="../assets/js/i18n.js?v=20260928-default-en"></script>
@@ -20,34 +20,32 @@
 <div class="docs-topbar">
   <div class="docs-topbar-inner">
     <a class="brand" href="../index.html">BREE</a>
-    <nav class="site-v2-doc-nav" aria-label="Primary navigation"><a href="../index.html">Homepage</a><a href="../assets.html">BREE Assets</a><a href="../dataset.html">BREE Dataset</a><a class="active" href="../guideline.html">Guideline / Documentation</a><a href="../leaderboard.html">Leaderboard</a></nav>
-    <span class="docs-crumb"><span data-lang="en">Setup Guide · </span><span data-lang="zh">搭建指南 · </span><b><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></b></span>
-<div class="nav-actions">
-      <a class="btn btn-outline btn-sm" href="../index.html"><span data-lang="en">← Project page</span><span data-lang="zh">← 项目主页</span></a>
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button type="button" data-lang="en">EN</button>
-        <button type="button" data-lang="zh">CN</button>
-      </div>
-      <button class="docs-menu-toggle" type="button" aria-label="Menu">☰</button>
-    </div>
+    <nav class="site-v2-doc-nav" aria-label="Primary navigation">
+      <a href="../index.html">Homepage</a>
+      <a href="../assets.html">BREE Assets</a>
+      <a href="../dataset.html">BREE Dataset</a>
+      <a href="../guideline.html" class="active" aria-current="page">Guideline / Documentation</a>
+      <a href="../leaderboard.html">Leaderboard</a>
+    </nav>
   </div>
 </div>
 
 <div class="docs-layout">
   <aside class="docs-sidebar">
-    <nav class="docs-nav">
-<div class="docs-nav-title">Setup Guide · <span data-lang="en">Guide</span><span data-lang="zh">指南</span></div>
-<a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
-<a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
-<a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
-<a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
-<a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
-<a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
-<a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
-<a href="evaluation.html" class="active"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
-<a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
-<a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
-</nav>
+    <button class="docs-menu-toggle" type="button" aria-controls="setup-guide-nav" aria-expanded="false"><span data-lang="en">Guide navigation</span><span data-lang="zh">指南导航</span><span class="docs-menu-icon" aria-hidden="true">☰</span></button>
+    <nav class="docs-nav" id="setup-guide-nav" aria-label="Setup guide">
+      <div class="docs-nav-title"><span data-lang="en">Setup Guide · Guide</span><span data-lang="zh">搭建指南 · 指南</span></div>
+      <a href="index.html"><span data-lang="en">Overview &amp; Prerequisites</span><span data-lang="zh">总览与前置条件</span></a>
+      <a href="bom.html"><span data-lang="en">Bill of Materials</span><span data-lang="zh">物料清单</span></a>
+      <a href="assembly.html"><span data-lang="en">Hardware Assembly</span><span data-lang="zh">硬件装配</span></a>
+      <a href="software.html"><span data-lang="en">Installation &amp; Startup</span><span data-lang="zh">安装与开机检查</span></a>
+      <a href="calibration.html"><span data-lang="en">System Calibration</span><span data-lang="zh">系统标定</span></a>
+      <a href="collection.html"><span data-lang="en">Teleoperation &amp; Data Collection</span><span data-lang="zh">遥操作与数据采集</span></a>
+      <a href="training.html"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></a>
+      <a href="evaluation.html" class="active" aria-current="page"><span data-lang="en">Running Evaluations</span><span data-lang="zh">运行评估</span></a>
+      <a href="tasks.html"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></a>
+      <a href="troubleshooting.html"><span data-lang="en">Troubleshooting &amp; Checklists</span><span data-lang="zh">故障排查与检查清单</span></a>
+    </nav>
   </aside>
 
   <main class="docs-main">
@@ -520,13 +518,13 @@ task03: yyyyyy0604/task03_switch_right_50
 
 
 <div class="docs-pager">
-<a href="training.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></div></a>
-<a href="tasks.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div></a>
+  <a href="training.html"><div class="dir"><span data-lang="en">← Previous</span><span data-lang="zh">← 上一页</span></div><div class="title"><span data-lang="en">Model Training</span><span data-lang="zh">模型训练</span></div></a>
+  <a href="tasks.html" class="next"><div class="dir"><span data-lang="en">Next step</span><span data-lang="zh">下一步</span> ➜</div><div class="title"><span data-lang="en">Task Reference</span><span data-lang="zh">任务参考</span></div></a>
 </div>
-  </main>
+</main>
 </div>
 
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js?v=20261024-nav1"></script>
 <script src="../assets/js/setup-section-groups.js?v=20260924-sections1"></script>
 </body>
 </html>
