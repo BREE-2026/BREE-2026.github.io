@@ -11,24 +11,111 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/site-v2.css?v=20261027-footer-actions1">
   <link rel="stylesheet" href="assets/css/participation.css?v=20261027-participation1">
+  <link rel="stylesheet" href="assets/css/contribute-guide.css?v=20261027-contribute-guide1">
+  <link rel="stylesheet" href="assets/css/submission-guide.css?v=20261028-submission1">
   <link rel="stylesheet" href="assets/css/i18n.css?v=20260924-i18n2">
-  <script src="assets/js/i18n-zh.js?v=20261027-qq-footer1"></script>
+  <script src="assets/js/i18n-zh.js?v=20261028-community1"></script>
   <script src="assets/js/i18n.js?v=20261027-reveal1"></script>
 </head>
-<body class="participation-page">
+<body class="participation-page contribution-guide-page submission-guide-page">
   <header class="site-nav"><a class="brand" href="index.html">BREE</a><nav aria-label="Primary navigation"><a href="index.html">Homepage</a><a href="assets.html">BREE Assets</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Guideline / Documentation</a><a href="leaderboard.html">Leaderboard</a></nav></header>
   <main class="participation-main">
     <div class="shell">
       <div class="participation-heading">
         <h1><span data-lang="en" lang="en">Submit for Evaluation</span><span data-lang="zh" lang="zh-CN">提交方案评估</span></h1>
-        <p><span data-lang="en" lang="en">Prepare your method and evaluation results.</span><span data-lang="zh" lang="zh-CN">整理你的方案与评测结果。</span></p>
+        <p><span data-lang="en">Evaluate on BREE, document your setup and share results that other teams can reproduce.</span><span data-lang="zh">在 BREE 上评估，记录配置与结果，让其他团队能够复现你的方案。</span></p>
       </div>
-      <section class="participation-card participation-note" aria-labelledby="submission-title">
-        <span class="participation-status"><span data-lang="en" lang="en">Not open yet</span><span data-lang="zh" lang="zh-CN">暂未开放</span></span>
-        <h2 id="submission-title"><span data-lang="en" lang="en">Submission entry · TBD</span><span data-lang="zh" lang="zh-CN">提交入口 · 待定</span></h2>
-        <p><span data-lang="en" lang="en">The submission link and instructions will be published here.</span><span data-lang="zh" lang="zh-CN">提交链接与要求确定后将在此公布。</span></p>
+
+      <nav class="submission-actions" aria-label="Quick actions">
+        <a href="https://github.com/BREE-2026/BREE-2026.github.io/issues/new?title=%5BEvaluation%5D+Team+-+Method&amp;body=%23%23+Team+and+method+%2F+%E5%9B%A2%E9%98%9F%E4%B8%8E%E6%96%B9%E6%A1%88%0A-+Team+or+anonymous+ID%3A%0A-+Method+and+version%3A%0A-+Code+commit+and+checkpoint%3A%0A-+Training+dataset+IDs+and+revisions%3A%0A%0A%23%23+Evaluation+%2F+%E8%AF%84%E4%BC%B0%E9%85%8D%E7%BD%AE%0A-+Task+IDs%2C+node+IDs+and+ID%2FOOD+conditions%3A%0A-+Calibration+and+camera+checks%3A%0A-+Exact+commands+and+configurations%3A%0A-+Episode+count%2C+time+limits%2C+seeds+and+success+criteria%3A%0A%0A%23%23+Results+and+evidence+%2F+%E7%BB%93%E6%9E%9C%E4%B8%8E%E8%AF%81%E6%8D%AE%0A-+Completed+report+%28use+the+website+report+template%29%3A%0A-+Per-trial+CSV%3A%0A-+Evaluation+videos+and+logs%3A%0A-+Successes+%2F+scored+trials+by+task%2C+node+and+condition%3A%0A-+Failures%2C+timeouts%2C+interventions+and+excluded+setup+errors%3A%0A-+Reproduction+instructions%3A%0A" target="_blank" rel="noopener"><span data-lang="en">Submit via GitHub ↗</span><span data-lang="zh">通过 GitHub 提交 ↗</span></a>
+        <a href="assets/templates/evaluation-submission.md" download><span data-lang="en">Download report template ↓</span><span data-lang="zh">下载报告模板 ↓</span></a>
+        <a href="index.html#qq-group"><span data-lang="en">QQ community ↗</span><span data-lang="zh">QQ 社群 ↗</span></a>
+      </nav>
+      <nav class="contribution-contents" aria-label="Evaluation submission sections">
+        <a href="#evaluate"><span data-lang="en">Run evaluation</span><span data-lang="zh">运行评估</span></a>
+        <a href="#materials"><span data-lang="en">Prepare materials</span><span data-lang="zh">整理材料</span></a>
+        <a href="#results"><span data-lang="en">Report results</span><span data-lang="zh">报告结果</span></a>
+        <a href="#submit"><span data-lang="en">Submit</span><span data-lang="zh">提交方式</span></a>
+      </nav>
+
+      <section class="participation-card contribution-section" id="evaluate" aria-labelledby="evaluate-title">
+        <h2 id="evaluate-title"><span data-lang="en">1 · Run a reproducible evaluation</span><span data-lang="zh">1 · 完成可复现的评估</span></h2>
+        <ol>
+          <li><span data-lang="en">Check robot calibration, follower H poses, camera order and reference overlays using the <a class="contribution-guide-link" href="setup/calibration.html">calibration guide ↗</a>. Record the node ID and any hardware differences.</span><span data-lang="zh">按<a class="contribution-guide-link" href="setup/calibration.html">系统标定指南 ↗</a>检查机械臂校准、从臂 H 位、相机顺序与参考图叠加，记录设备编号和硬件差异。</span></li>
+          <li><span data-lang="en">Choose the task and instruction from the <a class="contribution-guide-link" href="setup/tasks.html">task reference ↗</a>. Record the training datasets, checkpoint revision and scene references. Website task numbers and repository directory numbers differ for some tasks; include both.</span><span data-lang="zh">按<a class="contribution-guide-link" href="setup/tasks.html">任务参考 ↗</a>确定任务与指令，记录训练数据、权重版本和场景参考图。部分任务的网页编号与仓库目录编号不同，请同时注明。</span></li>
+          <li><span data-lang="en">Run ID and OOD separately with the same checkpoint. The reference set currently documented in the guide provides ID images; OOD runs need their own defined reference images and a description of what differs from training.</span><span data-lang="zh">使用同一权重分别评估 ID 与 OOD。指南当前收录的参考集提供 ID 图；开展 OOD 评估前，需准备对应参考图并说明与训练条件的差异。</span></li>
+          <li><span data-lang="en">Use the existing commands in the <a class="contribution-guide-link" href="setup/evaluation.html">evaluation guide ↗</a> for ACT, SmolVLA, XVLA, RDT or OpenPI. Validate inputs and motion using the documented dry-run or limited-motion checks before the real run.</span><span data-lang="zh">使用<a class="contribution-guide-link" href="setup/evaluation.html">运行评估指南 ↗</a>中 ACT、SmolVLA、XVLA、RDT 或 OpenPI 的现有命令。先按指南完成 dry-run 或最小动作检查，再进行正式实机评估。</span></li>
+          <li><span data-lang="en">Reset the scene against the selected reference before each trial. Save every scored trial, including failures, timeouts and interventions, with its outcome and video. Dry-run checks are not evaluation results.</span><span data-lang="zh">每回合按所选参考图复位。保留所有计分回合的结果与视频，包括失败、超时和人工干预；dry-run 检查不计为评估成绩。</span></li>
+        </ol>
+        <div class="submission-table-wrap">
+          <table class="submission-table">
+            <caption class="contribution-caption"><span data-lang="en">Current LeRobot evaluation template in the repository README</span><span data-lang="zh">仓库 README 当前的 LeRobot 评估模板</span></caption>
+            <thead><tr><th scope="col"><span data-lang="en">Setting</span><span data-lang="zh">设置</span></th><th scope="col"><span data-lang="en">Template value</span><span data-lang="zh">模板值</span></th></tr></thead>
+            <tbody>
+              <tr><td><span data-lang="en">Episodes / time limit</span><span data-lang="zh">回合数 / 时限</span></td><td><span data-lang="en">20 episodes per run; at most 120 seconds per episode.</span><span data-lang="zh">每轮 20 回合，每回合最长 120 秒。</span></td></tr>
+              <tr><td><span data-lang="en">Seed grouping</span><span data-lang="zh">Seed 分组</span></td><td><code>evaluation_seed=0</code>, <code>episodes_per_seed=5</code><span data-lang="en">; seed effects depend on policy support.</span><span data-lang="zh">；seed 是否影响推理由策略支持情况决定。</span></td></tr>
+              <tr><td><span data-lang="en">Scene reset</span><span data-lang="zh">场景复位</span></td><td><span data-lang="en">Cycle through reference images using <code>episodes_per_reference=1</code> and <code>scene_reference_cycle=true</code>.</span><span data-lang="zh">按参考图顺序轮换，配置为 <code>episodes_per_reference=1</code>、<code>scene_reference_cycle=true</code>。</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><span data-lang="en">RDT and OpenPI use separate clients with different example defaults. Report their actual episode count, time limit and inference settings; agree on matching conditions before comparing scores. The table summarizes the current LeRobot template.</span><span data-lang="zh">RDT 和 OpenPI 使用独立客户端，示例默认值有所不同。请报告实际回合数、时限与推理设置，比较成绩前统一条件；上表说明现有 LeRobot 模板。</span></p>
+        <a class="contribution-guide-link" href="setup/evaluation.html#id-ood"><span data-lang="en">ID / OOD references and trial controls ↗</span><span data-lang="zh">查看 ID / OOD 参考图与逐回合操作 ↗</span></a>
       </section>
-      <nav class="participation-links"><a href="setup/evaluation.html"><span data-lang="en" lang="en">Evaluation guide ↗</span><span data-lang="zh" lang="zh-CN">评测指南 ↗</span></a><a href="leaderboard.html"><span data-lang="en" lang="en">View leaderboard ↗</span><span data-lang="zh" lang="zh-CN">查看排行榜 ↗</span></a><a href="index.html#qq-group"><span data-lang="en" lang="en">QQ group ↗</span><span data-lang="zh" lang="zh-CN">QQ群 ↗</span></a></nav>
+
+      <section class="participation-card contribution-section" id="materials" aria-labelledby="materials-title">
+        <h2 id="materials-title"><span data-lang="en">2 · Prepare the submission materials</span><span data-lang="zh">2 · 整理提交材料</span></h2>
+        <ul>
+          <li><span data-lang="en"><strong>Method:</strong> team or anonymous team ID, method name, code commit, checkpoint version, training dataset IDs and revisions, pretraining and additional data.</span><span data-lang="zh"><strong>方案说明：</strong>团队或匿名团队编号、方案名、代码提交版本、权重版本、训练数据集 ID 与版本、预训练及额外数据。</span></li>
+          <li><span data-lang="en"><strong>Setup:</strong> node IDs, hardware, calibration checks, camera references and settings, task instructions, ID/OOD definitions and differences from the standard setup.</span><span data-lang="zh"><strong>设备与条件：</strong>设备编号、硬件、校准检查、相机参考图与参数、任务指令、ID/OOD 定义及与标准配置的差异。</span></li>
+          <li><span data-lang="en"><strong>Reproduction:</strong> the exact commands and configuration files used, software versions, episode count, time limits, seeds, inference settings and success criteria.</span><span data-lang="zh"><strong>复现配置：</strong>实际运行命令、配置文件、软件版本、回合数、时限、seed、推理设置与成功判据。</span></li>
+          <li><span data-lang="en"><strong>Evidence:</strong> a per-trial result table, evaluation videos, logs and a summary by task, node and condition. Link large files through an accessible repository or file host.</span><span data-lang="zh"><strong>结果证据：</strong>逐回合结果表、评估视频、日志，以及按任务、设备和条件汇总的结果。较大文件请提供可访问的托管链接。</span></li>
+        </ul>
+        <div class="submission-downloads">
+          <a class="contribution-guide-link" href="assets/templates/evaluation-submission.md" download><span data-lang="en">Report template (.md) ↓</span><span data-lang="zh">报告模板（.md）↓</span></a>
+          <a class="contribution-guide-link" href="assets/templates/evaluation-trials.csv" download><span data-lang="en">Trial table (.csv) ↓</span><span data-lang="zh">逐回合结果表（.csv）↓</span></a>
+        </div>
+      </section>
+
+      <section class="participation-card contribution-section" id="results" aria-labelledby="results-title">
+        <h2 id="results-title"><span data-lang="en">3 · Report results by task and condition</span><span data-lang="zh">3 · 按任务和条件报告结果</span></h2>
+        <p><span data-lang="en">For each task × node × ID/OOD condition, report successful trials, total scored trials and success rate. Success rate = successful trials / scored trials × 100%. Define the success criterion and list any excluded setup errors with reasons.</span><span data-lang="zh">每个任务 × 设备 × ID/OOD 条件分别报告成功数、计分回合总数和成功率。成功率 = 成功回合数 / 计分回合数 × 100%。注明成功判据；因设置错误排除的回合需单独列出原因。</span></p>
+        <div class="submission-table-wrap">
+          <table class="submission-table">
+            <caption class="contribution-caption"><span data-lang="en">Suggested per-trial CSV fields</span><span data-lang="zh">建议的逐回合 CSV 字段</span></caption>
+            <thead><tr><th scope="col"><span data-lang="en">Fields</span><span data-lang="zh">字段</span></th><th scope="col"><span data-lang="en">What to record</span><span data-lang="zh">记录内容</span></th></tr></thead>
+            <tbody>
+              <tr><td><code>task_id</code>, <code>node_id</code>, <code>condition</code></td><td><span data-lang="en">Task, physical node and ID or named OOD condition.</span><span data-lang="zh">任务、实机设备，以及 ID 或具名的 OOD 条件。</span></td></tr>
+              <tr><td><code>trial_id</code>, <code>seed</code></td><td><span data-lang="en">Trial index and actual seed; use <code>NA</code> if not applicable.</span><span data-lang="zh">回合编号与实际 seed；不适用时填 <code>NA</code>。</span></td></tr>
+              <tr><td><code>success</code>, <code>duration_s</code>, <code>intervention</code></td><td><span data-lang="en">Success as 0/1, elapsed seconds and intervention as 0/1.</span><span data-lang="zh">成功记为 0/1、用时秒数、是否人工干预计为 0/1。</span></td></tr>
+              <tr><td><code>evidence_url</code>, <code>note</code></td><td><span data-lang="en">Video or log link, timeouts, failures and other relevant events.</span><span data-lang="zh">视频或日志链接，以及超时、失败原因等说明。</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><span data-lang="en">Keep ID and OOD results separate. Report each node before aggregating across nodes. State task coverage and the averaging method; mark untested tasks as untested. Submit complete trial records, not only successful clips.</span><span data-lang="zh">ID 与 OOD 分开报告，多设备先分别报告再汇总。注明已评估任务范围和平均方式，未评估任务明确标注；提交完整回合记录，不只提供成功片段。</span></p>
+      </section>
+
+      <section class="participation-card contribution-section" id="submit" aria-labelledby="submit-title">
+        <h2 id="submit-title"><span data-lang="en">4 · Submit and follow up</span><span data-lang="zh">4 · 提交与后续沟通</span></h2>
+        <div class="submission-channels">
+          <article class="submission-channel">
+            <h3>GitHub Issue</h3>
+            <p><span data-lang="en">The simplest option: fill in the report template, attach the trial table and evidence links, then open an evaluation Issue.</span><span data-lang="zh">推荐入口：填好报告模板，附上逐回合表与证据链接，创建评估结果 Issue。</span></p>
+            <a class="contribution-guide-link" href="https://github.com/BREE-2026/BREE-2026.github.io/issues/new?title=%5BEvaluation%5D+Team+-+Method&amp;body=%23%23+Team+and+method+%2F+%E5%9B%A2%E9%98%9F%E4%B8%8E%E6%96%B9%E6%A1%88%0A-+Team+or+anonymous+ID%3A%0A-+Method+and+version%3A%0A-+Code+commit+and+checkpoint%3A%0A-+Training+dataset+IDs+and+revisions%3A%0A%0A%23%23+Evaluation+%2F+%E8%AF%84%E4%BC%B0%E9%85%8D%E7%BD%AE%0A-+Task+IDs%2C+node+IDs+and+ID%2FOOD+conditions%3A%0A-+Calibration+and+camera+checks%3A%0A-+Exact+commands+and+configurations%3A%0A-+Episode+count%2C+time+limits%2C+seeds+and+success+criteria%3A%0A%0A%23%23+Results+and+evidence+%2F+%E7%BB%93%E6%9E%9C%E4%B8%8E%E8%AF%81%E6%8D%AE%0A-+Completed+report+%28use+the+website+report+template%29%3A%0A-+Per-trial+CSV%3A%0A-+Evaluation+videos+and+logs%3A%0A-+Successes+%2F+scored+trials+by+task%2C+node+and+condition%3A%0A-+Failures%2C+timeouts%2C+interventions+and+excluded+setup+errors%3A%0A-+Reproduction+instructions%3A%0A" target="_blank" rel="noopener"><span data-lang="en">Open an Issue ↗</span><span data-lang="zh">创建 Issue ↗</span></a>
+          </article>
+          <article class="submission-channel">
+            <h3>Pull Request</h3>
+            <p><span data-lang="en">Alternatively, fork the website repository, add your report and CSV, and open a PR. A suggested location is <code>submissions/&lt;team&gt;/&lt;method&gt;/&lt;run-id&gt;/</code>. Link hosted videos and weights from the report.</span><span data-lang="zh">也可 Fork 网站仓库，加入报告与 CSV 后发起 PR。建议目录为 <code>submissions/&lt;team&gt;/&lt;method&gt;/&lt;run-id&gt;/</code>；视频与权重使用托管链接。</span></p>
+            <a class="contribution-guide-link" href="https://github.com/BREE-2026/BREE-2026.github.io/compare" target="_blank" rel="noopener"><span data-lang="en">Open a PR ↗</span><span data-lang="zh">发起 PR ↗</span></a>
+          </article>
+          <article class="submission-channel">
+            <h3><span data-lang="en">QQ community</span><span data-lang="zh">QQ 社群</span></h3>
+            <p><span data-lang="en">Discuss setup and evaluation questions, or share your Issue / PR link for follow-up. The group number will be added to the homepage Community section.</span><span data-lang="zh">交流搭建与评估问题，或分享 Issue / PR 链接跟进。群号将在首页 Community 板块补充。</span></p>
+            <a class="contribution-guide-link" href="index.html#qq-group"><span data-lang="en">Community details ↗</span><span data-lang="zh">查看社群信息 ↗</span></a>
+          </article>
+        </div>
+        <p class="submission-review"><span data-lang="en">Maintainers review the setup, trial records and evidence before updating the leaderboard. If information is missing, follow up in the same Issue or PR. Current leaderboard entries are illustrative while the protocol and official results are finalized.</span><span data-lang="zh">维护者核对配置、逐回合记录与证据后更新排行榜；材料需补充时，在同一 Issue 或 PR 中继续跟进。当前榜单条目仍为规程与正式成绩定稿前的示意。</span></p>
+        <a class="contribution-guide-link" href="leaderboard.html"><span data-lang="en">View leaderboard ↗</span><span data-lang="zh">查看排行榜 ↗</span></a>
+      </section>
     </div>
   </main>
   <footer><div class="footer-mark">BREE</div><nav aria-label="Footer navigation"><a href="index.html">Homepage</a><a href="assets.html">BREE Assets</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Documentation</a><a href="leaderboard.html">Leaderboard</a><a href="contribute/index.html">Contribute Dataset</a><a href="submit.html" class="active" aria-current="page">Submit for Evaluation</a></nav></footer>
