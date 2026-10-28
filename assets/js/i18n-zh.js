@@ -2,6 +2,7 @@
 window.BREE_ZH = {
   "Dataset": "数据集",
   "Quick actions": "快捷操作",
+  "TBD": "待定",
   "QQ group number:": "QQ群号：",
   "QQ group number pending": "QQ群号待补充",
   "Discuss setup, data collection and evaluation.": "交流搭建、数据采集与评估经验。",
