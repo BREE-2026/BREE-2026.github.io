@@ -1,4 +1,8 @@
 /* Frame drawing, material table and steps on the assembly page. */
+body.docs.docs-assembly-page .docs-main .assembly-video{width:100%;margin:28px 0;overflow:hidden;border:1px solid var(--paper-line);border-radius:14px;background:var(--paper-deep);text-align:center}
+body.docs.docs-assembly-page .docs-main .assembly-video video{display:block;width:100%;height:auto;max-height:760px;object-fit:contain;background:#000}
+body.docs.docs-assembly-page .docs-main .assembly-video figcaption{padding:16px}
+body.docs.docs-assembly-page .docs-main .assembly-video strong{display:block;font-size:20px;line-height:1.4}
 body.docs.docs-assembly-page .docs-main .frame-drawing a{display:block;background:#fff}
 body.docs.docs-assembly-page .docs-main .frame-drawing img{display:block;width:100%;height:auto;filter:none}
 body.docs.docs-assembly-page .docs-main .frame-drawing-links{font-size:14px;line-height:1.8}

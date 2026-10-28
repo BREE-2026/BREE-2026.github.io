@@ -182,12 +182,16 @@
       records.forEach(function (record) {
         if (record.type === "characterData") translateTextNode(record.target, lang);
         record.addedNodes && record.addedNodes.forEach(function (node) { visit(node, lang); });
-        if (record.type === "attributes" && record.target.nodeType === Node.ELEMENT_NODE && ATTRS.indexOf(record.attributeName) !== -1) {
-          translateAttribute(record.target, record.attributeName, lang);
+        if (record.type === "attributes" && record.target.nodeType === Node.ELEMENT_NODE) {
+          if (record.attributeName === "inert" && !record.target.hasAttribute("inert")) {
+            visit(record.target, lang);
+          } else if (ATTRS.indexOf(record.attributeName) !== -1) {
+            translateAttribute(record.target, record.attributeName, lang);
+          }
         }
       });
     });
-    observer.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ATTRS });
+    observer.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ATTRS.concat(["inert"]) });
   }
 
   document.documentElement.classList.add("i18n-pending");

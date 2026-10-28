@@ -1,0 +1,18 @@
+/* Readable bilingual contribution instructions. */
+.contribution-guide-page .contribution-contents{display:flex;flex-wrap:wrap;gap:12px 24px;margin:0 0 32px}
+.contribution-guide-page .contribution-contents a,.contribution-guide-page .contribution-guide-link{display:inline-block;padding:8px 0;border-bottom:1px solid var(--ink);font-size:18px;line-height:1.4}
+.contribution-guide-page .contribution-section{margin-top:24px;scroll-margin-top:calc(var(--nav-h) + 24px)}
+.contribution-guide-page .contribution-section ul,.contribution-guide-page .contribution-section ol{padding-left:24px;margin:24px 0;font-size:20px;line-height:1.7}
+.contribution-guide-page .contribution-section li+li{margin-top:14px}
+.contribution-guide-page .contribution-tree{max-width:100%;overflow-x:auto;margin:24px 0 0;padding:20px;border:1px solid var(--paper-line);border-radius:10px;background:var(--paper);font:400 15px/1.65 var(--mono);white-space:pre}
+.contribution-guide-page code{font-family:var(--mono);font-size:.88em;overflow-wrap:anywhere}
+.contribution-guide-page .contribution-tree code{font-size:inherit;overflow-wrap:normal}
+.contribution-guide-page .participation-card .contribution-caption{font-size:16px;margin-top:12px}
+.contribution-guide-page .contribution-guide-link{margin-top:12px;font-weight:600}
+.contribution-guide-page a:focus-visible{outline:3px solid var(--steel);outline-offset:5px}
+@media(max-width:700px){
+  .contribution-guide-page .participation-card{padding:22px}
+  .contribution-guide-page .contribution-section h2{font-size:26px}
+  .contribution-guide-page .contribution-section ul,.contribution-guide-page .contribution-section ol{font-size:18px;padding-left:20px}
+  .contribution-guide-page .contribution-tree{padding:14px;font-size:13px}
+}

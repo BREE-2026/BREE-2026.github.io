@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site-v2.css?v=20261021-overview-video">
+  <link rel="stylesheet" href="assets/css/site-v2.css?v=20261027-footer-actions1">
+  <link rel="stylesheet" href="assets/css/home-actions.css?v=20261028-frame-video1">
   <link rel="stylesheet" href="assets/css/i18n.css?v=20260924-setup-type1">
-  <script src="assets/js/i18n-zh.js?v=20260924-i18n2"></script>
-  <script src="assets/js/i18n.js?v=20260928-default-en"></script>
+  <script src="assets/js/i18n-zh.js?v=20261028-frame-intro1"></script>
+  <script src="assets/js/i18n.js?v=20261027-reveal1"></script>
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
   </script>
@@ -20,7 +21,6 @@
 <body class="home-page has-page-toc">
   <header class="site-nav">
     <a class="brand" href="index.html">BREE</a>
-    <span class="nav-meta">BIMANUAL ROBOTIC EMBODIMENT · 2026</span>
     <nav aria-label="Primary navigation">
       <a class="active" href="index.html">Homepage</a>
       <a href="assets.html">BREE Assets</a>
@@ -30,27 +30,32 @@
     </nav>
   </header>
 
-  <aside class="page-toc" aria-label="On this page"><div class="page-toc__head"><span>ON THIS PAGE</span><i></i></div><nav><a class="active" href="#overview" data-toc-link>Overview</a><a href="#why-bree" data-toc-link>Why BREE</a><a href="#outcomes" data-toc-link>Core feature</a><a href="#bom" data-toc-link>BOM</a><a href="#paper" data-toc-link>Citation</a></nav></aside>
+  <aside class="page-toc" aria-label="On this page"><div class="page-toc__head"><span>ON THIS PAGE</span><i></i></div><nav><a class="active" href="#overview" data-toc-link>Overview</a><a href="#frame-video" data-toc-link>Frame assembly</a><a href="#why-bree" data-toc-link>Why BREE</a><a href="#outcomes" data-toc-link>Core feature</a><a href="#paper" data-toc-link>Citation</a></nav></aside>
 
   <main>
     <section class="home-hero" aria-label="BREE platform animation">
       <div class="home-hero__sticky">
         <div class="hero-copy-panel" aria-hidden="true"></div>
-        <div class="hero-copy">
+        <div class="hero-copy" inert aria-hidden="true">
           <p class="overline">Low-cost · bimanual · reproducible</p>
           <h1>Build once.<br><em>Reproduce anywhere.</em></h1>
-          <p class="dek">BREE is a fully reproducible SO-101 platform, benchmark and data framework for bimanual robotic manipulation. Physical standardization turns independent cells into compatible training data.</p>
+          <div class="hero-research-links" aria-label="Paper and citation">
+            <a href="#paper">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>
+              <span>Paper</span><span class="hero-research-status">Pending</span>
+            </a>
+            <a href="#citation">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21c3 0 7-3 7-8V3H2v10h5c0 4-2 6-4 6ZM15 21c3 0 7-3 7-8V3h-8v10h5c0 4-2 6-4 6Z"/></svg>
+              <span>Citation</span>
+            </a>
+          </div>
           <div class="hero-links">
-            <a class="solid" href="assets.html">Explore BREE <span>↗</span></a>
-            <a href="#paper">Read the paper <span>↓</span></a>
+            <a href="contribute/index.html">Contribute Dataset <span aria-hidden="true">↗</span></a>
+            <a href="submit.html">Submit for Evaluation <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="model-stage" aria-label="Real BREE rack model exported from rack.SLDASM">
+        <div class="model-stage" aria-label="Standardized BREE bimanual robotic frame">
           <canvas id="bree-canvas"></canvas>
-          <div class="model-stage__measure">
-            <strong>PHYSICAL NODE / 01</strong>
-            <p>Rack geometry loaded from <b>rack.SLDASM</b><br><span id="model-status">component-colored assembly · loading mesh</span></p>
-          </div>
         </div>
         <div class="hero-backdrop" aria-hidden="true">
           <div class="hero-task-wall">
@@ -80,36 +85,56 @@
             </div>
           </div>
           <div class="hero-backdrop__wash"></div>
-          <div class="hero-poster-copy">
-            <div class="hero-poster-copy__mark">BREE</div>
-            <h2>A reproducible bimanual benchmark.</h2>
-            <p>LOW-COST&nbsp;&nbsp;·&nbsp;&nbsp;FULLY REPRODUCIBLE&nbsp;&nbsp;·&nbsp;&nbsp;STANDARDIZED</p>
-          </div>
         </div>
-        <div class="hero-stage-copy"><span class="count">01</span><span class="stage-text">The physical cell is part of the benchmark.</span></div>
+        <div class="hero-poster-copy">
+          <div class="hero-poster-copy__mark">BREE</div>
+          <h2>A reproducible bimanual benchmark.</h2>
+          <nav class="hero-poster-actions" aria-label="Build, buy and join">
+            <a href="setup/assembly.html">Start building</a>
+            <span class="hero-purchase-pending" role="link" aria-disabled="true" title="Purchase link TBD">Purchase link</span>
+            <a href="#qq-group">Join the community</a>
+          </nav>
+        </div>
       </div>
     </section>
 
     <section class="intro" id="overview">
       <div class="shell">
         <div class="intro-video" id="video">
-          <p class="intro-video__title">OVERVIEW</p>
+          <h2 class="intro-video__title">Overview</h2>
           <figure class="video-slot">
             <video controls playsinline preload="metadata" poster="assets/video/BREE-封面.jpg" aria-label="Overview of the BREE standardized platform and cross-instance benchmark">
               <source src="assets/video/BREE-web.mp4" type="video/mp4">
             </video>
           </figure>
         </div>
+        <nav class="overview-actions" aria-label="Quick actions">
+          <a href="setup/assembly.html">Start building</a>
+          <button type="button" disabled title="Purchase link TBD">Purchase link</button>
+          <a href="#qq-group">Join the community</a>
+          <a href="dataset.html">Dataset</a>
+          <a href="contribute/index.html">Contribute Dataset</a>
+          <a href="submit.html">Submit for Evaluation</a>
+        </nav>
+        <section class="intro-video frame-video" id="frame-video" aria-labelledby="frame-video-title">
+          <h2 class="intro-video__title" id="frame-video-title">Build the frame</h2>
+          <figure class="video-slot frame-video__player">
+            <video controls playsinline preload="metadata" poster="assets/video/SETUP-poster.jpg" aria-label="Assembly video">
+              <source src="assets/video/SETUP.mp4" type="video/mp4">
+            </video>
+            <figcaption class="frame-video__caption"><span>No assembly experience needed. Follow the video to quickly build your BREE frame.</span><a href="setup/assembly.html#frame-build">Open assembly guide ↗</a></figcaption>
+          </figure>
+        </section>
         <div class="intro-grid" id="why-bree">
           <div><p class="overline">Core advantages</p><h2>Why BREE</h2></div>
           <div class="intro-copy">
-            <p>BREE democratizes bimanual research with its <strong>600-dollar entry price</strong>, ensures scientific rigor through <strong>complete physical standardization</strong>, and accelerates data collection by turning distributed robot setups into a <strong>unified data ecosystem</strong>.</p>
+            <p>Standardized hardware. Shared data. Reproducible robot learning.</p>
           </div>
         </div>
         <div class="core-advantage-grid" aria-label="Core advantages">
-          <article><span>01</span><h3>Low Cost</h3><p>BREE delivers professional dual-arm manipulation capabilities for <strong>less than 600 dollars</strong>.</p></article>
-          <article><span>02</span><h3>Reproducible</h3><p>BREE eliminates hardware variance by standardizing <strong>every physical detail</strong> of the robot and its environment.</p></article>
-          <article><span>03</span><h3>Scalable</h3><p>BREE enables effortless data aggregation across multiple instances by ensuring <strong>perfect cross-platform compatibility</strong>.</p></article>
+          <article><span>01</span><h3>Low Cost</h3><p>Accessible dual-arm research with SO-101 hardware.</p></article>
+          <article><span>02</span><h3>Reproducible</h3><p>One hardware standard across BREE setups.</p></article>
+          <article><span>03</span><h3>Scalable</h3><p>Collect and share data across BREE setups.</p></article>
         </div>
         <div class="home-outcomes" id="outcomes" aria-labelledby="outcomes-title">
           <div class="home-outcomes__head">
@@ -117,32 +142,14 @@
           </div>
           <div class="home-outcomes__grid">
             <article class="home-outcome-card">
-              <div class="home-outcome-card__meta"><span>01</span><span>TRANSFER</span></div>
               <h3>Cross-platform transfer</h3>
               <p>Policies work out of the box on any BREE setup without retraining.</p>
             </article>
             <article class="home-outcome-card">
-              <div class="home-outcome-card__meta"><span>02</span><span>SCALE</span></div>
               <h3>Multi-instance scaling</h3>
               <p>Data from multiple robots merges into one training set for better performance.</p>
             </article>
           </div>
-        </div>
-        <div class="bom-table-wrap" id="bom">
-          <h2 class="bom-table-title">BOM</h2>
-          <table class="bom-table">
-            <thead><tr><th>Component</th><th>Specification</th><th>Qty.</th><th>Cost (USD)</th></tr></thead>
-            <tbody>
-              <tr><td>SO-101 arms</td><td>Leader–follower pairs, STS3215 servos</td><td>2</td><td>450.00</td></tr>
-              <tr><td>Global camera</td><td>DCXW100, 2.1 mm, 100°</td><td>1</td><td>9.00</td></tr>
-              <tr><td>Wrist cameras</td><td>DCXW100, 2.8 mm, 90°</td><td>2</td><td>18.00</td></tr>
-              <tr><td>Structural frame</td><td>4040 aluminum profiles, connectors, work panels</td><td>1 set</td><td>96.14</td></tr>
-              <tr><td>Lighting system</td><td>LED strips, power supply, controller</td><td>1 set</td><td>28.80</td></tr>
-              <tr><td>3D-printed parts</td><td>Task objects, fixtures, physical calibrators</td><td>1 set</td><td>–</td></tr>
-              <tr><td>Other accessories</td><td>Screws, nuts and miscellaneous hardware</td><td>1 set</td><td>–</td></tr>
-              <tr class="total"><td><strong>Total</strong></td><td></td><td></td><td><strong>598.94</strong></td></tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </section>
@@ -157,14 +164,16 @@
           <p class="overline">Authors</p>
           <div class="author-block"><div><strong>The BREE Team</strong><small>Author list and affiliations will be added with the paper release.</small></div></div>
           <p class="overline" style="margin-top:48px">Suggested citation</p>
-          <div class="citation">The BREE Team. “BREE: A Reproducible and Scalable Real-World Benchmark for Low-Cost Bimanual Robot Learning.” 2026.</div>
+          <div class="citation" id="citation">The BREE Team. “BREE: A Reproducible and Scalable Real-World Benchmark for Low-Cost Bimanual Robot Learning.” 2026.</div>
         </div>
       </div>
     </section>
 
+    <section class="home-qq-group" id="qq-group"><div class="shell home-qq-group__content"><span>QQ group number:</span><span class="home-qq-group__number" aria-label="QQ group number pending">—</span></div></section>
+
   </main>
 
-  <footer><div class="footer-mark">BREE</div><p>A reproducible network for low-cost bimanual robot learning.</p><nav><a href="assets.html">BREE Assets</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Documentation</a><a href="leaderboard.html">Leaderboard</a></nav></footer>
-  <script src="assets/js/page-toc.js?v=20260922-perf1" defer></script><script type="module" src="assets/js/home-model.js?v=20260922-explode3"></script>
+  <footer><div class="footer-mark">BREE</div><nav aria-label="Footer navigation"><a href="index.html">Homepage</a><a href="assets.html">BREE Assets</a><a href="dataset.html">BREE Dataset</a><a href="guideline.html">Documentation</a><a href="leaderboard.html">Leaderboard</a><a href="contribute/index.html">Contribute Dataset</a><a href="submit.html">Submit for Evaluation</a></nav></footer>
+  <script src="assets/js/page-toc.js?v=20260922-perf1" defer></script><script type="module" src="assets/js/home-model.js?v=20261027-qq-footer1"></script>
 </body>
 </html>

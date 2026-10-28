@@ -5,10 +5,20 @@ const canvas = document.querySelector('#bree-canvas');
 const story = document.querySelector('.home-hero');
 const heroCopy = document.querySelector('.hero-copy');
 const heroCopyPanel = document.querySelector('.hero-copy-panel');
-const stageCopy = document.querySelector('.hero-stage-copy .stage-text');
-const stageCount = document.querySelector('.hero-stage-copy .count');
-const modelStatus = document.querySelector('#model-status');
+const posterCopy = document.querySelector('.hero-poster-copy');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// The opening poster and model panel share the same space. Only the visible
+// panel should accept clicks or keyboard focus.
+function setPanelInteractive(panel, visible, nextPanel) {
+  if (!panel || panel.inert === !visible) return;
+  if (!visible && panel.contains(document.activeElement)) {
+    document.activeElement.blur();
+    if (nextPanel && !nextPanel.inert) nextPanel.querySelector('a[href]')?.focus({preventScroll: true});
+  }
+  panel.inert = !visible;
+  panel.setAttribute('aria-hidden', String(!visible));
+}
 
 if (!canvas || !story) throw new Error('BREE model stage is missing');
 
@@ -21,6 +31,8 @@ let storyTop = 0;
 let storyScrollRange = 1;
 
 const resetHomepageScroll = () => {
+  // Preserve direct links to homepage sections, including the QQ group footer.
+  if (document.getElementById(window.location.hash.slice(1))) return;
   window.scrollTo({left: 0, top: 0, behavior: 'auto'});
   document.documentElement.scrollTop = 0;
   if (document.body) document.body.scrollTop = 0;
@@ -111,7 +123,6 @@ let lastExplode = -1;
 let lastReset = -1;
 let lastRenderedPointerX = 0;
 let lastRenderedPointerY = 0;
-let lastStage = '';
 const materialCache = new Map();
 
 function clamp(value, min = 0, max = 1){
@@ -211,7 +222,6 @@ function prepareModel(object){
   lastProgress = -1;
   document.body.dataset.modelParts = String(modelParts.length);
   document.body.dataset.modelMaterial = 'cached-basic';
-  if (modelStatus) modelStatus.textContent = `${modelParts.length} SLDASM components · optimized web mesh`;
   requestFrame();
 }
 
@@ -224,7 +234,6 @@ function loadModel(){
     undefined,
     error => {
       console.warn('BREE SLDASM GLB could not be loaded.', error);
-      if (modelStatus) modelStatus.textContent = 'STEP mesh unavailable · source retained';
       setHeroVar('--model-opacity', '0');
     },
   );
@@ -247,16 +256,23 @@ function updateModel(progress){
     : progress < .68
       ? 1
       : 1 - segment(progress, .68, .86);
-  const measure = segment(progress, .28, .46) * (1 - segment(progress, .78, .88));
   const pointerBlend = explode * (1 - segment(progress, .78, .90));
+
+  const posterActive = progress < .20;
+  // Unlock the next panel before moving focus out of the previous one.
+  if (posterActive) {
+    setPanelInteractive(posterCopy, true);
+    setPanelInteractive(heroCopy, false, posterCopy);
+  } else {
+    setPanelInteractive(heroCopy, true);
+    setPanelInteractive(posterCopy, false, heroCopy);
+  }
 
   setHeroVar('--hero-progress', progress.toFixed(4));
   setHeroVar('--model-opacity', reveal.toFixed(4));
   setHeroVar('--poster-opacity', posterOpacity.toFixed(4));
   setHeroVar('--poster-wash', (0.52 - posterOpacity * .30).toFixed(4));
-  setHeroVar('--measure-opacity', measure.toFixed(4));
   setHeroVar('--hero-copy-opacity', reveal.toFixed(4));
-  setHeroVar('--stage-copy-opacity', '1');
   setHeroVar('--scroll-opacity', (1 - segment(progress, .55, .70)).toFixed(4));
 
   if (model && (modelJustLoaded || Math.abs(explode - lastExplode) > .0001 || Math.abs(reset - lastReset) > .0001)) {
@@ -287,17 +303,6 @@ function updateModel(progress){
     }
   }
 
-  const stage = progress < .30
-    ? ['01', 'A reproducible physical cell opens the benchmark.']
-    : progress < .70
-      ? ['02', 'Structure, light and bimanual geometry are specified together.']
-      : ['03', 'The exploded specification gives way to real task evidence.'];
-  const stageKey = stage.join('|');
-  if (stageKey !== lastStage) {
-    if (stageCount) stageCount.textContent = stage[0];
-    if (stageCopy) stageCopy.textContent = stage[1];
-    lastStage = stageKey;
-  }
 }
 
 function resize(){
@@ -399,6 +404,13 @@ canvas.addEventListener('pointercancel', () => {
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) requestFrame();
 });
+
+// Translation and wrapped links can change the panel height after startup.
+if (heroCopy && heroCopyPanel && 'ResizeObserver' in window) {
+  new ResizeObserver(() => {
+    heroCopyPanel.style.height = `${heroCopy.offsetHeight}px`;
+  }).observe(heroCopy);
+}
 
 resize();
 document.fonts?.ready.then(() => {
